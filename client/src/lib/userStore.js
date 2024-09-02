@@ -25,11 +25,14 @@ export const useUserStore = create((set) => ({
 
         set({
             currentUser: {
-                username: "Current User Username",
+                username: "John Doe",
                 id: uid,
                 createdAt: "01-01-1950",
             },
             isLoading: false,
         });
+    },
+    fetchNullUserInfo: async (uid) => {
+        set({currentUser: null, isLoading: false});
     }
 }));

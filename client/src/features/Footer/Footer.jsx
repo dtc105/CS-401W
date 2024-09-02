@@ -5,7 +5,7 @@ function Footer() {
     
     
     return (
-        <footer>
+        <footer className="bg-300">
             Footer
         </footer>
     );

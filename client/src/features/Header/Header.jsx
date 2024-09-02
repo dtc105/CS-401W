@@ -1,17 +1,12 @@
-import React from 'react';
+import Navbar from './components/Navbar/Navbar';
+import Login from './components/Login/Login';
 
 function Header() {
     
-    
-    
     return (
-        <header className="flex">
-            <nav>
-                Nav
-            </nav>
-            <div id="loginContainer">
-                Login
-            </div>
+        <header className="flex justify-between items-center w-screen p-4 bg-300 text-xl">
+            <Navbar />
+            <Login />
         </header>
     );
 }

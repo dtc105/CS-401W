@@ -7,10 +7,11 @@ import Footer from './features/Footer/Footer.jsx';
 
 function App() {
 
-	const { currentUser, isLoading, fetchUserInfo } = useUserStore();
+	const { currentUser, isLoading, fetchUserInfo, fetchNullUserInfo } = useUserStore();
 
 	useEffect(() => {
-		fetchUserInfo();
+		// fetchUserInfo();
+		fetchNullUserInfo();
 	}, []);
 
 	if (isLoading) return <Loading />

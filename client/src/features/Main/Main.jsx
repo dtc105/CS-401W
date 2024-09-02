@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from '../Home/Home.jsx';
-import Planner from '../Planner/Planner.jsx';
+import Home from '../../pages/Home/Home.jsx';
+import Planner from '../../pages/Planner/Planner.jsx';
 
 function Main() {
     
     
     
     return (
-        <main>
+        <main className="bg-400 p-4">
             <Router>
 				<Routes>
 					<Route path='/'         Component={Home} />
