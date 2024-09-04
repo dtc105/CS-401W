@@ -10,8 +10,8 @@ function App() {
 	const { currentUser, isLoading, fetchUserInfo, fetchNullUserInfo } = useUserStore();
 
 	useEffect(() => {
-		// fetchUserInfo();
-		fetchNullUserInfo();
+		fetchUserInfo();
+		// fetchNullUserInfo();
 	}, []);
 
 	if (isLoading) return <Loading />
