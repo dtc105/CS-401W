@@ -9,6 +9,15 @@ export default {
         "300": "#1d152d",
         "400": "#140e20",
         "500": "#0e0818"
+      },
+      borderRadius: {
+        "circle": "50%"
+      },
+      width: {
+        "smscreen": "100svw"
+      },
+      height: {
+        "smscreen": "100svh"
       }
     },
   },

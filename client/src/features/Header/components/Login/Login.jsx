@@ -32,7 +32,7 @@ function Login() {
                         ? (
                             <div 
                                 id="userProfile"
-                                className="cursor-pointer select-none hover:underline flex justify-center items-center p-4 gap-2"
+                                className="cursor-pointer select-none md:hover:underline flex justify-center items-center p-4 gap-2"
                                 onClick={() => setDropDownOpen(prev => !prev)}
                             >
                                 <span>{currentUser.username}</span>
@@ -73,7 +73,7 @@ function Login() {
                                 dropDownOptions.map((option,index) => {
                                     return (
                                         <li
-                                            className="px-8 py-2 cursor-pointer hover:underline"
+                                            className="px-8 py-2 cursor-pointer md:hover:underline"
                                             onClick={option.func}
                                             key={index}
                                         >
@@ -84,7 +84,7 @@ function Login() {
                             }
                             <hr className="w-4/5"/>
                             <li 
-                                className="px-8 py-2 cursor-pointer hover:underline"
+                                className="px-8 py-2 cursor-pointer md:hover:underline"
                                 onClick={() => {
                                     fetchNullUserInfo(); 
                                     setDropDownOpen(false);

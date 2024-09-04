@@ -4,6 +4,12 @@
 
 body {
     color: #f4f4f5;
+    background-color: #1d152d;
+}
+
+#root {
+    width: 100svw;
+    height: 100svh;
 }
 
 main {

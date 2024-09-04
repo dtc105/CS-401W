@@ -5,9 +5,7 @@ function Planner() {
     
     
     return (
-        <>
-            Planner
-        </>
+        <div id="planner" className="">Planner</div>
     );
 }
 
