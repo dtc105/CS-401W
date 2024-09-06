@@ -7,7 +7,7 @@ function Main() {
     
     
     return (
-        <main className="bg-400 p-4">
+        <main className="bg-400 p-4 max-h-mainHeight">
             <Router>
 				<Routes>
 					<Route path='/'         Component={Home} />

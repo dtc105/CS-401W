@@ -6,6 +6,15 @@ body {
     color: #f4f4f5;
 }
 
+* {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
 main {
     box-shadow: inset 0px 0px 10px 0px #0009;
     -webkit-box-shadow: inset 0px 0px 10px 0px #0009;
@@ -16,4 +25,12 @@ footer {
     box-shadow: 0 50vh 0 50vh #1d152d;
     -webkit-box-shadow: 0 50vh 0 50vh #1d152d;
     -moz-box-shadow: 0 50vh 0 50vh #1d152d;
+}
+
+img[src$="logo.png"] {
+    image-rendering: pixelated;
+}
+
+td {
+    color: #d4d4d8;
 }

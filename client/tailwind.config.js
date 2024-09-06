@@ -9,6 +9,12 @@ export default {
         "300": "#1d152d",
         "400": "#140e20",
         "500": "#0e0818"
+      },
+      height: {
+        "mainHeight": "calc(100svh - 7rem)"
+      },
+      flex: {
+        "2": "2"
       }
     },
   },
