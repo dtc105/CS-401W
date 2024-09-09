@@ -11,10 +11,14 @@ export default {
         "500": "#0e0818"
       },
       height: {
-        "mainHeight": "calc(100svh - 7rem)"
+        "mainHeight": "calc(100svh - 7rem)",
+        "smscreen": "100svh"
       },
       flex: {
         "2": "2"
+      },
+      borderRadius: {
+        "circle": "50%"
       }
     },
   },
