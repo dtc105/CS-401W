@@ -10,6 +10,7 @@ export default {
         "400": "#140e20",
         "500": "#0e0818"
       },
+<<<<<<< HEAD
       borderRadius: {
         "circle": "50%"
       },
@@ -18,6 +19,17 @@ export default {
       },
       height: {
         "smscreen": "100svh"
+=======
+      height: {
+        "mainHeight": "calc(100svh - 7rem)",
+        "smscreen": "100svh"
+      },
+      flex: {
+        "2": "2"
+      },
+      borderRadius: {
+        "circle": "50%"
+>>>>>>> loading-page
       }
     },
   },
