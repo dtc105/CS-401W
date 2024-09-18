@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Avatar from "../../../../components/Avatar/Avatar";
 import { useUserStore } from "../../../../lib/userStore";
 
 function Login() {
@@ -32,9 +33,16 @@ function Login() {
                         ? (
                             <div 
                                 id="userProfile"
+<<<<<<< HEAD
                                 className="cursor-pointer select-none md:hover:underline flex justify-center items-center p-4 gap-2"
+=======
+                                className="cursor-pointer select-none hover:underline flex justify-center items-center p-6 gap-2"
+>>>>>>> testing-planner
                                 onClick={() => setDropDownOpen(prev => !prev)}
                             >
+                                <div className="h-12">
+                                    <Avatar user={currentUser}/>
+                                </div>
                                 <span>{currentUser.username}</span>
                                 <img 
                                     src={dropDownOpen ? "caret-up-fill.svg" : "caret-down-fill.svg"} 
@@ -66,7 +74,7 @@ function Login() {
                 dropDownOpen && (
                     <div 
                         id="userDropdown"
-                        className="absolute justify-center items-center bg-300 right-0 z-10"
+                        className="absolute justify-center items-center bg-300 top-24 right-0 z-10 w-48"
                     >
                         <ul className="flex justify-center items-center flex-col pb-2 gap-2 rounded-bl border-l border-b border-zinc-100 border-opacity-50">
                             {
