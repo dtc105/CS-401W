@@ -29,7 +29,15 @@ export default {
       },
       borderRadius: {
         "circle": "50%"
+<<<<<<< HEAD
 >>>>>>> loading-page
+=======
+      },
+      spacing: {
+        "2/3": "66.66666666%",
+        "5/8": "62.5%",
+        "7/12": "58.33333333%"
+>>>>>>> testing-planner
       }
     },
   },
