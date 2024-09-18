@@ -1,8 +1,15 @@
 import { useState } from "react";
-import Avatar from "../../../../components/Avatar/Avatar";
-import { useUserStore } from "../../../../lib/userStore";
+import { useUserStore } from "../lib/userStore.js";
+import Avatar from "./Avatar.jsx";
 
-function Login() {
+
+/**
+ * User dropdown and options when logged in
+ * 
+ * Log in and Sign out buttons when not logged in
+ * @returns {Component}
+ */
+function User() {
     
     const {currentUser, fetchNullUserInfo} = useUserStore();
     const [dropDownOpen, setDropDownOpen] = useState(false);
@@ -19,7 +26,7 @@ function Login() {
             text: "Option 3",
             func: () => {console.log("Option 3");}
         }
-    ]
+    ];
     
     return (
         <div id="userContainer">
@@ -33,11 +40,7 @@ function Login() {
                         ? (
                             <div 
                                 id="userProfile"
-<<<<<<< HEAD
-                                className="cursor-pointer select-none md:hover:underline flex justify-center items-center p-4 gap-2"
-=======
                                 className="cursor-pointer select-none hover:underline flex justify-center items-center p-6 gap-2"
->>>>>>> testing-planner
                                 onClick={() => setDropDownOpen(prev => !prev)}
                             >
                                 <div className="h-12">
@@ -108,4 +111,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default User;

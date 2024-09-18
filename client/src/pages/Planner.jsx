@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
+/**
+ * Event planner page, the main content of the site
+ * @returns page
+ */
 function Planner() {
     
     const [isLeftAsideOpen, setIsLeftAsideOpen] = useState(false);
     
     return (
-<<<<<<< HEAD
-        <div id="planner" className="">Planner</div>
-=======
         <div id="planner" className="h-mainHeight flex">
             <div 
                 id="leftAsidePullout" 
@@ -29,7 +30,6 @@ function Planner() {
                 }
             </div>
         </div>
->>>>>>> testing-planner
     );
 }
 
