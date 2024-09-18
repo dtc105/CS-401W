@@ -1,11 +1,8 @@
-import React, { useEffect } from 'react';
-import { useUserStore } from '../../lib/userStore';
-import Avatar from '../../components/Avatar/Avatar';
-import { db } from "../../../../server/lib/firebase.js";
-
+/**
+ * Home/Landing page of the site
+ * @returns page
+ */
 function Home() {
-    
-    const {currentUser} = useUserStore();
     
     return (
         <>

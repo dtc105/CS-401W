@@ -1,5 +1,11 @@
 import PropTypes from "prop-types";
 
+/**
+ * 
+ * @param {UserObject} props - takes in the object of the current user, get object from fetchData
+ * @see /src/server/lib/fetchData.js
+ * @returns {Component}
+ */
 function Avatar(props) {
 
     const currentUser = props.user;

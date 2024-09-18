@@ -1,6 +1,5 @@
-import { db } from "../lib/firebase.js";
+import { db } from "./firebase.js";
 import { collection, query, where, getDocs } from "firebase/firestore";
-
 
 
 export async function getAllUsers() {
