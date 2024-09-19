@@ -10,16 +10,12 @@ export default {
         "400": "#140e20",
         "500": "#0e0818"
       },
-<<<<<<< HEAD
       borderRadius: {
         "circle": "50%"
       },
       width: {
         "smscreen": "100svw"
       },
-      height: {
-        "smscreen": "100svh"
-=======
       height: {
         "mainHeight": "calc(100svh - 7rem)",
         "smscreen": "100svh"
@@ -29,15 +25,11 @@ export default {
       },
       borderRadius: {
         "circle": "50%"
-<<<<<<< HEAD
->>>>>>> loading-page
-=======
       },
       spacing: {
         "2/3": "66.66666666%",
         "5/8": "62.5%",
         "7/12": "58.33333333%"
->>>>>>> testing-planner
       }
     },
   },
