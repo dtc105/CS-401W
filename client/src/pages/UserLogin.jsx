@@ -28,7 +28,10 @@ function UserLogin() {
     }
     
     return (
-        <div id="loginContainer" className="w-full h-full grid place-content-center">
+        <div 
+            id="loginContainer" 
+            className="w-full h-full grid place-content-center"
+        >
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -36,38 +39,52 @@ function UserLogin() {
                 validateOnChange={false}
                 validateOnBlur={true}    
             >
-                <Form
-                    className="min-h-96"
-                >
+                <Form className="flex flex-col justify-center items-center gap-8 m-16">
+                    <h2 className="text-2xl">
+                        Log In
+                    </h2>
                     {/* Email Input */}
-                    <ErrorMessage 
-                        name="email"
-                        component="span"
-                        className=""
-                    />
-                    <Field 
-                        autoComplete="off"
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="Email"
-                        className=""
-                    />
+                    <div id="emailInput" className="text-xl flex flex-col justify-center items-center">
+                        <ErrorMessage 
+                            name="email"
+                            component="span"
+                            className=""
+                        />
+                        <Field 
+                            autoComplete="off"
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="Email"
+                            className=""
+                        />
+                    </div>
 
                     {/* Password Input */}
-                    <ErrorMessage 
-                        name="password"
-                        component="span"
-                        className=""
-                    />
-                    <Field 
-                        autoComplete="off"
-                        id="password"
-                        name="password"
-                        type="password"
-                        placeholder="Password"
-                        className=""
-                    />
+                    <div 
+                        id="passwordInput" 
+                        className="text-xl flex flex-col justify-center items-center"
+                    >
+                        <ErrorMessage 
+                            name="password"
+                            component="span"
+                            className=""
+                        />
+                        <Field 
+                            autoComplete="off"
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="Password"
+                            className=""
+                        />
+                    </div>
+
+                    <button
+                        className="text-xl"
+                    >
+                        Log In
+                    </button>
                 </Form>
             </Formik>
         </div>
