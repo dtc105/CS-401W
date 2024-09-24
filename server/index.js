@@ -1,8 +1,7 @@
-// const express = require("express");
 import express from "express";
-const app = express();
-// const cors = require("cors");
 import cors from "cors";
+
+const app = express();
 
 app.use(express.json());
 app.use(cors());
@@ -10,12 +9,11 @@ app.use(cors());
 
 // Routers
 
-// const userRouter = require("./routes/User.js");
-import router from "./routes/User.js";
-app.use("/user", router);
+import userRouter from "./routes/User.js";
+app.use("/user", userRouter);
 
-// const plannerRouter = require("./routes/Planner.js");
-// app.use("/planner", plannerRouter);
+import plannerRouter from "./routes/Planner.js";
+app.use("/planner", plannerRouter);
 
 const PORT = 5174;
 app.listen(PORT, console.log("Server listening on port:", PORT));
