@@ -13,18 +13,21 @@ function User() {
     
     const {currentUser, fetchNullUserInfo} = useUserStore();
     const [dropDownOpen, setDropDownOpen] = useState(false);
+    const navToPage = (url) => {
+        window.location.href = url;
+    }
     const dropDownOptions = [
         {
-            text: "Option 1",
-            func: () => {console.log("Option 1");}
+            text: "Planners",
+            func: () => {navToPage('/planner')}
         },
         {
-            text: "Option 2",
-            func: () => {console.log("Option 2");}
+            text: "Profile",
+            func: () => {navToPage('/profile')}
         },
         {
-            text: "Option 3",
-            func: () => {console.log("Option 3");}
+            text: "Settings",
+            func: () => {navToPage('/settings')}
         }
     ];
     
@@ -56,17 +59,19 @@ function User() {
                         )
                         : (
                             <>
-                                <button
-                                    className="border border-zinc-100 px-3 py-2 rounded"    
+                                <a
+                                    className="border border-zinc-100 px-3 py-2 rounded" 
+                                    href='/login'
                                 >
                                     Log in
-                                </button>
+                                </a>
 
-                                <button
-                                    className="px-3 py-2 rounded bg-zinc-100 text-300"    
+                                <a
+                                    className="px-3 py-2 rounded bg-zinc-100 text-300" 
+                                    href='/register'   
                                 >
-                                    Sign up
-                                </button>
+                                    Register
+                                </a>
                             </>
                         )
                 }
