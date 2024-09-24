@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Event from "../components/Event";
 
 /**
  * Event planner page, the main content of the site
@@ -18,7 +19,7 @@ function Planner() {
             >
                 
                 <img 
-                    src={`${isLeftAsideOpen ? "/caret-left-fill.svg" : "/caret-right-fill.svg"}`} 
+                    src={`${isLeftAsideOpen ? "assets/caret-left-fill.svg" : "assets/caret-right-fill.svg"}`} 
                     alt="pull out icon" 
                     className="justify-self-end self-center px-4"
                 />
@@ -29,6 +30,7 @@ function Planner() {
                     </aside>
                 }
             </div>
+                <Event/>
         </div>
     );
 }

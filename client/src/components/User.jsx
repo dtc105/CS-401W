@@ -48,7 +48,7 @@ function User() {
                                 </div>
                                 <span>{currentUser.username}</span>
                                 <img 
-                                    src={dropDownOpen ? "caret-up-fill.svg" : "caret-down-fill.svg"} 
+                                    src={dropDownOpen ? "assets/caret-up-fill.svg" : "assets/caret-down-fill.svg"} 
                                     alt="drop down icon" 
                                     className="h-3"
                                 />
