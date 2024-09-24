@@ -12,3 +12,12 @@ export async function getUserbyId(id) {
     return querySnapshot[0].data();
 }
 
+export async function getPlannerbyUserId(userID) {
+    const userCollection  = await getDocs(query(collection(db, "userConnections"), where("id", "==", userID)));
+    return userCollection[0].data().planners;
+}
+
+export async function getEventbyId(eventID) {
+    const event  = await getDocs(query(collection(db, "events"), where("id", "==", eventID)));
+    return event[0].data();
+}
