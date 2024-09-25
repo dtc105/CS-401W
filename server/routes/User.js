@@ -1,8 +1,118 @@
 import { db } from "../lib/firebase.js";
-import { getDocs, query, collection, getDoc, doc } from "firebase/firestore";
+import { getDocs, query, collection, getDoc, doc, addDoc, setDoc } from "firebase/firestore";
 import express from "express";
 
 const router = express.Router();
+
+const userSkeleton = {
+    firstName: "",
+    lastName: "",
+    username: "",
+    status: "",
+    email: "",
+    phone: "",
+    organization: "",
+    title: ""
+}
+
+const connectionSkeleton = {
+    friends: [],
+    planners: []
+}
+
+const settingSkeleton = {
+    privacy: {},
+    colors: {}
+}
+
+function validateData(data) {
+    if (typeof data !== "object") {
+        return false; 
+    }
+    
+    const skeletonKeys = Object.keys(userSkeleton);
+    const dataKeys = Object.keys(data);
+
+    for (const dKey of dataKeys) {
+        if (!skeletonKeys.includes(dKey)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+router.post("/", async(req, res) => {
+
+    // Take data from request and validates if it is a subset of userSkeleton
+    const data = req.body;
+
+    // If invalid data send 400
+    if (!validateData(data)) {
+        return res
+            .status(400)
+            .json({error: "Bad Request"});
+    }
+
+    // Create the new user
+    var userRef;
+    try {
+        userRef = await addDoc(collection(db, "users"),{...userSkeleton, ...data});
+    } catch (e) {
+        // If no user send 404
+        return res
+            .status(404)
+            .json({
+                error: {
+                    message: "User unable to be created",
+                    data: e
+                }
+            });
+    }
+
+    /*
+     * If user is created also create corresponding connections and settings
+     */
+
+    try {
+        // Create connections
+        await setDoc(doc(db, "userConnections", userRef.id), connectionSkeleton);
+    } catch (e) {
+        // If no connections made send 418
+        return res
+            .status(418)
+            .json({
+                id: userRef.id,
+                error: {
+                    message: "User create but unable to create user connections",
+                    data: e
+                }
+            });
+    }
+
+    try {
+        // Create settings
+        await setDoc(doc(db, "userSettings", userRef.id), settingSkeleton);
+    } catch (e) {
+        // If no settings made send 418 with users id
+        return res
+            .status(418)
+            .json({
+                id: userRef.id,
+                error: {
+                    message: "User and user connections create but unable to create settings",
+                    data: e
+                }
+            });
+    }
+
+    // If all goes well send 201 and id
+    return res
+        .status(201)
+        .json({
+            id: userRef.id
+        });
+});
 
 // Gets all users and their info
 // !Remove in Prod
