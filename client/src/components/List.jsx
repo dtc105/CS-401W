@@ -36,8 +36,10 @@ function List(){
     
     return(
         <>
-        <button onClick={newDoc}>Create Doc</button>
-        <button onClick={changeToDoc}>Change Doc</button>
+      
+            <button onClick={newDoc}>Create Doc</button>
+            
+            <button onClick={changeToDoc}>Change Doc</button>
         
 			
 		
