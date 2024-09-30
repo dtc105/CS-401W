@@ -8,6 +8,8 @@ export async function createDoc(collectionID, data) { // creates a new doc, adds
     return res.id; //returns new docs ID
 }
 
+
+
 export async function changeDoc(collectionID, docID, data) { //pushes updates to a specific doc in a specified collection
     data = await addTimestamp(data); //adds/updates a timestamp field to 'data'
     const res = await updateDoc(doc(db, collectionID, docID),data);

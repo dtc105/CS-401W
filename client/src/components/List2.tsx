@@ -1,6 +1,9 @@
+// adapted from https://react.dev/learn/typescript
+
 import { useState } from 'react';
 import "./list.css";
 import { createDoc, changeDoc } from "../../../server/lib/pushData";
+import React from 'react';
 
 export default function Form() {
   const [value, setValue] = useState("Change me");
