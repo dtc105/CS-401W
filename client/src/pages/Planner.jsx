@@ -10,7 +10,7 @@ function Planner() {
     const [isLeftAsideOpen, setIsLeftAsideOpen] = useState(false);
     
     return (
-        <div id="planner" className="h-mainHeight flex">
+        <div id="planner" className="min-h-mainHeight flex">
             <div 
                 id="leftAsidePullout" 
                 className="h-full bg-300 flex flex-row-reverse border-r border-zinc-100 border-opacity-50"
