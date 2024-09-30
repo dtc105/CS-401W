@@ -17,7 +17,7 @@ import { createDoc, changeDoc } from "../../../server/lib/pushData";
 
 async function changeToDoc(){
     const collectionID = "planner"
-    const docID="KP8FdFsBhtWfNIYTY4W1"
+    const docID="PVIm20AiAtRh3Wnbu8Bn"
     const data = {
         name: "2",
         theEnd: 'is the  beginning'
@@ -40,7 +40,8 @@ async function changeToDoc(){
 //     console.log(docID);
 // }
 
-function List(){
+function List(props){
+    const name = props.name; 
      
     return(
         <>

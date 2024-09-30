@@ -5,6 +5,8 @@ import "./list.css";
 
 function Event(){
 
+    
+
     async function newDoc(){
         const collectionID = "planner"
         const data = {
@@ -31,8 +33,7 @@ function Event(){
                 <br />
                 
                 <section className="listGrid">
-                    <List /><br />
-                    <List /><br />
+                    <List name="gUdQIOQobwXX0LqPdLo8"/><br />
                     <Form /><br />
                     <Form /><br />
 
