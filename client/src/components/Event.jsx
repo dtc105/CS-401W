@@ -1,4 +1,4 @@
-import { createDoc, changeDoc, collection} from "../../../server/lib/pushData";
+import { createDoc, changeDoc} from "../../../server/lib/pushData";
 import List from "./List.jsx";
 import Form from "./List2.tsx";
 import "./list.css";
