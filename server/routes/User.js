@@ -12,7 +12,9 @@ const userSkeleton = {
     email: "",
     phone: "",
     organization: "",
-    title: ""
+    title: "",
+    friendsList: [],
+    plannersList: []
 }
 
 const connectionSkeleton = {
@@ -121,7 +123,9 @@ router.get("/all", async (_, res) => {
     const querySnapshot = await getDocs(query(collection(db, "users")));
 
     if (querySnapshot.docs.length == 0) {
-        return res.status(404).json({error: "No users found"});
+        return res
+            .status(404)
+            .json({error: "No users found"});
     }
 
     return res
