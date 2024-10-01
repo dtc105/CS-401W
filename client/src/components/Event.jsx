@@ -17,7 +17,6 @@ function Event(){
                 <section className="listGrid">
                     <List name="gUdQIOQobwXX0LqPdLo8"/><br />
                     <Form /><br />
-                    <Form /><br />
 
                 </section>
 
