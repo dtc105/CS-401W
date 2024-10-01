@@ -6,29 +6,11 @@ import "./list.css";
 function Event(){
 
     
-
-    async function newDoc(){
-        const collectionID = "planner"
-        const data = {
-            name: 'test',
-            date: 111965,
-        }
-        const event = await createDoc(collectionID, data);
-        console.log(event);
-    }
     return(
         <>
             
-            
-            <header>
-                <h2>Some tabs maybe?</h2> <br />
-
-            </header>
-            
             <main>
-                <section>
-                    <button onClick={newDoc}>Create Event</button>
-                </section>
+             
                 
                 <br />
                 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Event from "../components/Event";
+import WorkSpace from "../components/WorkSpace";
 
 /**
  * Event planner page, the main content of the site
@@ -30,7 +30,8 @@ function Planner() {
                     </aside>
                 }
             </div>
-                <Event/>
+                <WorkSpace/>
+                
         </div>
     );
 }
