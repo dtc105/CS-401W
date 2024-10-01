@@ -36,9 +36,9 @@ function User() {
             {/* Login / User Profile */}
             <div 
                 id="loginContainer"
-                className="flex justify-center items-center gap-2"
+                className="flex items-center gap-4"
             >
-                <div className="p-4 flex flex-1 justify-center  items-center gap-4">
+                <div className="flex flex-1 justify-start items-end gap-4">
 
                 <a href="/about">About</a>
 
@@ -93,7 +93,7 @@ function User() {
                 dropDownOpen && (
                     <div 
                         id="userDropdown"
-                        className="absolute justify-center items-center bg-300 top-24 right-0 z-10 w-48"
+                        className="absolute justify-center items-center bg-300 top-20 right-0 z-10 w-48"
                     >
                         <ul className="flex justify-center items-center flex-col pb-2 gap-2 rounded-bl border-l border-b border-zinc-100 border-opacity-50">
                             {

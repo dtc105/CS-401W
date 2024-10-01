@@ -1,8 +1,13 @@
+// import Avatar from '../components/Avatar.jsx';
+import InfoContainer from "../components/InfoContainer";
+
 function Profile() {
     return (
-        <div>
-            Profile placeholder
-        </div>
+        <InfoContainer />
+        // <Avatar />
+        // <InfoContainer />
+        // <ConnectionsContainerUsers />
+        // <ConnectionsContainerGroups />
     )
 }
 
