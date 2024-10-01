@@ -9,7 +9,7 @@ export async function createDoc(collectionID, data) { // creates a new doc, adds
 
 export async function createEvent(collectionID, data){
     const ref = createDoc(collectionID, data);
-    const subCollectionRef = addDoc(ref, "lists");
+    //const subCollectionRef = ref.addCollection("lists");
     return ref.id;
 }
 
