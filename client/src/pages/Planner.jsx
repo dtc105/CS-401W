@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import WorkSpace from "../components/WorkSpace";
+import WorkSpace from "../components/workSpace";
 
 /**
  * Event planner page, the main content of the site

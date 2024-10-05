@@ -10,7 +10,7 @@ import { collection, addDoc, updateDoc, doc, Timestamp} from "firebase/firestore
 export async function createDoc(collectionID, data) {
     let ref;
     try {
-        data = addTimestamp(data,"dateCreated");
+        data = await addTimestamp(data,"dateCreated");
         ref = await addDoc(collection(db, collectionID),data);
     } catch (e) {
         console.error(e);
@@ -26,8 +26,10 @@ export async function createDoc(collectionID, data) {
  * @returns {DocumentReference} A Promise resolved with a DocumentReference pointing to the newly created document after it has been written to the backend (Note that it won't resolve while you're offline).
  */
 export async function createEvent(collectionID, data){
+    let ref;
+    
     try {
-        const ref = await createDoc(collectionID, data);
+        ref = await createDoc(collectionID, data);
     
         // Adds a subcollection named "lists"
         const subCollectionRef = collection(ref, "lists");
