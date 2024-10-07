@@ -4,7 +4,7 @@ import Loading from "./pages/Loading.jsx";
 import Header from "./features/Header.jsx";
 import Main from "./features/Main.jsx";
 import Footer from "./features/Footer.jsx";
-import { getAllUsers } from "../../server/lib/fetchData.js";
+import { getAllUsers } from "./lib/fetchData.js";
 
 
 function App() {

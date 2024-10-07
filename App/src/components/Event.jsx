@@ -1,7 +1,7 @@
-import { createDoc, changeDoc} from "../../../server/lib/pushData";
+import { createDoc, changeDoc} from "../lib/pushData";
 import List from "./List.jsx";
 import Form from "./List2.tsx";
-import { createList } from "../../../server/lib/newLists";
+import { createList } from "../lib/newLists";
 import "./list.css";
 
 function Event(){

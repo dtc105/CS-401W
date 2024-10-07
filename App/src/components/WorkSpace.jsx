@@ -1,5 +1,5 @@
-import { getAllUsers, getOneUser, getEventsbyOwner } from "../../../server/lib/fetchData";
-import { createDoc, changeDoc, createEvent} from "../../../server/lib/pushData";
+import { getAllUsers, getOneUser, getEventsbyOwner } from "../lib/fetchData";
+import { createDoc, changeDoc, createEvent} from "../lib/pushData";
 import Event from "./Event"
 import "./list.css";
 

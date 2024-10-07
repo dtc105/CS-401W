@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./list.css";
-import { createDoc, changeDoc } from "../../../server/lib/pushData";
+import { createDoc, changeDoc } from "../lib/pushData";
 
 
 // async function changeToDoc(){

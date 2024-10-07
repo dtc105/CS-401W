@@ -1,4 +1,4 @@
-import { db } from "./firebase.js";
+import { db } from "../lib/firebase.js";
 import { collection, addDoc, updateDoc, doc, Timestamp} from "firebase/firestore";
 
 /**
@@ -10,7 +10,7 @@ import { collection, addDoc, updateDoc, doc, Timestamp} from "firebase/firestore
 export async function createDoc(collectionID, data) {
     let ref;
     try {
-        data = await addTimestamp(data,"dateCreated");
+        data = addTimestamp(data,"dateCreated");
         ref = await addDoc(collection(db, collectionID),data);
     } catch (e) {
         console.error(e);
@@ -70,7 +70,8 @@ export async function changeDoc(collectionID, docID, data) {
  * Valid Field Names: dateCreated, dateCompleted, dateRead, lastChange
  * @param {object} data 
  * @param {string | "lastChange"} fieldName 
- * @returns {object | Error} data with new key/value pair of fieldName/currentDate
+ * @throws {object} if fieldName is not valid
+ * @returns {object} data with new key/value pair of fieldName/currentDate
  */ 
 export function addTimestamp(data,fieldName = "lastChange") {
 
@@ -81,7 +82,7 @@ export function addTimestamp(data,fieldName = "lastChange") {
         throw {
             message: `Invalid fieldname: ${fieldname}`,
             validFieldNames: validFieldNames
-        }
+        };
     }
 
     data[fieldName] = Timestamp.fromDate(new Date());

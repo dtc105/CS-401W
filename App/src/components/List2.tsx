@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import "./list.css";
-import { createDoc, changeDoc } from "../../../server/lib/pushData";
+import { createDoc, changeDoc } from "../lib/pushData";
 import React from 'react';
 
 export default function Form() {
