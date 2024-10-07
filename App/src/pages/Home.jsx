@@ -6,10 +6,9 @@ function Home() {
     
     return (
         <>
-            <hgroup className="flex flex-col justify-center items-center gap-4">
-                <h1 className="text-6xl">Welcome!</h1>
-                <hr className="w-4/5 opacity-50" />
-                <p className="text-xl">To the home page</p>
+            <hgroup className="flex h-screen flex-col flex-start gap-4">
+                <h1 className="text-6xl font-bold">An innovative way to keep <br></br> everyone in sync.</h1>
+                <p className="text-xl">Keep yourself and other up-to-date on future planned events or changes <br></br> to already existing plans with just a few clicks.</p>
             </hgroup>
         </>
     );

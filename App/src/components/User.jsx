@@ -38,14 +38,24 @@ function User() {
                 id="loginContainer"
                 className="flex justify-center items-center gap-2"
             >
+                <div className="p-4 flex flex-1 justify-center  items-center gap-4">
+
+                <a href="/about">About</a>
+
+                <a href='/contact'>Contact</a>
+
+                </div>
                 {
                     currentUser
                         ? (
                             <div 
+                            
                                 id="userProfile"
                                 className="cursor-pointer select-none hover:underline flex justify-center items-center p-6 gap-2"
                                 onClick={() => setDropDownOpen(prev => !prev)}
                             >
+                                
+
                                 <div className="h-12">
                                     <Avatar user={currentUser}/>
                                 </div>
@@ -55,6 +65,7 @@ function User() {
                                     alt="drop down icon" 
                                     className="h-3"
                                 />
+                                
                             </div>
                         )
                         : (
