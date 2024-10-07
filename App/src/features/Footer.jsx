@@ -7,7 +7,7 @@
 function Footer() {
     
     return (
-        <footer className="flex fixed bottom-0 w-full bg-300 border-t border-zinc-100 border-opacity-50 p-4">
+        <footer className="flex bottom-0 w-full bg-300 border-t border-zinc-100 border-opacity-50 p-4">
             <div id="brandFooterContainer" className="flex flex-col flex-1 justify-items-start items-start">
                 <img src="/assets/logo.png" alt="logo image" className="w-8 h-8" />
                 <h2>PlanIt <span className="text-zinc-500 align-left text-sm">&copy;</span></h2>
