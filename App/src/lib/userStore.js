@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase.js";
 
@@ -15,26 +16,30 @@ import { db } from "./firebase.js";
  * 
  * @property {function} fetchUserInfo           - Fetches user info
  */
-export const useUserStore = create((set) => ({
-    currentUser: null,
-    removeUser: () => {
-        set({currentUser: null});
-    },
-    isLoading: true,
-    fetchUserInfo: async (uid) => {
-        console.log("In fetch: ", uid);
-        if (!uid) return set({currentUser: null, isLoading: false});
-        console.log("Pass if");
-        try {
-            const docRef = doc(db, "users", uid);
-            const docSnap = await getDoc(docRef);
+export const useUserStore = create(persist((set) => ({
+        currentUser: null,
+        removeUser: () => {
+            set({currentUser: null});
+        },
+        isLoading: true,
+        fetchUserInfo: async (uid) => {
+            if (!uid) return set({currentUser: null, isLoading: false});
+            try {
+                const docRef = doc(db, "users", uid);
+                const docSnap = await getDoc(docRef);
 
-            docSnap.exists()
-                ? set({currentUser: docSnap.data(), isLoading: false})
-                : set({currentUser: null, isLoading: false});
-        } catch (e) {
-            console.log(e);
-            set({currentUser: null, isLoading: false});
+                docSnap.exists()
+                    ? set({currentUser: docSnap.data(), isLoading: false})
+                    : set({currentUser: null, isLoading: false});
+            } catch (e) {
+                console.log(e);
+                set({currentUser: null, isLoading: false});
+            }
         }
+    }),
+    {
+        name: "currentUserStorage",
+        storage: createJSONStorage(() => localStorage)
     }
-}));
+
+));

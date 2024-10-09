@@ -1,5 +1,4 @@
 export const userTemplate = {
-    "id": "",
     "fName": "",
     "lName": "",
     "username": "",
@@ -9,10 +8,10 @@ export const userTemplate = {
     "phone": "",
     "namePrefix": "",
     "settings": {
-        "key": "value"
+        "key": "value" // !
     },
     "privacy": {
-        "key": "value"
+        "key": "value" // !
     },
     "customLists": []
 };
@@ -23,7 +22,7 @@ export const listTemplate = {
         "value": false
     },
     "calendar": {
-        "NOT IMPLEMENTED": "|||||||||||||||||||||||||||||||||||||||||"
+        "NOT IMPLEMENTED": "" //! ===================================
     },
     "text": {
         "label": "",

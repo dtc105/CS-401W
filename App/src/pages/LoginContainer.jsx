@@ -21,7 +21,6 @@ function Login() {
             console.error(err);
         } finally {
             setIsLoggingIn(false);
-            console.log("Logged in");
         }
     }
 
