@@ -16,7 +16,7 @@ function App() {
 		// fetchNullUserInfo();
 		async function run() {
 			const users = await getAllUsers();
-			console.log(users);
+			//console.log(users);
 		}
 
 		run();

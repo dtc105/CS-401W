@@ -46,3 +46,17 @@ button{
     border: thin solid green;
     margin:10px;
 }
+
+select, option{
+    color: var(--lightColor);
+    background-color: var(--darkColor);
+}
+.container {
+    display: inline-block;
+    width: 33%;
+    aspect-ratio: 8/1;
+    border: medium solid var(--darkColor);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 4px 4px 1px 0px var(--darkColor);
+}

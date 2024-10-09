@@ -3,18 +3,6 @@ import "./list.css";
 import { createDoc, changeDoc } from "../lib/pushData";
 
 
-// async function changeToDoc(){
-//     const collectionID = "planner"
-//     const docID="KP8FdFsBhtWfNIYTY4W1"
-//     const data = {
-//         name: "2",
-//         theEnd: 'is the  beginning'
-//     }
-//     const event = await changeDoc(collectionID, docID, data);
-//     console.log(event);
-//     console.log("test change to doc")
-// }
-
 async function changeToDoc(){
     const collectionID = "planner"
     const docID="PVIm20AiAtRh3Wnbu8Bn"
@@ -27,20 +15,7 @@ async function changeToDoc(){
     console.log("test change to doc with data")
 }
 
-//<button onClick={changeToDoc(JSON.stringify(Object.fromEntries(FormData)) )}>Change List</button>
-
-// async function changeToList(listID){
-//     const collectionID = "planner"
-//     const eventID="KP8FdFsBhtWfNIYTY4W1"
-//     const data = {
-//         name: "NEWnaME",
-//         theEnd: 'is the  beginning'
-//     }
-//     const users = await changeDoc(collectionID, eventID, listID, data);
-//     console.log(docID);
-// }
-
-function List(props){
+function ListOld(props){
     const name = props.name; 
      
     return(
@@ -48,7 +23,7 @@ function List(props){
             <main className = "container">
 
                 <form>
-                    <h2>place holder list</h2>
+                    <h2> old place holder list</h2>
                     
                     <fieldset className="leftLabel">
                         <legend>Personal Information</legend>
@@ -67,4 +42,4 @@ function List(props){
        
     )
 }
-export default List;
+export default ListOld;

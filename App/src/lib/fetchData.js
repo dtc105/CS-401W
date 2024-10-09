@@ -1,5 +1,5 @@
 import { db } from "../lib/firebase.js";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, setDoc, getDoc, doc } from "firebase/firestore";
 
 
 export async function getAllUsers() {
@@ -10,7 +10,7 @@ export async function getAllUsers() {
 
 export async function getOneUser() {
     const querySnapshot = await getDocs(query(collection(db, "users")));
-    console.log("from getoneuser: ", querySnapshot.docs[0].id);
+    //console.log("from getoneuser: ", querySnapshot.docs[0].id);
     return querySnapshot.docs[0].id;
 }
 
@@ -34,7 +34,7 @@ export async function getEventbyId(eventID) {
 
 export async function getEventsbyOwner(ownerID) {
     const querySnapshot = await getDocs(query(collection(db, "planner")));//, where("ownerId", "==", ownerID)));
-    console.log("from getEventsbyOwner: ", querySnapshot.docs[0].id);
+    //console.log("from getEventsbyOwner: ", querySnapshot.docs[0].id);
     return querySnapshot;
 }
 
@@ -42,6 +42,22 @@ export async function getListbyId(listID) {
     //const event  = await getDocs(query(collection(db, "events"), where("id", "==", eventID)));
     const event  = getByID("users", id);
     return event[0].data();
+}
+
+export async function getListsbyEventId(eventID) {
+    const ref = await doc(db, "planner", eventID);
+    const lists = await getDocs(collection(ref,"lists"));
+    let listOut =[];
+    lists.forEach(lists => {
+        console.log("ListsByEventID - lists: ", lists.id);
+        listOut.push(lists.id);
+    });
+    
+    // listOut.forEach(listOut => {
+    //     console.log("ListsByEventID - listout: ", listOut);
+    // });
+
+    return listOut;
 }
 
 export async function getAllListSkeletons() {

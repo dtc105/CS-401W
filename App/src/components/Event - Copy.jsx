@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { createDoc, changeDoc} from "../lib/pushData";
 import * as fetch from "../lib/fetchData.js"
 import List from "./List.jsx";
@@ -12,6 +11,19 @@ function Event(){
 
     const eventID = "GvZjTZf1bzjj7mRUSXBk"; // place holder, will need to 'know' doc you are in
 
+    async function onLoad(eventId) { //fetchs a list of lists from specified event
+         //console.log("in onLoad");
+         let eventLists = await fetch.getListsbyEventId(eventID);
+         //console.log("events - listsby eventID: ", eventLists);
+         //const listOfLists = eventLists.map((list, index) => <li key={index}>{list}</li>);
+         //console.log("events - listsby listOfLists: ", listOfLists);
+         return eventLists; //returns an array
+    }
+    const eventLists = onLoad(eventID);
+    console.log("Event - eventLists:", eventLists);
+
+    //console.log("templates: ", Object.keys(templates)); //confirms templates are being read
+    
     async function createListBtn(templates){
         const eventDocName = "GvZjTZf1bzjj7mRUSXBk"; // place holder, will need to 'know' doc you are in
 
@@ -20,80 +32,51 @@ function Event(){
         console.log("Create List button pressed\n", ref.id);
     }
     
-        const [items, setItems] = useState([]);
-        const [isLoading, setIsLoading] = useState(true);
-        const [error, setError] = useState(null);
-    
-      useEffect(() => {
-        // Replace this with your actual promise-based API call
-      
-        const fetchData = async () => {
-          try {
-            let eventLists = await fetch.getListsbyEventId(eventID);
-            setItems(eventLists);
-          } catch (err) {
-            setError(err);
-          } finally {
-            setIsLoading(false);
-          }
-        };
-    
-        fetchData();
-      }, []);
-    
-      if (isLoading) {
-        return <div>Loading...</div>;
-      }
-    
-      if (error) {
-        return <div>Error: {error.message}</div>;
-      }
     
     return(
         <>
-         <header>
+            <header>
 
             <section>
                     <select name="tamplates" id = "templates"> {/*makes a dropdowmn menu/list of templates to add to the event*/}
-                        {Object.keys(templates.lists).map(type =>{
+                         {Object.keys(templates.lists).map(type =>{
                             return (
                                 <option value={type}>{type}</option>
                             )
-                        })}
+                         })}
 
                     </select>
                     <button onClick={() => createListBtn(templates)}>Create List</button>
             </section>
 
-        </header>
-
-        <main>
+            </header>
             
-            <br />
             
-            <section className="listGrid">
+            <main>
+             
                 
-                <ul> Lists{/*List of lists*/}
+                <br />
+                
+                <section className="listGrid">
+                    
+                    <ul> Lists{/*List of lists*/}
                         <li>Top of list</li>
                         {/*eventLists*/}
-                        {items.map((item, index) => (<li key={index}>{item.name}</li>))}
+                        {/*Object.keys(eventLists).map(type => <li>{type}</li>)*/}
+                        {Object.keys(eventLists).map(type => console.log("********************", type))}
                         {Object.keys(templates.lists).map(type => <li>{type}</li>)}{/*Proof of concept*/}
                         <li>bottom of list</li>
                     </ul>
-                
-                <br />
-                
-                <List name="gUdQIOQobwXX0LqPdLo8"/><br />
-                <br />
-                <ListOld name="gUdQIOQobwXX0LqPdLo8"/><br />
-                <br />
-                <Form /><br />
-
-            </section>
-
-        </main>
                     
-                   
+                    <List name="gUdQIOQobwXX0LqPdLo8"/><br />
+                    <br />
+                    <ListOld name="gUdQIOQobwXX0LqPdLo8"/><br />
+                    <br />
+                    <Form /><br />
+
+                </section>
+
+            </main>
         </>
     )
 }

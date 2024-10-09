@@ -7,7 +7,7 @@ function WorkSpace(){
 
     async function myLoad(){
         const aUser = await getOneUser();
-        console.log("aUser:", aUser);
+        //console.log("aUser:", aUser);
         // const userID = aUser; //"J9BTZDWAy2qMouAsr4wN"// place holder for Current User
         // console.log("userId: ", userID);
         return aUser;
@@ -37,7 +37,7 @@ function WorkSpace(){
 
     let ownerId = myLoad();
     let eventTemp = getEventsbyOwner(ownerId);
-    console.log("temp: ", eventTemp);
+    //console.log("temp: ", eventTemp);
 
     return(
         <>
