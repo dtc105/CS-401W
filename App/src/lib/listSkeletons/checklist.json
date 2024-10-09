@@ -1,8 +1,0 @@
-[{
-  "fields": [
-    { "type": "checkbox", "name": "ok", "value": false, "label": "OK", "position": 1 },
-    { "type": "checkbox", "name": "nok", "value": true, "label": "NOK", "position": 2 },
-    { "type": "checkbox", "name": "na", "value": false, "label": "N/A", "position": 3 },
-    { "type": "text", "name": "na", "value": 0, "label": "N/AA", "position": 4 }
-  ]
-}]

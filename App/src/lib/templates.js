@@ -1,4 +1,4 @@
-export const users = {
+export const userTemplate = {
     "id": "",
     "fName": "",
     "lName": "",
@@ -9,15 +9,15 @@ export const users = {
     "phone": "",
     "namePrefix": "",
     "settings": {
-        "": ""
+        "key": "value"
     },
     "privacy": {
-        "": ""
+        "key": "value"
     },
     "customLists": []
 };
 
-export const lists = {
+export const listTemplate = {
     "checkbox": {
         "label": "",
         "value": false

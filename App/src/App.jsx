@@ -4,23 +4,24 @@ import Loading from "./pages/Loading.jsx";
 import Header from "./features/Header.jsx";
 import Main from "./features/Main.jsx";
 import Footer from "./features/Footer.jsx";
-import { getAllUsers } from "./lib/fetchData.js";
+import { auth } from "./lib/firebase.js";
+import { onAuthStateChanged } from "firebase/auth";
+
 
 
 function App() {
 
-	const { isLoading, fetchUserInfo, fetchNullUserInfo } = useUserStore();
+	const { isLoading, fetchUserInfo } = useUserStore();
 
 	useEffect(() => {
-		fetchUserInfo();
-		// fetchNullUserInfo();
-		async function run() {
-			const users = await getAllUsers();
-			console.log(users);
-		}
+		const unSub = onAuthStateChanged(auth, (user) => {
+			fetchUserInfo(user?.uid);
+		});
 
-		run();
-	}, []);
+		return (() => {
+			unSub();
+		})
+	}, [fetchUserInfo]);
 
 	if (isLoading) return <Loading />
 	return (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserStore } from "../lib/userStore.js";
 import Avatar from "./Avatar.jsx";
 
@@ -11,7 +11,7 @@ import Avatar from "./Avatar.jsx";
  */
 function User() {
     
-    const {currentUser, fetchNullUserInfo} = useUserStore();
+    const { currentUser } = useUserStore();
     const [dropDownOpen, setDropDownOpen] = useState(false);
     const navToPage = (url) => {
         window.location.href = url;
@@ -30,6 +30,10 @@ function User() {
             func: () => {navToPage('/settings')}
         }
     ];
+
+    useEffect(() => {
+        console.log("Current user: ", currentUser);
+    })
     
     return (
         <div id="userContainer">
