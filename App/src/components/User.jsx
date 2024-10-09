@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useUserStore } from "../lib/userStore.js";
 import Avatar from "./Avatar.jsx";
+import { auth } from "../lib/firebase.js";
 
 
 /**
@@ -11,7 +12,7 @@ import Avatar from "./Avatar.jsx";
  */
 function User() {
     
-    const {currentUser, fetchNullUserInfo} = useUserStore();
+    const { currentUser, removeUser } = useUserStore();
     const [dropDownOpen, setDropDownOpen] = useState(false);
     const navToPage = (url) => {
         window.location.href = url;
@@ -32,7 +33,7 @@ function User() {
     ];
     
     return (
-        <div id="userContainer">
+        <div id="userContainer" className="mx-4">
             {/* Login / User Profile */}
             <div 
                 id="loginContainer"
@@ -113,7 +114,8 @@ function User() {
                             <li 
                                 className="px-8 py-2 cursor-pointer md:hover:underline"
                                 onClick={() => {
-                                    fetchNullUserInfo(); 
+                                    auth.signOut();
+                                    removeUser();
                                     setDropDownOpen(false);
                                 }}
                             >
