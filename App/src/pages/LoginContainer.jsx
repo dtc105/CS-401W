@@ -1,10 +1,13 @@
 import { auth } from "../lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
     const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     async function onSubmit(event) {
 
@@ -17,8 +20,10 @@ function Login() {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
+            navigate('/profile');
         } catch (err) {
             console.error(err);
+            setErrorMessage('Incorrect email or password. Please try again.');
         } finally {
             setIsLoggingIn(false);
         }
@@ -45,6 +50,7 @@ function Login() {
                 className="flex flex-col" 
                 onSubmit={onSubmit}
             >
+                {errorMessage && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p>}
                 <div className="pb-2">
                     <label 
                         for="email" 
