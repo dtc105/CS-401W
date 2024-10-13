@@ -13,7 +13,7 @@ function Avatar(props) {
     return (
         <div className="avatar h-full">
             <img 
-                src={currentUser.avatar || "/assets/default-avatar.svg"} 
+                src={currentUser?.avatar || "/assets/default-avatar.svg"} 
                 alt="avatar icon" 
                 className="contain-content object-cover h-5/6 aspect-square rounded-circle"
             />
