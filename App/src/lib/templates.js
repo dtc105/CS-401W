@@ -1,5 +1,4 @@
-export const users = {
-    "id": "",
+export const userTemplate = {
     "fName": "",
     "lName": "",
     "username": "",
@@ -9,21 +8,21 @@ export const users = {
     "phone": "",
     "namePrefix": "",
     "settings": {
-        "": ""
+        "key": "value" // !
     },
     "privacy": {
-        "": ""
+        "key": "value" // !
     },
     "customLists": []
 };
 
-export const lists = {
+export const listTemplate = {
     "checkbox": {
         "label": "",
         "value": false
     },
     "calendar": {
-        "NOT IMPLEMENTED": "|||||||||||||||||||||||||||||||||||||||||"
+        "NOT IMPLEMENTED": "" //! ===================================
     },
     "text": {
         "label": "",

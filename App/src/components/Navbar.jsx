@@ -12,7 +12,7 @@ function Navbar() {
                 <h1 className="text-4xl ">PlanIt <span className="text-xl text-zinc-300">Agenda</span></h1>
             </a>
 
-            <a href="/home">Home</a>
+            <a href="./">Home</a>
             
             <a href="/planner">Planner</a>
             
