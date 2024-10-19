@@ -102,9 +102,11 @@ export async function getEventsbyOwner(ownerID) {
  */
 export async function getListbyId(eventID, listID) {
     const ref = await doc(db, "planner", eventID);
-    const list = await getDoc(doc(ref, "lists", listID))
-    //console.log("getListbyID: ", list.data());
-    return list.data();
+    const list = await doc(ref, "lists", listID);
+    console.log("*******\ngetListbyID ref:\n ", ref);
+    console.log("*******\ngetListbyID list: \n", list);
+    //return list.data();
+    return list;
 }
 
 /**

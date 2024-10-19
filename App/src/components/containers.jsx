@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import "./list.css";
 import { changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
+import { ref } from "firebase/storage";
+import { db } from "../lib/firebase.js";
+import { updateDoc } from "firebase/firestore";
 
 
 
@@ -33,40 +36,17 @@ async function changeToDoc(props) {
     return 0;
 }
 
-
-
 export function CheckboxList(props){
 
-    const label = props.label;
-    const keys = props.keys;
-    const values = props.values;
-
-    const eventID = props.eventID;
-    const listID = props.listID; 
-    console.log("list Temp props: ", eventID, listID);
-
-    // const [label, setLabel] = useState("");
-    // const [listType, setType] = useState("");
-    // const [keys, setKeys] = useState([]);
-    // const [values, setValues] = useState([]);
-    
-    useEffect(() => {
-        
-        async function getList() {
-            const eventID = props.eventID;
-            const listID = props.listID; 
-            const list = await getListbyId(eventID, listID);
-
-            setLabel(list["ListName"]);
-            setType(list["ListType"]);
-            
-            setKeys(Object.keys(list.data))
-            setValues(Object.values(list.data))
-        
-        }
-        getList()
-        
-    }, []);
+    const [listRef, setListRef] = useState(props.listRef);
+    const [list, setList] = useState(props.list);
+    // const [eventID, setEventID] = useState("");
+    // const [listID, setListID] = useState("");
+    const [label, setLabel] = useState(list["ListName"]);
+    //const [listType, setType] = useState("");
+    const [keys, setKeys] = useState(Object.keys(list.data));
+    const [values, setValues] = useState(Object.values(list.data));
+    const [isChecked, setIsChecked] = useState(false);
 
     console.log("containers - keys: ", values);
     
@@ -77,6 +57,17 @@ export function CheckboxList(props){
 
         setKeys(prev)
     }
+
+    const handleChangeCheckbox = (e, index, values) => {
+        // Update Firebase when checkbox value changes
+        console.log("HandleChange: \n", list);
+        let docRef = list.path;
+        console.log("HandleChange: dataRef\n", listRef);
+        //let fieldNAme = values[index];
+        updateDoc(listRef, {fieldNAme: !isChecked}); //!currently addind new field to document :(
+        //const dataRef = ref(db, props.list.path);
+        //update(dataRef, !isChecked);
+      };
 
     return(
         <>
@@ -92,7 +83,7 @@ export function CheckboxList(props){
 
                                 return (
                                     <div className="flex" key={index}>
-                                        <input type="checkbox" checked={values[index]} />
+                                        <input type="checkbox" checked={values[index]} onChange={(e) => handleChangeCheckbox(e, index, values)}/>
                                         {/*<input className="rightLabel" type="text" value={key} onChange={(e) => onKeyChange(e, index)} /> */}
                                         <input className="rightLabel" type="text" value={key} onChange={e => setText(e.target.value)} />
                                     </div>
@@ -111,16 +102,14 @@ export function CheckboxList(props){
        
     )
 }
-//export default CheckboxList;
 
 export function Text(props){
 
-    const label = props.label;
-    const keys = props.keys;
-    const values = props.values;
+    const [list, setList] = useState(props.list);
+    const [label, setLabel] = useState(list["ListName"]);
+    const [keys, setKeys] = useState(Object.keys(list.data));
+    const [values, setValues] = useState(Object.values(list.data));
 
-    console.log("contrainers - keys: ", props);
-    
     function onKeyChange(e, index) {
         const prev = [...keys];
 

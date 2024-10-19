@@ -3,28 +3,22 @@ import "./list.css";
 import { createDoc, changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
 import {CheckboxList, Text} from "./containers";
+import { getDoc } from "firebase/firestore";
 
-
-
-//<button onClick={changeToDoc(JSON.stringify(Object.fromEntries(FormData)) )}>Change List</button>
-
-// async function changeToList(listID){
-//     const collectionID = "planner"
-//     const eventID="KP8FdFsBhtWfNIYTY4W1"
-//     const data = {
-//         name: "NEWnaME",
-//         theEnd: 'is the  beginning'
-//     }
-//     const users = await changeDoc(collectionID, eventID, listID, data);
-//     console.log(docID);
-// }
-
+/**
+ * Gets a document from an Events 'lists' sub-collection determined by listID
+ * Calls a function in Containers.jsx to build correct container
+ * ---the container type used is determined by the "ListType" field
+ * ---uses switch to call correct function, or returns and error message
+ * @param {*} props 
+ * @returns a configured container for list, or error message if ListType not available
+ */
 function List(props){
 
-    const eventID = props.eventID;
-    const listID = props.listID; 
-    console.log("list Temp props: ", eventID, listID);
-
+    const [eventID, setEventID] = useState(props.eventID);
+    const [listID, setListID] = useState(props.listID);
+    const [listRef, setListRef] = useState({});
+    const [list, setList] = useState({});
     const [label, setLabel] = useState("");
     const [listType, setType] = useState("");
     const [keys, setKeys] = useState([]);
@@ -33,31 +27,31 @@ function List(props){
     useEffect(() => {
         
         async function getList() {
-            const eventID = props.eventID;
-            const listID = props.listID; 
-            const list = await getListbyId(eventID, listID);
 
-            setLabel(list["ListName"]);
-            setType(list["ListType"]);
-            
-            setKeys(Object.keys(list.data))
-            setValues(Object.values(list.data))
+            const listref = await getListbyId(eventID, listID);
+            setListRef(listref);
+           //console.log("********\nlists - getList- listRef:\n", listRef)
+            setList((await getDoc(listref)).data());
+            //setList(listref);
+            setType((await getDoc(listref)).data()["ListType"]);
+            //console.log("#####\nlist.jsx, getlist list: \n", list);
         
         }
-        getList()
-        
+        getList();
+
     }, []);
 
+    //console.log("list, !getlist: \n", listRef);
     const switchListType = () => {
         switch(listType){
             case "checkbox":
-                console.log("CHECKLIST");
-                return <CheckboxList label={label} keys={keys} values={values} />;
+                console.log("CHECKBOX", list);
+                return <CheckboxList list={list} listRef={listRef}/>;
             case "calendar":
                 console.log("CALENDAR");
                 break;
             case "text":
-                return <Text label={label} keys={keys} values={values} />;
+                return <Text list={list} />;
             default:
                 console.log(listType);
                 return <h1>That didnt work!!</h1>;
