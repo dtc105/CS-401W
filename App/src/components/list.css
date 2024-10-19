@@ -5,7 +5,7 @@
 
 
 section.listGrid{
-    color:coral;
+    color:white;
     padding: 5px;
     
 }
@@ -52,6 +52,8 @@ select, option{
     background-color: var(--darkColor);
 }
 .container {
+    background-color: darkcyan;
+    color: black;
     display: inline-block;
     width: 33%;
     aspect-ratio: 8/1;

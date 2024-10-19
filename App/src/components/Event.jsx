@@ -3,65 +3,79 @@ import { createDoc, changeDoc} from "../lib/pushData";
 import * as fetch from "../lib/fetchData.js"
 import List from "./List.jsx";
 import ListOld from "./ListPlaceholder.jsx";
-import Form from "./List2.tsx";
 import { createList } from "../lib/newLists";
 import * as templates from "../lib/templates.js"
 import "./list.css";
 
+const eventID = "GvZjTZf1bzjj7mRUSXBk"; // place holder, will need to 'know' doc you are in
+
 function Event(){
 
-    const eventID = "GvZjTZf1bzjj7mRUSXBk"; // place holder, will need to 'know' doc you are in
+    const [chosenTemplate, setTemplate] = useState(undefined);
+    const [isDisabled, setIsDisabled] = useState(true); // disables Create List button on load to avoid error; button is enabled be onOptionChangeHandler once a list type is chosen
 
-    async function createListBtn(templates){
-        const eventDocName = "GvZjTZf1bzjj7mRUSXBk"; // place holder, will need to 'know' doc you are in
-
-        const ref = await createList(eventDocName, templates);
-
-        console.log("Create List button pressed\n", ref.id);
+    const onOptionChangeHandler = (event) => {
+      setIsDisabled(false);
+      setTemplate(event.target.value);
+      console.log(
+          "User Selected Value - ",
+          event.target.value
+      );
     }
     
-        const [items, setItems] = useState([]);
-        const [isLoading, setIsLoading] = useState(true);
-        const [error, setError] = useState(null);
+    async function createListBtn(){
+        
+        const ref = await createList(eventID, chosenTemplate);
+
+        //console.log("Create List button pressed\n", ref.id);
+        console.log("Create List button pressed\n", eventIDD);
+    }
     
-      useEffect(() => {
+    const [items, setItems] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+    useEffect(() => {
               
-        const fetchData = async () => {
-          try {
-            let eventLists = await fetch.getListsbyEventId(eventID);
-            setItems(eventLists);
-          } catch (err) {
-            setError(err);
-          } finally {
-            setIsLoading(false);
-          }
-        };
+      const fetchData = async () => {
+        try {
+          let eventLists = await fetch.getListsbyEventId(eventID);
+          setItems(eventLists);
+        } catch (err) {
+          setError(err);
+        } finally {
+          setIsLoading(false);
+        }
+      };
     
-        fetchData();
-      }, []);
+      fetchData();
+    }, []);
     
-      if (isLoading) {
-        return <div>Loading...</div>;
-      }
-    
-      if (error) {
-        return <div>Error: {error.message}</div>;
-      }
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+  
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    }
     
     return(
         <>
          <header>
 
             <section>
-                    <select name="tamplates" id = "templates"> {/*makes a dropdowmn menu/list of templates to add to the event*/}
+                    <select onChange={onOptionChangeHandler}> {/*makes a dropdowmn menu/list of templates to add to the event*/}
+                    <option value="none" selected disabled hidden>Select an Option</option>
                         {Object.keys(templates.listTemplate).map((type, index) =>{
                             return (
                                 <option key={index} value={type}>{type}</option>
                             )
                         })}
 
+                        {console.log("****list templates****: ", templates.value)}
+
                     </select>
-                    <button onClick={() => createListBtn(templates)}>Create List</button>
+                    <button onClick={() => createListBtn()} disabled={isDisabled}>Create List</button>
             </section>
 
         </header>
@@ -78,12 +92,13 @@ function Event(){
                     </ul>
                 
                 <br />
+
+                <ul> Containers{/*List of documents from 'lists' subcollection*/}
+                        {/*eventLists*/}
+                        {items.map((item, index) => (<List eventID={eventID} listID={item}/>))}
+                    </ul>
                 
-                <List eventID={eventID} listID="oqPRmGGEzDh0x7jJNKNg"/><br />
                 <br />
-                <ListOld name="gUdQIOQobwXX0LqPdLo8"/><br />
-                <br />
-                <Form /><br />
 
             </section>
 

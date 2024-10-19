@@ -18,22 +18,44 @@ export const userTemplate = {
 
 export const listTemplate = {
     "checkbox": {
-        "label": "",
-        "value": false
+        "ListName": "Name Me",
+        "ListType": "checkbox",
+        "data": {
+            "task": false,
+        },
+        
     },
     "calendar": {
-        "NOT IMPLEMENTED": "" //! ===================================
+        "NOT IMPLEMENTED": "",
+        "ListName": "",
+        "ListType": "calendar",
+        "data": {
+            "label": "",
+            "value": false,
+        },
     },
     "text": {
-        "label": "",
-        "value": ""
+        "ListName": "",
+        "ListType": "text",
+        "data": {
+            "label": "",
+            "value": "",
+        },
     },
     "contacts": {
-        "label": "",
-        "value": []
+        "ListName": "",
+        "ListType": "contacts",
+        "data": {
+            "label": "",
+            "value": [],
+        },
     },
     "custom": {
-        "label": "",
-        "value": {}
+        "ListName": "",
+        "ListType": "custom",
+        "data": {
+            "label": "",
+            "value": {},
+        },
     }
 }
