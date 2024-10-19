@@ -25,8 +25,7 @@ function Event(){
         const [error, setError] = useState(null);
     
       useEffect(() => {
-        // Replace this with your actual promise-based API call
-      
+              
         const fetchData = async () => {
           try {
             let eventLists = await fetch.getListsbyEventId(eventID);
@@ -55,9 +54,9 @@ function Event(){
 
             <section>
                     <select name="tamplates" id = "templates"> {/*makes a dropdowmn menu/list of templates to add to the event*/}
-                        {Object.keys(templates.lists).map(type =>{
+                        {Object.keys(templates.listTemplate).map((type, index) =>{
                             return (
-                                <option value={type}>{type}</option>
+                                <option key={index} value={type}>{type}</option>
                             )
                         })}
 
@@ -73,17 +72,14 @@ function Event(){
             
             <section className="listGrid">
                 
-                <ul> Lists{/*List of lists*/}
-                        <li>Top of list</li>
+                <ul> Lists{/*List of documents from 'lists' subcollection*/}
                         {/*eventLists*/}
-                        {items.map((item, index) => (<li key={index}>{item.name}</li>))}
-                        {Object.keys(templates.lists).map(type => <li>{type}</li>)}{/*Proof of concept*/}
-                        <li>bottom of list</li>
+                        {items.map((item, index) => (<li key={index}>{item}</li>))}
                     </ul>
                 
                 <br />
                 
-                <List name="gUdQIOQobwXX0LqPdLo8"/><br />
+                <List eventID={eventID} listID="oqPRmGGEzDh0x7jJNKNg"/><br />
                 <br />
                 <ListOld name="gUdQIOQobwXX0LqPdLo8"/><br />
                 <br />

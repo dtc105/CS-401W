@@ -93,32 +93,39 @@ export async function getEventsbyOwner(ownerID) {
     }
 }
 
+
 /**
- * ? Does something
- * ! NEEDS WORK (listId not used)
+ * Retuns the data of the specified documents from the 'lists' subcollection of a specified event
+ * @param {string} eventID 
  * @param {string} listID 
  * @returns 
  */
-export async function getListbyId(listID) {
-    //const event = await getDocs(query(collection(db, "events"), where("id", "==", eventID)));
-    const event = getByID("users", id);
-    return event[0].data();
+export async function getListbyId(eventID, listID) {
+    const ref = await doc(db, "planner", eventID);
+    const list = await getDoc(doc(ref, "lists", listID))
+    //console.log("getListbyID: ", list.data());
+    return list.data();
 }
 
 /**
- * Returns all list skeletons
- * ! List skeletons not used anymore
- * @see ./templates.js
- * @deprecated
- * @returns all list skeletons
+ * Returns a list of documents from the 'lists' subcollection of a specified event
+ * @param {string} eventID 
+ * @returns 
  */
-export async function getAllListSkeletons() {
-    try {
-        const querySnapshot = await getDocs(query(collection(db, "listSkeletons")));
-        return querySnapshot.docs.map((doc) => doc.data());
-    } catch (e) {
-        console.error(e);
-    }
+export async function getListsbyEventId(eventID) {
+    const ref = await doc(db, "planner", eventID);
+    const lists = await getDocs(collection(ref,"lists"));
+    let listOut =[];
+    lists.forEach(lists => {
+        console.log("ListsByEventID - lists: ", lists.id);
+        listOut.push(lists.id);
+    });
+    
+    // listOut.forEach(listOut => {
+    //     console.log("ListsByEventID - listout: ", listOut);
+    // });
+
+    return listOut;
 }
 
 /**

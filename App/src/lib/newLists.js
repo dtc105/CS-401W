@@ -1,7 +1,6 @@
 //import data from './listSkeletons/checklist.json' assert { type: 'json' };
 
 import { createDoc } from "./pushData.js";
-import { getAllListSkeletons } from "./fetchData.js";
 
 /**
  * Creates a new list , adds initial data, returns the new docs ref
