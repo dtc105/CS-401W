@@ -17,8 +17,8 @@ function List(props){
 
     const [eventID, setEventID] = useState(props.eventID);
     const [listID, setListID] = useState(props.listID);
-    const [listRef, setListRef] = useState({});
-    const [list, setList] = useState({});
+    const [listRef, setListRef] = useState({}); //reference to document, not the doc itself
+    const [list, setList] = useState({}); //copy or snapshot of the document
     const [label, setLabel] = useState("");
     const [listType, setType] = useState("");
     const [keys, setKeys] = useState([]);
@@ -45,15 +45,16 @@ function List(props){
     const switchListType = () => {
         switch(listType){
             case "checkbox":
-                console.log("CHECKBOX", list);
+                //console.log("CHECKBOX", list);
                 return <CheckboxList list={list} listRef={listRef}/>;
             case "calendar":
-                console.log("CALENDAR");
-                break;
+                //console.log("CALENDAR");
+                //return <CalendarList list={list} listRef={listRef}/>;
+                return <h1>That didnt work!!</h1>;
             case "text":
-                return <Text list={list} />;
+                return <Text list={list} listRef={listRef}/>;
             default:
-                console.log(listType);
+                //console.log(listType);
                 return <h1>That didnt work!!</h1>;
         }
     }

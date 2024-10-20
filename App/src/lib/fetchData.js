@@ -103,8 +103,8 @@ export async function getEventsbyOwner(ownerID) {
 export async function getListbyId(eventID, listID) {
     const ref = await doc(db, "planner", eventID);
     const list = await doc(ref, "lists", listID);
-    console.log("*******\ngetListbyID ref:\n ", ref);
-    console.log("*******\ngetListbyID list: \n", list);
+    //console.log("*******\ngetListbyID ref:\n ", ref);
+    //console.log("*******\ngetListbyID list: \n", list);
     //return list.data();
     return list;
 }
@@ -119,7 +119,7 @@ export async function getListsbyEventId(eventID) {
     const lists = await getDocs(collection(ref,"lists"));
     let listOut =[];
     lists.forEach(lists => {
-        console.log("ListsByEventID - lists: ", lists.id);
+        //console.log("ListsByEventID - lists: ", lists.id);
         listOut.push(lists.id);
     });
     

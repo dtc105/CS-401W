@@ -3,6 +3,8 @@ import { createDoc, changeDoc, createEvent} from "../lib/pushData";
 import Event from "./Event"
 import "./list.css";
 
+const eventID = "GvZjTZf1bzjj7mRUSXBk"; // !place holder, will need to 'know' doc you are in
+
 function WorkSpace(){
 
     async function myLoad(){
@@ -37,7 +39,7 @@ function WorkSpace(){
 
     let ownerId = myLoad();
     let eventTemp = getEventsbyOwner(ownerId);
-    //console.log("temp: ", eventTemp);
+    //console.log("WorkSpace: ", eventID);
 
     return(
         <>
@@ -58,7 +60,7 @@ function WorkSpace(){
                     {listEvents}
                 </ul>
 
-                <Event/>
+                <Event eventID={eventID}/>
 
             </main>
         </>

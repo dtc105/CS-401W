@@ -7,10 +7,13 @@ import { createList } from "../lib/newLists";
 import * as templates from "../lib/templates.js"
 import "./list.css";
 
-const eventID = "GvZjTZf1bzjj7mRUSXBk"; // place holder, will need to 'know' doc you are in
+//const eventID = "GvZjTZf1bzjj7mRUSXBk"; // !place holder, will need to 'know' doc you are in !!! now sent from placeholder in workspace
 
-function Event(){
+function Event(props){
 
+    console.log("Events:\n", props.eventID);
+
+    const [eventID, setEventID] = useState(props.eventID); //EventID is sent in from Workspce
     const [chosenTemplate, setTemplate] = useState(undefined);
     const [isDisabled, setIsDisabled] = useState(true); // disables Create List button on load to avoid error; button is enabled be onOptionChangeHandler once a list type is chosen
 
@@ -28,7 +31,7 @@ function Event(){
         const ref = await createList(eventID, chosenTemplate);
 
         //console.log("Create List button pressed\n", ref.id);
-        console.log("Create List button pressed\n", eventIDD);
+        console.log("Create List button pressed\n", eventID);
     }
     
     const [items, setItems] = useState([]);
@@ -65,14 +68,14 @@ function Event(){
 
             <section>
                     <select onChange={onOptionChangeHandler}> {/*makes a dropdowmn menu/list of templates to add to the event*/}
-                    <option value="none" selected disabled hidden>Select an Option</option>
+                    <option value="">Select an Option</option>
                         {Object.keys(templates.listTemplate).map((type, index) =>{
                             return (
                                 <option key={index} value={type}>{type}</option>
                             )
                         })}
 
-                        {console.log("****list templates****: ", templates.value)}
+                        {/*console.log("****list templates****: ", templates.value)*/}
 
                     </select>
                     <button onClick={() => createListBtn()} disabled={isDisabled}>Create List</button>

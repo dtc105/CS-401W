@@ -48,7 +48,7 @@ export function CheckboxList(props){
     const [values, setValues] = useState(Object.values(list.data));
     const [isChecked, setIsChecked] = useState(false);
 
-    console.log("containers - keys: ", values);
+    //console.log("containers - keys: ", values);
     
     function onKeyChange(e, index) {
         const prev = [...keys];
@@ -58,17 +58,25 @@ export function CheckboxList(props){
         setKeys(prev)
     }
 
-    const handleChangeCheckbox = (e, index, values) => {
+    const handleChangeCheckbox = (e, index, values, key) => {
         // Update Firebase when checkbox value changes
-        console.log("HandleChange: \n", list);
-        let docRef = list.path;
-        console.log("HandleChange: dataRef\n", listRef);
-        //let fieldNAme = values[index];
-        updateDoc(listRef, {fieldNAme: !isChecked}); //!currently addind new field to document :(
-        //const dataRef = ref(db, props.list.path);
-        //update(dataRef, !isChecked);
+        //console.log("HandleChange: \n", list);
+        //console.log("lrlrlrlrlrlrlr\nHandleChange: ListRef\n", listRef);
+        let checkBox = !(values[index]);
+        values[index] = checkBox;
+        //console.log("QQQQQQQQQQQQQQQQQ\nHandleChange: checkbox\n", checkBox);
+        switch (checkBox){
+            case isChecked: 
+                updateDoc(listRef, {data: {[key]: !isChecked}});  //!currently replacing data  :(
+                break;
+            case !isChecked:
+                updateDoc(listRef, {data: {[key]: isChecked}}); //!currently replacing data  :(
+                break;
+        }
+        //this.forceUdpate(); //! worked, then it didn't...
+           
       };
-
+      
     return(
         <>
             <main className = "container">
@@ -83,7 +91,7 @@ export function CheckboxList(props){
 
                                 return (
                                     <div className="flex" key={index}>
-                                        <input type="checkbox" checked={values[index]} onChange={(e) => handleChangeCheckbox(e, index, values)}/>
+                                        <input type="checkbox" checked={values[index]} onChange={(e) => handleChangeCheckbox(e, index, values, key)}/>
                                         {/*<input className="rightLabel" type="text" value={key} onChange={(e) => onKeyChange(e, index)} /> */}
                                         <input className="rightLabel" type="text" value={key} onChange={e => setText(e.target.value)} />
                                     </div>
