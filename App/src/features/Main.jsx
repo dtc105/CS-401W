@@ -5,6 +5,7 @@ import RegisterContainer from "../pages/RegisterContainer.jsx";
 import Profile from "../pages/Profile.jsx";
 import Settings from "../pages/Settings.jsx";
 import LoginContainer from "../pages/LoginContainer.jsx";
+import FAQs from "../pages/Settings/FAQs.jsx";
 
 
 /**
@@ -22,6 +23,7 @@ function Main() {
                     <Route path='/profile'  Component={Profile} />
                     <Route path='/settings' Component={Settings} />
                     <Route path='/register' Component={RegisterContainer} />
+		    <Route path='/faqs'     element={<FAQs />} />
 				</Routes>
 			</Router>
         </main>
