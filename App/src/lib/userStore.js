@@ -18,6 +18,7 @@ import { db } from "./firebase.js";
  */
 export const useUserStore = create(persist((set) => ({
         currentUser: null,
+        userId: null,
         removeUser: () => {
             set({currentUser: null});
         },
@@ -29,7 +30,7 @@ export const useUserStore = create(persist((set) => ({
                 const docSnap = await getDoc(docRef);
 
                 docSnap.exists()
-                    ? set({currentUser: docSnap.data(), isLoading: false})
+                    ? set({currentUser: docSnap.data(), isLoading: false, userId: uid})
                     : set({currentUser: null, isLoading: false});
             } catch (e) {
                 console.log(e);

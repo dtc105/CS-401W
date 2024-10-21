@@ -7,11 +7,15 @@ export const userTemplate = {
     "title": "",
     "phone": "",
     "namePrefix": "",
+    "isActive": true,
     "settings": {
-        "key": "value" // !
+        "lightMode": true,
+        "emailNotifs": true,
+        "phoneNotifs": true,
+        "deadlineReminders": true,
     },
     "privacy": {
-        "key": "value" // !
+        "visibility": "friends-only", // Will use public, private, or friends-only at string
     },
     "customLists": []
 };

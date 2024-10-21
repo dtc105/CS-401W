@@ -11,7 +11,7 @@ import Footer from "./features/Footer.jsx";
 function App() {
 
 	const { currentUser, isLoading, fetchUserInfo } = useUserStore();
-
+	
 	useEffect(() => {
 		const unSub = onAuthStateChanged(auth, async (user) => {
 			if (!currentUser) {
@@ -26,11 +26,12 @@ function App() {
 
 	if (isLoading) return <Loading />
 	return (
-		<>
+		// reference to user light/dark mode preference to be inserted in html tag
+		<html> 
 			<Header />
 			<Main />
 			<Footer />
-		</>
+		</ html>
 	)
 }
 

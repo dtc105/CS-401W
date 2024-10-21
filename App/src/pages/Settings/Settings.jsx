@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-
-
+import { deleteUserAccount } from '../../lib/deleteUser';
+import { useUserStore } from "../../lib/userStore";
+import { useNavigate } from 'react-router-dom';
+import { auth } from "../../lib/firebase.js";
 
 function Settings() {
 
+const { currentUser, isLoading, fetchUserInfo, userId, removeUser } = useUserStore();
+const navigate = useNavigate();
+
+console.log(userId);
 
 const options= [
     {
@@ -98,7 +104,14 @@ const options= [
             {
                 name: "Account Deletion",
                 description: "Permanently delete your account",
-            }
+                action: (
+                    <span>
+                        <button onClick = {() => {deleteUserAccount(userId); auth.signOut(); removeUser(); navigate('/');}} className='text-white bg-red-500'>
+                            Delete
+                        </button>
+                    </span>
+                )
+            }      
         ],
 
     },
@@ -236,6 +249,7 @@ const [visibleOptions,setVisibleOptions]=useState(options);
                                         <li className="list-group-tem mb-2">
                                             <h6 style={{textIndent: '10px', fontWeight: 'bold'}}>{value.name}</h6>
                                             <p style={{textIndent: '40px'}}>{value.description}</p>
+                                            {value.action}
                                         </li>
                                     </ul>
                                 </div>
