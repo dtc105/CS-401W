@@ -47,15 +47,14 @@ function List(props){
             case "checkbox":
                 //console.log("CHECKBOX", list);
                 return <CheckboxList list={list} listRef={listRef}/>;
-            case "calendar":
-                //console.log("CALENDAR");
-                //return <CalendarList list={list} listRef={listRef}/>;
-                return <h1>That didnt work!!</h1>;
             case "text":
                 return <Text list={list} listRef={listRef}/>;
+            case "calendar":
+                    //console.log("CALENDAR");
+                    //return <CalendarList list={list} listRef={listRef}/>;
             default:
                 //console.log(listType);
-                return <h1>That didnt work!!</h1>;
+                return <h1>That didnt work!! <h3>{listID}</h3> {listType}</h1>;
         }
     }
 

@@ -40,43 +40,50 @@ export function CheckboxList(props){
 
     const [listRef, setListRef] = useState(props.listRef);
     const [list, setList] = useState(props.list);
-    // const [eventID, setEventID] = useState("");
-    // const [listID, setListID] = useState("");
     const [label, setLabel] = useState(list["ListName"]);
-    //const [listType, setType] = useState("");
-    const [keys, setKeys] = useState(Object.keys(list.data));
-    const [values, setValues] = useState(Object.values(list.data));
-    const [isChecked, setIsChecked] = useState(false);
+    const [keys, setKeys] = useState(Object.keys(list.data)); //textboxs
+    const [values, setValues] = useState(Object.values(list.data)); //isChecked, !isChecked
+    const [isChecked, setIsChecked] = useState(Boolean);
+    const [text, setText] = useState("");
 
-    //console.log("containers - keys: ", values);
-    
-    function onKeyChange(e, index) {
+    /**
+     * Update Firebase when checkbox value changes
+     * @param {*} e event
+     * @param {*} index index value of checkbox on page (not in db)
+     * @param {*} values value of the checkbox (isChecked, !isChecked)
+     * @param {*} key index value of checkbox on page (not in db)
+     */
+    const handleChangeCheckbox = (index, values, keys) => {
+        let checkBox = values[index];
+        values[index] = !checkBox; //! Wont work without this, i think because the page is not updateing, and not pulling fresh data from the db
+        
+        //console.log("QQQQQQQQQQQQQQQQQ\nHandleChange: checkbox\n", checkBox);
+        switch (checkBox){ //Literally used to swith the isChecked value of a check box //! Does not automatically appear on page, but is switching in the db
+            case isChecked: 
+                setDoc(listRef, {data: {[keys]: !isChecked}}, {merge: true});
+                break;
+            case !isChecked:
+                setDoc(listRef, {data: {[keys]: isChecked}}, {merge: true}); 
+                break;
+        }
+           
+      };
+
+      function handleSetText (e) {
+        setText(e.target.value)
+           
+      };
+      function onKeyChange(e, index, keys) {
         const prev = [...keys];
 
         prev[index] = e.target.value;
 
+        //setDoc(listRef, {data: theText}, {merge: true}); //!one keystroke behind?????
+        //setDoc(listRef, {data: {[keys]: !isChecked}}, {merge: true});   
+        //setKeys(e.target.value);
+
         setKeys(prev)
     }
-
-    const handleChangeCheckbox = (e, index, values, key) => {
-        // Update Firebase when checkbox value changes
-        //console.log("HandleChange: \n", list);
-        //console.log("lrlrlrlrlrlrlr\nHandleChange: ListRef\n", listRef);
-        let checkBox = !(values[index]);
-        values[index] = checkBox; //! Wont work without this, i think because the page is not updateing, and not pulling fresh data from the db
-        //console.log("QQQQQQQQQQQQQQQQQ\nHandleChange: checkbox\n", checkBox);
-        switch (checkBox){ //Literally used to swith the isChecked value of a check box //! Does not automatically appear on page, but is switching in the db
-            case isChecked: 
-                setDoc(listRef, {data: {[key]: !isChecked}}, {merge: true});
-                break;
-            case !isChecked:
-                setDoc(listRef, {data: {[key]: isChecked}}, {merge: true}); 
-                break;
-        }
-        //this.forceUdpate(); //! worked, then it didn't...
-        
-           
-      };
       
     return(
         <>
@@ -87,14 +94,11 @@ export function CheckboxList(props){
                     <fieldset className="leftLabel">
                         <legend>{label}</legend>
                         {
-                            keys.map((key, index) => {
-                                //const [text, setText] = useState("");
-
+                            keys.map((keys, index) => {
                                 return (
-                                    <div className="flex" key={index}>
-                                        <input type="checkbox" checked={values[index]} onChange={(e) => handleChangeCheckbox(e, index, values, key)}/>
-                                        {/*<input className="rightLabel" type="text" value={key} onChange={(e) => onKeyChange(e, index)} /> */}
-                                        <input className="rightLabel" type="text" value={key} onChange={e => setText(e.target.value)} />
+                                    <div className="flex" key={keys}>
+                                        <input type="checkbox" checked={values[index]} onChange={(e) => handleChangeCheckbox(index, values, keys)}/>
+                                        <input className="rightLabel" type="text" value={keys} onChange={(e)=>onKeyChange(index, keys)} />
                                     </div>
                                 )
                             })
@@ -104,7 +108,7 @@ export function CheckboxList(props){
                 
                 </form><br />
       
-                <button onClick={changeToDoc}>Change List</button>
+                {/*<button onClick={changeToDoc}>Change List</button>*/}
                
             </main>           
         </>
@@ -112,45 +116,36 @@ export function CheckboxList(props){
     )
 }
 
+/**
+ * Container builder for textarea
+ * @param {*} props 
+ * @returns a form containing a textarea field
+ */
 export function Text(props){
 
+    const [listRef, setListRef] = useState(props.listRef);
     const [list, setList] = useState(props.list);
     const [label, setLabel] = useState(list["ListName"]);
     const [keys, setKeys] = useState(Object.keys(list.data));
     const [values, setValues] = useState(Object.values(list.data));
+    const [theText, setTheText] = useState(props.list.data);
 
-    function onKeyChange(e, index) {
-        const prev = [...keys];
-
-        prev[index] = e.target.value;
-
-        setKeys(prev)
+    function onKeyChange(e) {
+        setDoc(listRef, {data: theText}, {merge: true}); //!one keystroke behind?????   
+        setTheText(e.target.value);
     }
 
+    console.log("RRR\n", list.data);
     return(
         <>
             <main className = "container">
 
                 <form>
-                                       
-                    <fieldset className="leftLabel">
+                    <fieldset>
                         <legend>{label}</legend>
-                        {
-                            keys.map((key, index) => {
-                                return (
-                                    <div className="flex" key={index}>
-                                        <input type="text" value={key} onChange={(e) => onKeyChange(e, index)} />
-                                    </div>
-                                )
-                            })
-                        }
+                        <textarea value={theText} onChange={onKeyChange}/> 
                     </fieldset>
-                    
-                
                 </form><br />
-      
-                <button onClick={changeToDoc}>Change List</button>
-               
             </main>           
         </>
        
