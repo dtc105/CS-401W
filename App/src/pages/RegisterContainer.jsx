@@ -2,6 +2,7 @@ import { auth } from "../lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { createUser } from "../lib/pushData";
+import { useNavigate } from 'react-router-dom';
 
 /**
  * See comments line 19
@@ -10,6 +11,8 @@ import { createUser } from "../lib/pushData";
  */
 function Register() {
     const [isRegistering, setIsRegistering] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
     
     useEffect(() => {
         console.warn("Registering currently needs new field names");
@@ -32,8 +35,14 @@ function Register() {
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
             await createUser(res.user.uid, {username: name, email: email});
+            navigate('/profile');
         } catch (err) {
             console.error(err);
+            if (err.code === 'auth/weak-password') {
+                setErrorMessage('Password must be at least six characters. Please try again.');
+            } else {
+                setErrorMessage('An error occurred. Please try again later.');
+            }
         } finally {
             setIsRegistering(false);
         }
@@ -52,6 +61,7 @@ function Register() {
                 </div>
             
                 <form className="flex flex-col" onSubmit={onSubmit}>
+                {errorMessage && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p>}
                     <div className="pb-2">
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-[#111827]">Name</label>
                         <div className="relative text-gray-400"><span className="absolute inset-y-0 left-0 flex items-center p-1 pl-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></span> 

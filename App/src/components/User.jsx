@@ -117,6 +117,7 @@ function User() {
                                     auth.signOut();
                                     removeUser();
                                     setDropDownOpen(false);
+                                    navToPage('./');
                                 }}
                             >
                                 Log Out
