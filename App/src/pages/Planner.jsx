@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Event from "../components/Event";
+import WorkSpace from "../components/workSpace";
 
 /**
  * Event planner page, the main content of the site
@@ -10,7 +10,7 @@ function Planner() {
     const [isLeftAsideOpen, setIsLeftAsideOpen] = useState(false);
     
     return (
-        <div id="planner" className="h-mainHeight flex">
+        <div id="planner" className="min-h-mainHeight flex">
             <div 
                 id="leftAsidePullout" 
                 className="h-screen bg-300 flex flex-row-reverse border-r border-zinc-100 border-opacity-50"
@@ -30,7 +30,8 @@ function Planner() {
                     </aside>
                 }
             </div>
-                <Event/>
+                <WorkSpace/>
+                
         </div>
     );
 }

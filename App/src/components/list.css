@@ -1,0 +1,48 @@
+* {
+	--lightColor: moccasin; /*no error, dreamweaver doesnt like this code*/
+	--darkColor: darkolivegreen; /*no error, dreamweaver doesnt like this code*/
+}
+
+
+section.listGrid{
+    color:coral;
+    padding: 5px;
+    
+}
+
+form{
+    width: min 10%;
+    display: inline-block;
+    justify-content: center;
+    line-height: 1.5em;
+}
+fieldset {
+    border:solid medium var(--darkColor);
+    border-radius: 10px;		
+}
+.leftLabel label {
+    display: inline-block;
+    width: 140px;
+    padding-right: 10px;
+    text-align: right;
+}
+.rightLabel label{
+    padding-left: 10px;
+}
+.wideInput{
+    width: 75%; 
+    max-width: calc(100% - var(--widthCalc));
+}
+textarea {
+    display: inline-block;
+    width: 90%;
+    aspect-ratio: 8/1;
+    border: medium solid var(--darkColor);
+    border-radius: 10px;
+    padding: 10px;
+}
+button{
+    padding: 20px;
+    border: thin solid green;
+    margin:10px;
+}
