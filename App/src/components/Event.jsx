@@ -7,8 +7,6 @@ import { createList } from "../lib/newLists";
 import * as templates from "../lib/templates.js"
 import "./list.css";
 
-//const eventID = "GvZjTZf1bzjj7mRUSXBk"; // !place holder, will need to 'know' doc you are in !!! now sent from placeholder in workspace
-
 function Event(props){
 
     console.log("Events:\n", props.eventID);

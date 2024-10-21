@@ -4,7 +4,7 @@ import { changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
 import { ref } from "firebase/storage";
 import { db } from "../lib/firebase.js";
-import { updateDoc } from "firebase/firestore";
+import { updateDoc, setDoc } from "firebase/firestore";
 
 
 
@@ -63,17 +63,18 @@ export function CheckboxList(props){
         //console.log("HandleChange: \n", list);
         //console.log("lrlrlrlrlrlrlr\nHandleChange: ListRef\n", listRef);
         let checkBox = !(values[index]);
-        values[index] = checkBox;
+        values[index] = checkBox; //! Wont work without this, i think because the page is not updateing, and not pulling fresh data from the db
         //console.log("QQQQQQQQQQQQQQQQQ\nHandleChange: checkbox\n", checkBox);
-        switch (checkBox){
+        switch (checkBox){ //Literally used to swith the isChecked value of a check box //! Does not automatically appear on page, but is switching in the db
             case isChecked: 
-                updateDoc(listRef, {data: {[key]: !isChecked}});  //!currently replacing data  :(
+                setDoc(listRef, {data: {[key]: !isChecked}}, {merge: true});
                 break;
             case !isChecked:
-                updateDoc(listRef, {data: {[key]: isChecked}}); //!currently replacing data  :(
+                setDoc(listRef, {data: {[key]: isChecked}}, {merge: true}); 
                 break;
         }
         //this.forceUdpate(); //! worked, then it didn't...
+        
            
       };
       
