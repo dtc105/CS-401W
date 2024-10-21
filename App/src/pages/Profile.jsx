@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-// import Avatar from '../components/Avatar.jsx';
-import InfoContainer from "../components/InfoContainer";
-
-function Profile() {
-    return (
-        <InfoContainer />
-        // <Avatar />
-        // <InfoContainer />
-        // <ConnectionsContainerUsers />
-        // <ConnectionsContainerGroups />
-=======
 import { useState } from "react";
 import Avatar from "../components/Avatar.jsx";
 
@@ -86,7 +74,6 @@ function Profile() {
                 </div>
             </div>
         </div>
->>>>>>> origin/design
     )
 }
 

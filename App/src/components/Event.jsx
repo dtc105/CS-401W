@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import List from "./List.jsx";
-
-function Event(){
-    return(
-        <>
-            <List />
-        
-=======
 import { createDoc, changeDoc} from "../lib/pushData";
 import List from "./List.jsx";
 import Form from "./List2.tsx";
@@ -53,7 +44,6 @@ function Event(){
                 </section>
 
             </main>
->>>>>>> origin/design
         </>
     )
 }
