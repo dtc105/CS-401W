@@ -17,6 +17,10 @@ export const userTemplate = {
     "privacy": {
         "visibility": "friends-only", // Will use public, private, or friends-only at string
     },
+    "Events": {
+        "ownedEvents": [],
+        "allowedEvents": []
+    },
     "customLists": []
 };
 
