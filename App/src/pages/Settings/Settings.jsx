@@ -106,7 +106,7 @@ const options= [
                 description: "Permanently delete your account",
                 action: (
                     <span>
-                        <button onClick = {() => {deleteUserAccount(userId); auth.signOut(); removeUser(); navigate('/');}} className='text-white bg-red-500'>
+                        <button onClick = {async() => {await deleteUserAccount(userId); navigate('/');}} className='text-white bg-red-500'>
                             Delete
                         </button>
                     </span>

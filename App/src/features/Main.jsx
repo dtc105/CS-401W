@@ -23,7 +23,7 @@ function Main() {
                     <Route path='/profile'  Component={Profile} />
                     <Route path='/settings' Component={Settings} />
                     <Route path='/register' Component={RegisterContainer} />
-		    <Route path='/faqs'     element={<FAQs />} />
+		            <Route path='/faqs'     Component={FAQs} />
 				</Routes>
 			</Router>
         </main>
