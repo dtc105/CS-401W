@@ -87,24 +87,18 @@ function Event(props){
             
             <section className="listGrid">
                 
-                <ul> Lists{/*List of documents from 'lists' subcollection*/}
-                        {/*eventLists*/}
-                        {items.map((item, index) => (<li key={index}>{item}</li>))}
-                    </ul>
-                
                 <br />
 
-                <ul> Containers{/*List of documents from 'lists' subcollection*/}
-                        {/*eventLists*/}
-                        {items.map((item, index) => (<List eventID={eventID} listID={item}/>))}
-                    </ul>
+                <ul> {/*List of documents from 'lists' subcollection*/}
+                  {/*eventLists*/}
+                  {items.map((item, index) => (<List eventID={eventID} listID={item}/>))}
+                </ul>
                 
                 <br />
 
             </section>
 
         </main>
-                    
                    
         </>
     )

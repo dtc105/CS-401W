@@ -6,110 +6,74 @@ import { ref } from "firebase/storage";
 import { db } from "../lib/firebase.js";
 import { updateDoc, setDoc } from "firebase/firestore";
 
-
-
-//<button onClick={changeToDoc(JSON.stringify(Object.fromEntries(FormData)) )}>Change List</button>
-
-// async function changeToList(listID){
-//     const collectionID = "planner"
-//     const eventID="KP8FdFsBhtWfNIYTY4W1"
-//     const data = {
-//         name: "NEWnaME",
-//         theEnd: 'is the  beginning'
-//     }
-//     const users = await changeDoc(collectionID, eventID, listID, data);
-//     console.log(docID);
-// }
-
-async function changeToDoc(props) {
-    const collectionID = "planner"
-    const docID="PVIm20AiAtRh3Wnbu8Bn"
-    
-    const data = {};
-    keys.forEach((key, index) => {
-        data[key] = values[index]
-    });
-    
-    const event = await changeDoc(collectionID, docID, data);
-    console.log(event);
-    console.log("test change to doc with data")
-    return 0;
-}
-
 export function CheckboxList(props){
 
-    const [listRef, setListRef] = useState(props.listRef);
-    const [list, setList] = useState(props.list);
-    const [label, setLabel] = useState(list["ListName"]);
-    const [keys, setKeys] = useState(Object.keys(list.data)); //textboxs
-    const [values, setValues] = useState(Object.values(list.data)); //isChecked, !isChecked
-    const [isChecked, setIsChecked] = useState(Boolean);
-    const [text, setText] = useState("");
+    const listRef = props.listRef
 
+    const [label, setLabel] = useState(props.list["ListName"]);
+    console.log("Here",props.list.data);
+    const [checkboxes, setCheckboxes] = useState(props.list.data);
+    
     /**
      * Update Firebase when checkbox value changes
-     * @param {*} e event
-     * @param {*} index index value of checkbox on page (not in db)
-     * @param {*} values value of the checkbox (isChecked, !isChecked)
-     * @param {*} key index value of checkbox on page (not in db)
+     * @param {int} index index value of checkbox on page (not in db)
+     * @param {boolean} values value of the checkbox (isChecked, !isChecked)
+     * @param {string} key index value of checkbox on page (not in db)
      */
-    const handleChangeCheckbox = (index, values, keys) => {
-        let checkBox = values[index];
-        values[index] = !checkBox; //! Wont work without this, i think because the page is not updateing, and not pulling fresh data from the db
-        
-        //console.log("QQQQQQQQQQQQQQQQQ\nHandleChange: checkbox\n", checkBox);
-        switch (checkBox){ //Literally used to swith the isChecked value of a check box //! Does not automatically appear on page, but is switching in the db
-            case isChecked: 
-                setDoc(listRef, {data: {[keys]: !isChecked}}, {merge: true});
-                break;
-            case !isChecked:
-                setDoc(listRef, {data: {[keys]: isChecked}}, {merge: true}); 
-                break;
-        }
-           
-      };
+    function handleChangeCheckbox (index) {
+        const checkboxesCopy = [...checkboxes];
+        checkboxesCopy[index].value = !checkboxesCopy[index].value
+        setCheckboxes(checkboxesCopy)
+        updateDoc(listRef, {data: checkboxes});
+    };
 
-      function handleSetText (e) {
-        setText(e.target.value)
-           
-      };
-      function onKeyChange(e, index, keys) {
-        const prev = [...keys];
-
-        prev[index] = e.target.value;
-
-        //setDoc(listRef, {data: theText}, {merge: true}); //!one keystroke behind?????
-        //setDoc(listRef, {data: {[keys]: !isChecked}}, {merge: true});   
-        //setKeys(e.target.value);
-
-        setKeys(prev)
+    function onNameChange(e, index) {
+        const checkboxesCopy = [...checkboxes];
+        checkboxesCopy[index].name = e.target.value;
+        setCheckboxes(checkboxesCopy);
     }
-      
+
     return(
         <>
             <main className = "container">
-
-                <form>
-                                       
+                <form onSubmit={(e) => e.preventDefault()}>
                     <fieldset className="leftLabel">
-                        <legend>{label}</legend>
-                        {
-                            keys.map((keys, index) => {
-                                return (
-                                    <div className="flex" key={keys}>
-                                        <input type="checkbox" checked={values[index]} onChange={(e) => handleChangeCheckbox(index, values, keys)}/>
-                                        <input className="rightLabel" type="text" value={keys} onChange={(e)=>onKeyChange(index, keys)} />
-                                    </div>
-                                )
-                            })
-                        }
+                        <legend>
+                            <input 
+                                className="bg-transparent"
+                                size={label.length - 8}
+                                type="text" value={label} 
+                                onChange={(e) => setLabel(e.target.value)} 
+                                onBlur={() => updateDoc(listRef, {ListName: label})}
+                            />
+                        </legend>
+                        <ul>
+                            {
+                                checkboxes?.map((element, index) => {
+                                    return (
+                                        <li className="flex p-2" key={index}>
+                                            <input 
+                                                type="checkbox" 
+                                                checked={element.value} 
+                                                value={element.value} 
+                                                onChange={(e) => handleChangeCheckbox(index)} 
+                                            />
+                                            <input 
+                                                className="rightLabel" 
+                                                type="text" 
+                                                value={element.name} 
+                                                onChange={(e)=>onNameChange(e, index)} 
+                                                onBlur={() => updateDoc(listRef, {data: checkboxes})}
+                                            />
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
                     </fieldset>
-                    
-                
-                </form><br />
-      
-                {/*<button onClick={changeToDoc}>Change List</button>*/}
-               
+                    <button onClick={() => setCheckboxes(prev => [...prev, {name: "Change Me", value: false}])}>Add</button>
+                </form>
+                <br />
             </main>           
         </>
        
@@ -130,9 +94,10 @@ export function Text(props){
     const [values, setValues] = useState(Object.values(list.data));
     const [theText, setTheText] = useState(props.list.data);
 
-    function onKeyChange(e) {
+    function onNameChange(e) {
+        e.preventDefault();
         setDoc(listRef, {data: theText}, {merge: true}); //!one keystroke behind?????   
-        setTheText(e.target.value);
+        //setTheText(e.target.value);
     }
 
     console.log("RRR\n", list.data);
@@ -140,11 +105,17 @@ export function Text(props){
         <>
             <main className = "container">
 
-                <form>
+                <form onSubmit={(e) => e.preventDefault()}>
                     <fieldset>
                         <legend>{label}</legend>
-                        <textarea value={theText} onChange={onKeyChange}/> 
+                        <textarea 
+                            value={theText} 
+                            onChange={(e)=>setTheText(e.target.value)} 
+                            onBlur={()=>updateDoc(listRef, {data: theText})}/> 
+                        <br />
+                        <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
                     </fieldset>
+               
                 </form><br />
             </main>           
         </>

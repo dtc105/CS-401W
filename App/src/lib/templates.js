@@ -20,9 +20,12 @@ export const listTemplate = {
     "checkbox": {
         "ListName": "Name Me",
         "ListType": "checkbox",
-        "data": {
-            "task": false,
-        },
+        "data": [
+            {
+                "name": "Name Me",
+                "value": false
+            }
+        ], 
         
     },
     "calendar": {
