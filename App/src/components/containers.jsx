@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./list.css";
 import { changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
@@ -6,12 +6,24 @@ import { ref } from "firebase/storage";
 import { db } from "../lib/firebase.js";
 import { updateDoc, setDoc } from "firebase/firestore";
 
+// function handleLegendClick(){
+//     console.log("handleLegendClick");
+//     document.getElementById("editlegend").style.display="flex";
+// }
+
+// function handleLegendUpdate (listRef, legend){
+//     updateDoc(listRef, {ListName: legend});
+//     document.getElementById("editlegend").style.display="none";
+// }
+
 export function CheckboxList(props){
 
     const listRef = props.listRef
+    const legendEdit = useRef(null);
 
-    const [label, setLabel] = useState(props.list["ListName"]);
-    console.log("Here",props.list.data);
+    const [legend, setLegend] = useState(props.list["ListName"]);
+    const [legendEditDisplay, setLegendEditDisplay] = useState("none");
+    //console.log("Here",props.list.data);
     const [checkboxes, setCheckboxes] = useState(props.list.data);
     
     /**
@@ -26,7 +38,7 @@ export function CheckboxList(props){
         setCheckboxes(checkboxesCopy)
         updateDoc(listRef, {data: checkboxes});
     };
-
+    
     function onNameChange(e, index) {
         const checkboxesCopy = [...checkboxes];
         checkboxesCopy[index].name = e.target.value;
@@ -37,15 +49,24 @@ export function CheckboxList(props){
         <>
             <main className = "container">
                 <form onSubmit={(e) => e.preventDefault()}>
-                    <fieldset className="leftLabel">
-                        <legend>
-                            <input 
-                                className="bg-transparent"
-                                size={label.length - 8}
-                                type="text" value={label} 
-                                onChange={(e) => setLabel(e.target.value)} 
-                                onBlur={() => updateDoc(listRef, {ListName: label})}
-                            />
+                    <input 
+                        ref={legendEdit}
+                        type="text" 
+                        value={legend} 
+                        style={{display: legendEditDisplay}}
+                        onChange={(e) => setLegend(e.target.value)} 
+                        onBlur={() => { 
+                            updateDoc(listRef, {ListName: legend});
+                            setLegendEditDisplay("none");
+                            }}
+                    />
+                    <fieldset className="leftlabel">
+                        <legend onClick={()=> {
+                            setLegendEditDisplay("flex");
+                            legendEdit.current.focus();
+                            console.log("click######", legendEdit);
+                        }}>
+                            {legend}
                         </legend>
                         <ul>
                             {
@@ -59,12 +80,13 @@ export function CheckboxList(props){
                                                 onChange={(e) => handleChangeCheckbox(index)} 
                                             />
                                             <input 
-                                                className="rightLabel" 
+                                                className="rightlabel" 
                                                 type="text" 
                                                 value={element.name} 
                                                 onChange={(e)=>onNameChange(e, index)} 
                                                 onBlur={() => updateDoc(listRef, {data: checkboxes})}
                                             />
+                                            <button><img src="../App/public/assets/Button_Delete-01_25095.png" alt="delete" /></button>
                                         </li>
                                     )
                                 })
@@ -89,25 +111,25 @@ export function Text(props){
 
     const [listRef, setListRef] = useState(props.listRef);
     const [list, setList] = useState(props.list);
-    const [label, setLabel] = useState(list["ListName"]);
+    const [legend, setLegend] = useState(list["ListName"]);
     const [keys, setKeys] = useState(Object.keys(list.data));
     const [values, setValues] = useState(Object.values(list.data));
     const [theText, setTheText] = useState(props.list.data);
 
     function onNameChange(e) {
         e.preventDefault();
-        setDoc(listRef, {data: theText}, {merge: true}); //!one keystroke behind?????   
+        setDoc(listRef, {data: theText}, {merge: true});
         //setTheText(e.target.value);
     }
 
-    console.log("RRR\n", list.data);
+    //console.log("RRR\n", list.data);
     return(
         <>
             <main className = "container">
 
                 <form onSubmit={(e) => e.preventDefault()}>
                     <fieldset>
-                        <legend>{label}</legend>
+                        <legend>{legend}</legend>
                         <textarea 
                             value={theText} 
                             onChange={(e)=>setTheText(e.target.value)} 
