@@ -4,7 +4,7 @@ import { changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
 import { ref } from "firebase/storage";
 import { db } from "../lib/firebase.js";
-import { updateDoc, setDoc } from "firebase/firestore";
+import { updateDoc, setDoc, arrayRemove } from "firebase/firestore";
 
 // function handleLegendClick(){
 //     console.log("handleLegendClick");
@@ -25,6 +25,7 @@ export function CheckboxList(props){
     const [legendEditDisplay, setLegendEditDisplay] = useState("none");
     //console.log("Here",props.list.data);
     const [checkboxes, setCheckboxes] = useState(props.list.data);
+    const [nextUID, setNextUID] = useState(0);
     
     /**
      * Update Firebase when checkbox value changes
@@ -86,14 +87,26 @@ export function CheckboxList(props){
                                                 onChange={(e)=>onNameChange(e, index)} 
                                                 onBlur={() => updateDoc(listRef, {data: checkboxes})}
                                             />
-                                            <button><img src="../App/public/assets/Button_Delete-01_25095.png" alt="delete" /></button>
+                                            {/*element.myUID*/} 
+                                            <button 
+                                                className="deleteBTN"
+                                                onClick={()=> {
+                                                    console.log("HELP!!!!", index );
+                                                    updateDoc(listRef, {data: arrayRemove(checkboxes[index])});
+                                                    //! need to refresh page
+                                                    window.location.reload(); //!refreshes entire page :(
+                                                   
+                                                }}                                             
+                                                >
+                                            <img src="../public/assets/Button_Delete-01_25095.png" alt="delete" width="15px" />
+                                            </button>
                                         </li>
                                     )
                                 })
                             }
                         </ul>
                     </fieldset>
-                    <button onClick={() => setCheckboxes(prev => [...prev, {name: "Change Me", value: false}])}>Add</button>
+                    <button onClick={() => setCheckboxes(prev => [...prev, {name: "Change Me", value: false, myUID: 1+Math.random()}])}>Add</button> {/**the random myUid is to ensure that arrayRemove wont delete otherwise identical entries*/}
                 </form>
                 <br />
             </main>           

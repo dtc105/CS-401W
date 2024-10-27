@@ -49,6 +49,10 @@ button{
     border: thin solid green;
     margin:10px;
 }
+.deleteBTN {
+    border: none;
+    padding-left: 10px; 
+}
 
 select, option{
     color: var(--lightColor);

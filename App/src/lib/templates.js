@@ -23,7 +23,8 @@ export const listTemplate = {
         "data": [
             {
                 "name": "Name Me",
-                "value": false
+                "value": false,
+                "myUID" : 0,
             }
         ], 
         
