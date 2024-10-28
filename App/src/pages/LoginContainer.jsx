@@ -133,6 +133,17 @@ function Login() {
                             autocomplete="new-password"
                         />
                     </div>
+
+                    <div className="text-right">
+                        <a
+                            href="#"
+                            onClick={() => navigate("/reset")}
+                            className="text-sm text-[#4F46E5] hover:underline"
+                        >
+                            Forgot Password?
+                        </a>
+
+                    </div>
                 </div>
                 <button 
                     type="submit" 

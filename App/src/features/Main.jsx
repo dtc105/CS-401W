@@ -6,6 +6,7 @@ import Profile from "../pages/Profile.jsx";
 import Settings from "../pages/Settings/Settings.jsx";
 import LoginContainer from "../pages/LoginContainer.jsx";
 import FAQs from "../pages/Settings/FAQs.jsx";
+import ForgotPass from "../pages/Settings/ForgotPass.jsx";
 
 
 /**
@@ -22,8 +23,11 @@ function Main() {
                     <Route path="/login"    Component={LoginContainer} /> 
                     <Route path='/profile'  Component={Profile} />
                     <Route path='/settings' Component={Settings} />
+		            <Route path='/reset'     element={<ForgotPass />} />
                     <Route path='/register' Component={RegisterContainer} />
-		    <Route path='/faqs'     element={<FAQs />} />
+		            <Route path='/faqs'     element={<FAQs />} />
+                    
+
 				</Routes>
 			</Router>
         </main>
