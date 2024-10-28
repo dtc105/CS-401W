@@ -1,7 +1,6 @@
-import { getAllUsers, getOneUser, getEventsbyOwner } from "../lib/fetchData";
-import { createDoc, changeDoc, createEvent} from "../lib/pushData";
-import Event from "./Event"
-import "./list.css";
+import { getAllUsers, getOneUser, getEventsbyOwner } from "../lib/fetchData.js";
+import { createDoc, changeDoc, createEvent} from "../lib/pushData.js";
+import Event from "./Event.jsx"
 
 const eventID = "GvZjTZf1bzjj7mRUSXBk"; // !place holder, will need to 'know' doc you are in
 
@@ -18,8 +17,7 @@ function WorkSpace(){
     async function listEvents(){
         let ownerId = await myLoad();
         let eventTemp = await getEventsbyOwner(ownerId);
-        console.log("temp: ", eventTemp.docs.id);
-        //return <li> {eventTemp.docs.map()}</li>;
+        // return <li> {eventTemp.docs.map()}</li>;
     }
 
     async function createEventBtn(){
@@ -40,30 +38,17 @@ function WorkSpace(){
     let ownerId = myLoad();
     let eventTemp = getEventsbyOwner(ownerId);
     //console.log("WorkSpace: ", eventID);
+    
 
     return(
-        <>
-            
-            
-            <header>
-                <section>
-                    <button onClick={createEventBtn}>Create Event</button>
-                </section>
-                
-            </header>
-            
-            <main>
-               
-                <h2>Some tabs maybe?</h2> <br />
-
-                <ul>
-                    {listEvents}
-                </ul>
-
-                <Event eventID={eventID}/>
-
-            </main>
-        </>
+        <div>
+            <button onClick={createEventBtn} >Create Event</button>
+            {/* <h2>Some tabs maybe?</h2> */}
+            {/* <ul>
+                {listEvents}
+            </ul> */}
+            <Event eventID={eventID}/>
+        </div>
     )
 }
 export default WorkSpace;

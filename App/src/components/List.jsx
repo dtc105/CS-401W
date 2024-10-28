@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import "./list.css";
-import { createDoc, changeDoc } from "../lib/pushData";
-import { getListbyId } from "../lib/fetchData";
-import {CheckboxList, Text} from "./containers";
+import { createDoc, changeDoc } from "../lib/pushData.js";
+import { getListbyId } from "../lib/fetchData.js";
+import { CheckboxList, Text } from "./Containers.jsx";
 import { getDoc } from "firebase/firestore";
 
 /**
@@ -41,11 +40,9 @@ function List(props){
 
     }, []);
 
-    //console.log("list, !getlist: \n", listRef);
     const switchListType = () => {
         switch(listType){
             case "checkbox":
-                //console.log("CHECKBOX", list);
                 return <CheckboxList list={list} listRef={listRef}/>;
             case "text":
                 return <Text list={list} listRef={listRef}/>;
@@ -53,17 +50,12 @@ function List(props){
                     //console.log("CALENDAR");
                     //return <CalendarList list={list} listRef={listRef}/>;
             default:
-                //console.log(listType);
                 return <h1>That didnt work!! <h3>{listID}</h3> {listType}</h1>;
         }
     }
 
     return (
-        <>
-            <div>{switchListType()}</div>
-            <br />
-
-        </>
-    )
+        <li>{switchListType()}</li>
+    );
 }
 export default List;

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import "./list.css";
-import { changeDoc } from "../lib/pushData";
-import { getListbyId } from "../lib/fetchData";
+import { changeDoc }     from "../lib/pushData.js";
+import { getListbyId } from "../lib/fetchData.js";
 import { ref } from "firebase/storage";
 import { db } from "../lib/firebase.js";
 import { updateDoc, setDoc, arrayRemove } from "firebase/firestore";

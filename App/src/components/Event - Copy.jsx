@@ -5,7 +5,6 @@ import ListOld from "./ListPlaceholder.jsx";
 import Form from "./List2.tsx";
 import { createList } from "../lib/newLists";
 import * as templates from "../lib/templates.js"
-import "./list.css";
 
 function Event(){
 

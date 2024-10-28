@@ -5,7 +5,6 @@ import List from "./List.jsx";
 import ListOld from "./ListPlaceholder.jsx";
 import { createList } from "../lib/newLists";
 import * as templates from "../lib/templates.js"
-import "./list.css";
 
 function Event(props){
 
@@ -62,44 +61,39 @@ function Event(props){
     
     return(
         <>
-         <header>
-
-            <section>
-                    <select onChange={onOptionChangeHandler}> {/*makes a dropdowmn menu/list of templates to add to the event*/}
-                    <option value="">Select an Option</option>
-                        {Object.keys(templates.listTemplate).map((type, index) =>{
-                            return (
-                                <option key={index} value={type}>{type}</option>
-                            )
-                        })}
-
-                        {/*console.log("****list templates****: ", templates.value)*/}
-
-                    </select>
-                    <button onClick={() => createListBtn()} disabled={isDisabled}>Create List</button>
-            </section>
-
-        </header>
-
-        <main>
-            
-            <br />
-            
-            <section className="listGrid">
-                
-                <br />
-
-                <ul> {/*List of documents from 'lists' subcollection*/}
-                  {/*eventLists*/}
-                  {items.map((item, index) => (<List eventID={eventID} listID={item}/>))}
-                </ul>
-                
-                <br />
-
-            </section>
-
-        </main>
-                   
+			<form>
+				<section>
+					<select onChange={onOptionChangeHandler}> {/*makes a dropdowmn menu/list of templates to add to the event*/}
+					<option value="">Select an Option</option>
+					{
+						Object.keys(templates.listTemplate).map((type, index) =>{
+							return (
+								<option key={index} value={type}>{type}</option>
+							);
+						})
+					}
+					</select>
+					<button onClick={() => createListBtn()} disabled={isDisabled}>Create List</button>
+				</section>
+			</form>
+			<main>
+				<ul className="grid ">
+					{
+						items.map((item, index) => {
+							return (
+								<li>
+								{/* <button
+									onClick={() => setItems(prev => prev.filter((_, filterIndex) => index != filterIndex))}
+								> */}
+									{/* X
+								</button> */}
+								<List eventID={eventID} listID={item} key={index}/>
+								</li>
+							);
+						})
+					}
+				</ul>
+			</main>
         </>
     )
 }

@@ -26,11 +26,11 @@ function App() {
 
 	if (isLoading) return <Loading />
 	return (
-		<>
+		<html>
 			<Header />
 			<Main />
 			<Footer />
-		</>
+		</html>
 	)
 }
 
