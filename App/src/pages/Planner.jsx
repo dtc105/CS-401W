@@ -13,7 +13,7 @@ function Planner() {
         <div id="planner" className="min-h-mainHeight flex">
             <div 
                 id="leftAsidePullout" 
-                className="h-screen bg-300 flex flex-row-reverse border-r border-zinc-100 border-opacity-50"
+                className="h-screen bg-gray-500 dark:bg-300 flex flex-row-reverse border-r border-zinc-100 border-opacity-50"
                 onMouseEnter={() => setIsLeftAsideOpen(true)}
                 onMouseLeave={() => setIsLeftAsideOpen(false)}
             >
