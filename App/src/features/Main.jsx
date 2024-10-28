@@ -14,7 +14,7 @@ import FAQs from "../pages/Settings/FAQs.jsx";
  */
 function Main() {    
     return (
-        <main className="bg-400 p-14 items-center justify-center">
+        <main className="bg-gray-300 dark:bg-400 text-black dark:text-white p-14 items-center justify-center">
             <Router>
 				<Routes>
 					<Route path="/"         Component={Home} />

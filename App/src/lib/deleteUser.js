@@ -38,7 +38,6 @@ export async function deleteUserAccount(userId) {
     closeButton.innerText = 'Cancel';
     closeButton.className = 'text-gray-500 border-white';
     closeButton.addEventListener('click', closeModal);
-    console.log('Close button created', closeButton);
 
     const closeButtonContainer = document.createElement('div');
     closeButtonContainer.className = 'flex justify-center mt-4';
