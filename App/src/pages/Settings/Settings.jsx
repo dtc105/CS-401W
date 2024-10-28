@@ -36,6 +36,27 @@ const options= [
 
     {
         header: {
+                name: 'Display',
+        },
+
+        values: [
+            {
+                name: 'Toggle Light/Dark Mode',
+                description: 'Set default website display to light or dark variants',
+                action: (
+                    <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" value="" class="sr-only peer"/>
+                            <div class="relative w-11 h-6 bg-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-400 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-300"></div>
+                            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
+                    </label>
+                )
+            },
+            
+        ]
+    },
+
+    {
+        header: {
             name: "Notifications"
         },
 
@@ -105,7 +126,7 @@ const options= [
                 name: "Account Deletion",
                 description: "Permanently delete your account",
                 action: (
-                    <span>
+                    <span className = 'ml-auto'>
                         <button onClick = {async() => {await deleteUserAccount(userId);}} className='text-white bg-red-500 border-black'>Delete</button>
                     </span>
                 )
@@ -224,25 +245,9 @@ const [visibleOptions,setVisibleOptions]=useState(options);
                 {visibleOptions.map((option) => (
                     <div key={option.header.name}>
                         <h3 style={{ fontSize: '20px', textDecoration: 'underline', fontStyle: 'italic'}}>{option.header.name}</h3>
-
                         <div>
-
-
                             {option.values.map((value) => (
-                                <div key={value.name}
-                                
-                                style={{
-                                    border: '2px solid white',
-                                    borderRadius: '10px',
-                                    marginBottom: '20px',
-                                    padding: '15px'
-                                
-                                }}>
-                                
-                                
-
-
-
+                                <div key={value.name} className = 'border-2 border-black dark:border-white rounded text-black dark:text-white mb-4 p-4' >
                                     <ul className="list-group">
                                         <li className="list-group-tem mb-2">
                                             <h6 style={{textIndent: '10px', fontWeight: 'bold'}}>{value.name}</h6>
