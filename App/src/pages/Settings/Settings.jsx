@@ -12,8 +12,14 @@ function Settings() {
                 },
                 {
                     name: "Password Management",
-                    description: "Change/Reset your password",
-                    tags: ["Change Password", "Reset Password"]
+                    description: (
+                        <span>
+                        Forgot Password?{" "}
+                            <a href="/reset" style={{ color: 'blue', textDecoration: 'underline' }}>
+                                Reset Here
+                            </a>
+                        </span>
+                    )
                 }
             ]
         },
