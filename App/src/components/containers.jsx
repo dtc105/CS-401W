@@ -109,9 +109,9 @@ export function Text(props){
 }
 
 /**
- * Container builder for textarea
+ * Container builder for Calendars
  * @param {*} props 
- * @returns a form containing a textarea field
+ * @returns a 
  */
 export function CalendarList(props){
 
@@ -124,6 +124,48 @@ export function CalendarList(props){
             <h2>{props.listRef.id}</h2>
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         
+        </>
+       
+    )
+}
+
+/**
+ * Container builder for textarea
+ * @param {*} props 
+ * @returns a form containing a textarea field
+ */
+export function ContactsList(props){
+
+    const listRef=props.listRef;
+    //const [theText, setTheText] = useState(props.list.data);
+    
+    return(
+        <>
+            <h1>This will be a contacts list</h1>
+            <h2>{props.listRef.id}</h2> 
+            <br />
+            <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
+        </>
+       
+    )
+}
+
+/**
+ * Container builder for textarea
+ * @param {*} props 
+ * @returns a form containing a textarea field
+ */
+export function CustomList(props){
+
+    const listRef=props.listRef;
+    //const [theText, setTheText] = useState(props.list.data);
+    
+    return(
+        <>
+            <h1>This might be a custom list</h1>
+            <h2>{props.listRef.id}</h2> 
+            <br />
+            <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         </>
        
     )

@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import "./list.css";
 import { createDoc, changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
-import { CheckboxList, Text, CalendarList } from "./containers";
+import { CheckboxList, Text, CalendarList, ContactsList, CustomList } from "./containers";
 import { getDoc, updateDoc } from "firebase/firestore";
 
 /**
@@ -41,15 +41,16 @@ function List(props){
         }
         getList();
 
-        setLegend(list["ListName"]);
-
     }, []);
+
+    async function waitForName(){setLegend(await list["ListName"]);}//Makes the render wait for data
+
+    waitForName();
 
     useEffect (()=> {
         if (legendRef.current) legendRef.current.focus();
     }, [inputDisplay]);
 
-    //console.log("list, !getlist: \n", listRef);
     const switchListType = () => {
         switch(listType){
             case "checkbox":
@@ -58,8 +59,12 @@ function List(props){
             case "text":
                 return <Text list={list} listRef={listRef}/>;
             case "calendar":
-                    //console.log("CALENDAR");
-                    return <CalendarList list={list} listRef={listRef}/>;
+                //console.log("CALENDAR");
+                return <CalendarList list={list} listRef={listRef}/>;
+            case "contacts":
+                return <ContactsList list={list} listRef={listRef}/>;
+            case "custom":
+                return <CustomList list={list} listRef={listRef}/>;
             default:
                 //console.log(listType);
                 return <div>That didnt work!! <br />{listID}<br /> {listType}</div>;
@@ -86,6 +91,7 @@ function List(props){
                     )}
                     <fieldset>
                         <legend onClick={() => {setInputDisplay(true);}}>
+                            {waitForName}
                             {legend}
                         </legend>
                         { switchListType() /* Different list formats */} 
