@@ -93,9 +93,7 @@ function Event(props){
                   {/*eventLists*/}
                   {items.map((item, index) => (<List eventID={eventID} listID={item}/>))}
                 </ul>
-                
                 <br />
-
             </section>
 
         </main>

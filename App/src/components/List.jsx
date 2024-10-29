@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./list.css";
 import { createDoc, changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
-import {CheckboxList, Text} from "./containers";
-import { getDoc } from "firebase/firestore";
+import { CheckboxList, Text, CalendarList } from "./containers";
+import { getDoc, updateDoc } from "firebase/firestore";
 
 /**
  * Gets a document from an Events 'lists' sub-collection determined by listID
@@ -15,14 +15,16 @@ import { getDoc } from "firebase/firestore";
  */
 function List(props){
 
-    const [eventID, setEventID] = useState(props.eventID);
-    const [listID, setListID] = useState(props.listID);
+    const legendRef = useRef(null);
+
+    const eventID =props.eventID;
+    const listID = props.listID;
+    
     const [listRef, setListRef] = useState({}); //reference to document, not the doc itself
     const [list, setList] = useState({}); //copy or snapshot of the document
-    const [label, setLabel] = useState("");
     const [listType, setType] = useState("");
-    const [keys, setKeys] = useState([]);
-    const [values, setValues] = useState([]);
+    const [inputDisplay, setInputDisplay] = useState(false);
+    const [legend, setLegend] = useState("");
     
     useEffect(() => {
         
@@ -39,7 +41,13 @@ function List(props){
         }
         getList();
 
+        setLegend(list["ListName"]);
+
     }, []);
+
+    useEffect (()=> {
+        if (legendRef.current) legendRef.current.focus();
+    }, [inputDisplay]);
 
     //console.log("list, !getlist: \n", listRef);
     const switchListType = () => {
@@ -51,19 +59,44 @@ function List(props){
                 return <Text list={list} listRef={listRef}/>;
             case "calendar":
                     //console.log("CALENDAR");
-                    //return <CalendarList list={list} listRef={listRef}/>;
+                    return <CalendarList list={list} listRef={listRef}/>;
             default:
                 //console.log(listType);
-                return <h1>That didnt work!! <h3>{listID}</h3> {listType}</h1>;
+                return <div>That didnt work!! <br />{listID}<br /> {listType}</div>;
         }
     }
 
+    function handleDeleteList(){}
+
     return (
         <>
-            <div>{switchListType()}</div>
-            <br />
-
+            <main className = "container">
+                <form onSubmit={(e) => e.preventDefault()}>
+                    {inputDisplay && (
+                        <input 
+                            ref={legendRef}
+                            type="text" 
+                            value={legend} 
+                            onChange={(e) => setLegend(e.target.value)} 
+                            onBlur={() => { 
+                                updateDoc(listRef, {ListName: legend});
+                                setInputDisplay(false);
+                            }}
+                        />
+                    )}
+                    <fieldset>
+                        <legend onClick={() => {setInputDisplay(true);}}>
+                            {legend}
+                        </legend>
+                        { switchListType() /* Different list formats */} 
+                        <br />
+                    </fieldset>
+                    <button onClick={handleDeleteList} className="btnRight">Delete</button>
+                </form>
+                <br />
+            </main> 
         </>
+
     )
 }
 export default List;

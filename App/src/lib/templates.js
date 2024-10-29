@@ -31,7 +31,7 @@ export const listTemplate = {
     },
     "calendar": {
         "NOT IMPLEMENTED": "",
-        "ListName": "",
+        "ListName": "My Calendar",
         "ListType": "calendar",
         "data": {
             "label": "",
@@ -44,7 +44,7 @@ export const listTemplate = {
         "data": "start here",
     },
     "contacts": {
-        "ListName": "",
+        "ListName": "My Contacts",
         "ListType": "contacts",
         "data": {
             "label": "",
@@ -52,7 +52,7 @@ export const listTemplate = {
         },
     },
     "custom": {
-        "ListName": "",
+        "ListName": "Something Custom",
         "ListType": "custom",
         "data": {
             "label": "",
