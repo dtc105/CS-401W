@@ -35,7 +35,7 @@ function Register() {
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
             await createUser(res.user.uid, {username: name, email: email});
-            navigate('/profile');
+            navigate('/otp');
         } catch (err) {
             console.error(err);
             if (err.code === 'auth/weak-password') {
