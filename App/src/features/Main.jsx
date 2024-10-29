@@ -15,7 +15,7 @@ import ForgotPass from "../pages/Settings/ForgotPass.jsx";
  */
 function Main() {    
     return (
-        <main className="bg-400 p-14 items-center justify-center">
+        <main className="bg-gray-300 dark:bg-400 text-black dark:text-white p-14 items-center justify-center">
             <Router>
 				<Routes>
 					<Route path="/"         Component={Home} />
@@ -25,9 +25,13 @@ function Main() {
                     <Route path='/settings' Component={Settings} />
 		            <Route path='/reset'     element={<ForgotPass />} />
                     <Route path='/register' Component={RegisterContainer} />
+<<<<<<< HEAD
 		            <Route path='/faqs'     element={<FAQs />} />
                     
 
+=======
+		            <Route path='/faqs'     Component={FAQs} />
+>>>>>>> 88e51ac30bea2c00cbd04973f5df53118cf61136
 				</Routes>
 			</Router>
         </main>

@@ -20,21 +20,21 @@ export const useUserStore = create(persist((set) => ({
         currentUser: null,
         userId: null,
         removeUser: () => {
-            set({currentUser: null});
+            set({currentUser: null, userId: null});
         },
         isLoading: true,
         fetchUserInfo: async (uid) => {
-            if (!uid) return set({currentUser: null, isLoading: false});
+            if (!uid) return set({currentUser: null, isLoading: false, userId: null});
             try {
                 const docRef = doc(db, "users", uid);
                 const docSnap = await getDoc(docRef);
 
                 docSnap.exists()
                     ? set({currentUser: docSnap.data(), isLoading: false, userId: uid})
-                    : set({currentUser: null, isLoading: false});
+                    : set({currentUser: null, isLoading: false, userId: null});
             } catch (e) {
                 console.log(e);
-                set({currentUser: null, isLoading: false});
+                set({currentUser: null, isLoading: false, userId: null});
             }
         }
     }),
