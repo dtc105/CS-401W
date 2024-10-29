@@ -25,13 +25,7 @@ function Main() {
                     <Route path='/settings' Component={Settings} />
 		            <Route path='/reset'     element={<ForgotPass />} />
                     <Route path='/register' Component={RegisterContainer} />
-<<<<<<< HEAD
-		            <Route path='/faqs'     element={<FAQs />} />
-                    
-
-=======
 		            <Route path='/faqs'     Component={FAQs} />
->>>>>>> 88e51ac30bea2c00cbd04973f5df53118cf61136
 				</Routes>
 			</Router>
         </main>
