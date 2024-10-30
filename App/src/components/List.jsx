@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import "./list.css";
 import { createDoc, changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
-import { CheckboxList, Text, CalendarList, ContactsList, CustomList } from "./containers";
+import { CheckboxList, Text, CalendarList, ContactsList, CustomList} from "./containers";
 import { getDoc, updateDoc } from "firebase/firestore";
 
 /**
@@ -37,15 +37,15 @@ function List(props){
             //setList(listref);
             setType((await getDoc(listref)).data()["ListType"]);
             //console.log("#####\nlist.jsx, getlist list: \n", list);
-        
+            setLegend(await list["ListName"]);
         }
         getList();
 
     }, []);
 
-    async function waitForName(){setLegend(await list["ListName"]);}//Makes the render wait for data
+    //async function waitForName(){setLegend(await list["ListName"]);}//Makes the render wait for data
 
-    waitForName();
+    //waitForName(); //! freezes up whole page :(
 
     useEffect (()=> {
         if (legendRef.current) legendRef.current.focus();
@@ -71,7 +71,7 @@ function List(props){
         }
     }
 
-    function handleDeleteList(){}
+    function handleDeleteList(){console.log("Delete does nothing ATT")} //! needs code
 
     return (
         <>
@@ -91,7 +91,7 @@ function List(props){
                     )}
                     <fieldset>
                         <legend onClick={() => {setInputDisplay(true);}}>
-                            {waitForName}
+                            {/**waitForName*/}
                             {legend}
                         </legend>
                         { switchListType() /* Different list formats */} 

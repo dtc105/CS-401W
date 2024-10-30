@@ -9,7 +9,7 @@ import "./list.css";
 
 function Event(props){
 
-    console.log("Events:\n", props.eventID);
+    //console.log("Events:\n", props.eventID);
 
     const [eventID, setEventID] = useState(props.eventID); //EventID is sent in from Workspce
     const [chosenTemplate, setTemplate] = useState(undefined);

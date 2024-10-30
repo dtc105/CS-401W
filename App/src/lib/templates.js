@@ -46,10 +46,32 @@ export const listTemplate = {
     "contacts": {
         "ListName": "My Contacts",
         "ListType": "contacts",
-        "data": {
+        "data": [{
             "label": "",
-            "value": [],
-        },
+            "nameFirst": "FirstName",
+            "nameLast": "Last Name",
+            "nameMiddle": "MiddleName",
+            "namePrefix": "Mrs., Mr., Dr., etc..",
+            "nameSuffix": "Sr, Jr, III",
+            "email": [{
+                "label": "work, personal, school",
+                "emailAdress": "me@email.com",
+            }],
+            "phoneNumbers": [{
+                "label": "home, work, cell",
+                "number": "1234567890",
+                "extention": "12345",
+            }],
+            "physicalAddress": [{
+                "label": "buisness, home, mailing, etc...",
+                "streetOne": "123 Anywhere St",
+                "streetTwo": "suite, apt, care of",
+                "city": "City, Town",
+                "state": "state/province",
+                "country": "USA",
+                "zipCode": "12345",
+            }],
+        }],
     },
     "custom": {
         "ListName": "Something Custom",
@@ -59,4 +81,41 @@ export const listTemplate = {
             "value": {},
         },
     }
+}
+
+export const newContact = {
+    "label": "Some label",
+    "nameFirst": "FirstName",
+    "nameLast": "Last Name",
+    "nameMiddle": "MiddleName",
+    "namePrefix": "Mrs., Mr., Dr., etc..",
+    "nameSuffix": "Sr, Jr, III",
+    "email": [{
+        "label": "work, personal, school",
+        "emailAddress": "me@email.com",
+    }],
+    "phoneNumbers": [{
+        "label": "home, work, cell",
+        "number": "1234567890",
+        "extention": "12345",
+    }],
+    "physicalAddress": [{
+        "label": "buisness, home, mailing, etc...",
+        "streetOne": "123 Anywhere St",
+        "streetTwo": "suite, apt, care of",
+        "city": "City, Town",
+        "state": "state/province",
+        "country": "USA",
+        "zipCode": "12345",
+    }],
+}
+
+export const newAddress = {
+    "label": "buisness, home, mailing, etc...",
+    "streetOne": "123 Anywhere St",
+    "streetTwo": "suite, apt, care of",
+    "city": "City, Town",
+    "state": "state/province",
+    "country": "USA",
+    "zipCode": "12345",
 }

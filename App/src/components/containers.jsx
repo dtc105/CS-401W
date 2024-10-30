@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Popup from "reactjs-popup";
 import "./list.css";
 import { changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
@@ -70,7 +71,7 @@ export function CheckboxList(props){
                                     setCheckboxes(prev => prev.filter((_, filterIndex) => index != filterIndex));
                                 }}                                             
                                 >
-                            <img src="../public/assets/Button_Delete-01_25095.png" alt="delete" width="15px" />
+                            <img src="/assets/Button_Delete-01_25095.png" alt="delete" width="15px" />
                             </button>
                         </li>
                     )
@@ -100,9 +101,9 @@ export function Text(props){
             <textarea 
                 value={theText} 
                 onChange={(e)=>setTheText(e.target.value)} 
-                onBlur={()=>updateDoc(listRef, {data: theText})}/> 
+                onBlur={()=>updateDoc(props.listRef, {data: theText})}/> 
             <br />
-            <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
+            <button onClick={()=>updateDoc(props.listRef, {data: theText}, {merge: true})}>Update</button>
         </>
        
     )
@@ -111,7 +112,7 @@ export function Text(props){
 /**
  * Container builder for Calendars
  * @param {*} props 
- * @returns a 
+ * @returns a //!
  */
 export function CalendarList(props){
 
@@ -119,20 +120,17 @@ export function CalendarList(props){
 
     return(
         <>
-       
             <h1>This will be a calendar</h1>
             <h2>{props.listRef.id}</h2>
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
-        
         </>
-       
     )
 }
 
 /**
- * Container builder for textarea
+ * Container builder for Contacts
  * @param {*} props 
- * @returns a form containing a textarea field
+ * @returns a form containing //!
  */
 export function ContactsList(props){
 
@@ -143,6 +141,71 @@ export function ContactsList(props){
         <>
             <h1>This will be a contacts list</h1>
             <h2>{props.listRef.id}</h2> 
+            <br/>
+            <ul>
+                {
+                props.list.data?.map((element, index) => {
+                    return (
+                        <li className="flex p-2" key={index}>
+                            {element.label}<br/>
+                            Name: {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}<br/>
+                            
+                            
+                            <Popup trigger=
+                                {<button> Click to open modal </button>} 
+                                modal nested>
+                                {
+                                    close => (
+                                        <div className='modal'>
+                                            <div className='content'>
+                                                Welcome to GFG!!!
+                                            </div>
+                                            <div>
+                                                <button onClick=
+                                                    {() => close()}>
+                                                        Close modal
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            </Popup>
+
+                            <ul>email Addresses:
+                                {
+                                element.email?.map((elementEmail, indexEmail) => {
+                                    return (
+                                        <li className="flex p-2" key={indexEmail}>
+                                            {elementEmail.label}<br/>
+                                            email Adresses: {elementEmail.emailAddress}
+                                        </li>
+                                )})}
+                            </ul>
+                            <ul>Addresses:
+                                {
+                                element.physicalAddress?.map((elementPA, indexPA) => {
+                                    return (
+                                        <li className="flex p-2" key={indexPA}>
+                                            {elementPA.label}<br/>
+                                            Street: {elementPA.streetOne}<br/>
+                                            Street: {elementPA.streetTwo}<br/>
+                                            City: {elementPA.city}  State: {elementPA.state} Zip Code: {elementPA.zipCode}
+                                        </li>
+                                )})}
+                            </ul>
+                            <ul>Phone Numbers:
+                                {
+                                element.phoneNumbers?.map((elementPhone, indexPhone) => {
+                                    return (
+                                        <li className="flex p-2" key={indexPhone}>
+                                            {elementPhone.label} {elementPhone.number}
+                                        </li>
+                                )})}
+                            </ul>
+                        </li>
+                        )})
+                }
+            </ul>
             <br />
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         </>
@@ -151,9 +214,9 @@ export function ContactsList(props){
 }
 
 /**
- * Container builder for textarea
+ * Container builder for Custom Lists //!Maybe
  * @param {*} props 
- * @returns a form containing a textarea field
+ * @returns a form containing //!
  */
 export function CustomList(props){
 
