@@ -40,6 +40,8 @@ function Register() {
             console.error(err);
             if (err.code === 'auth/weak-password') {
                 setErrorMessage('Password must be at least six characters. Please try again.');
+            } else if (err.code === 'auth/email-already-in-use') {
+                setErrorMessage('Email already in use. Please try another email.');
             } else {
                 setErrorMessage('An error occurred. Please try again later.');
             }
