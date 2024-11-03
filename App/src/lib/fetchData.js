@@ -1,5 +1,5 @@
 import { db } from "../lib/firebase.js";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, getDoc, doc } from "firebase/firestore";
 
 /**
  * Returns all users
@@ -118,6 +118,28 @@ export async function getAllListSkeletons() {
         return querySnapshot.docs.map((doc) => doc.data());
     } catch (e) {
         console.error(e);
+    }
+}
+
+export function getKeyValue(userID, keyName) {
+    try {
+        let userIDString = JSON.stringify(userID);
+        const userDoc = doc(db, 'users', userIDString);
+
+        const docSnap = getDoc(userDoc);
+        console.log(docSnap);
+
+        if (docSnap.exists()) {
+            const customLists = docSnap.data().customLists;
+
+            const keyValue = customLists[keyName];
+            console.log(`Value of ${keyName}:`, keyValue);
+            return keyValue;
+        } else {
+            console.log('Data does not exist.');
+        }
+    } catch (error) {
+        console.log('Error retrieving data', error);
     }
 }
 
