@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useUserStore } from "../lib/userStore.js";
+import { getKeyValue } from "../lib/fetchData.js";
 import Avatar from "../components/Avatar.jsx";
 
 function Profile() {
+    const { userId } = useUserStore();
+    const fName = getKeyValue(userId, 'fName');
 
     const [userDetails, setUserDetails] = useState([
         {

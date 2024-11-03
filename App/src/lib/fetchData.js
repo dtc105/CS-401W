@@ -121,18 +121,13 @@ export async function getAllListSkeletons() {
     }
 }
 
-export function getKeyValue(userID, keyName) {
+export async function getKeyValue(userID, keyName) {
     try {
-        let userIDString = JSON.stringify(userID);
-        const userDoc = doc(db, 'users', userIDString);
-
-        const docSnap = getDoc(userDoc);
-        console.log(docSnap);
+        const docRef = doc(db, "users", userID);
+        const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            const customLists = docSnap.data().customLists;
-
-            const keyValue = customLists[keyName];
+            const keyValue = docSnap.data()[keyName];
             console.log(`Value of ${keyName}:`, keyValue);
             return keyValue;
         } else {
