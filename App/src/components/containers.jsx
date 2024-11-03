@@ -6,6 +6,7 @@ import { getListbyId } from "../lib/fetchData";
 import { ref } from "firebase/storage";
 import { db } from "../lib/firebase.js";
 import { updateDoc, setDoc, arrayRemove, deleteDoc } from "firebase/firestore";
+import * as templates from "../lib/templates.js";
 
 // function handleLegendClick(){
 //     console.log("handleLegendClick");
@@ -120,8 +121,8 @@ export function CalendarList(props){
 
     return(
         <>
-            <h1>This will be a calendar</h1>
-            <h2>{props.listRef.id}</h2>
+            <b>This will be a calendar</b>
+            <b>{props.listRef.id}</b>
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         </>
     )
@@ -135,76 +136,130 @@ export function CalendarList(props){
 export function ContactsList(props){
 
     const listRef=props.listRef;
-    //const [theText, setTheText] = useState(props.list.data);
+    const [contacts, setContacts] = useState(props.list.data);
+    const [tData, setTData] = useState(props);
+
+    function handleAddContact(){
+        const templateData = templates.newContact;
+        console.log("add Contact:\n", templateData, "\nContacts:\n", contacts);
+        return(displayContact(templateData));
+        //setContacts(prev => [...prev, {templateData}]);
+    }
+
+    function displayContact(props){
+
+        return(
+            <div className='modal bg-black p-2 rounded border-2 border-green-500/100'>
+                <div className='content text-green-500'>
+                <b>Name:</b> <br />
+                <label for="prefix">Prefix: </label> <input type="text" placeholder={props.namePrefix} id="prefix"/> <br />
+                <label>First Name: </label> <input type="text" placeholder={props.nameFirst}/><br />
+                <label>Last Name: </label><input type="text" placeholder={props.nameLast}/><br />
+                <label>Middle Name:</label> <input type="text" placeholder={props.nameMiddle}/><br />
+                <label>Suffix:</label> <input type="text" placeholder={props.nameSuffix}/><br />
+                
+                <ul><b>email Addresses:</b>
+                    {
+                    props.email?.map((elementEmail, indexEmail) => {
+                        return (
+                            <li className="flex px-2" key={indexEmail}>
+                                {elementEmail.label}: {elementEmail.emailAddress}
+                            </li>
+                    )})}
+                </ul>
+                <ul><b>Phone Numbers:</b>
+                    {
+                    props.phoneNumbers?.map((elementPhone, indexPhone) => {
+                        return (
+                            <li className="flex px-2" key={indexPhone}>
+                                {elementPhone.label}: {elementPhone.number}
+                            </li>
+                    )})}
+                </ul>
+                <ul><b>Addressess:</b>
+                    {
+                    props.physicalAddress?.map((elementPA, indexPA) => {
+                        return (
+                            <li className="flex px-2" key={indexPA}>
+                                <p>{elementPA.label}</p><br/>
+                                Street: {elementPA.streetOne}<br/>
+                                Street: {elementPA.streetTwo}<br/>
+                                City: {elementPA.city}  State: {elementPA.state} Zip Code: {elementPA.zipCode}
+                            </li>
+                    )})}
+                </ul>
+                </div>
+            </div>
+        )
+    }
     
     return(
         <>
-            <h1>This will be a contacts list</h1>
-            <h2>{props.listRef.id}</h2> 
+            <b>This will be a contacts list</b>
+            <b>{props.listRef.id}</b> 
             <br/>
             <ul>
                 {
                 props.list.data?.map((element, index) => {
                     return (
                         <li className="flex p-2" key={index}>
-                            {element.label}<br/>
-                            Name: {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}<br/>
-                            
-                            
-                            <Popup trigger=
-                                {<button> Click to open modal </button>} 
+                            <Popup trigger= /**https://www.geeksforgeeks.org/how-to-create-popup-box-in-reactjs/ */
+                                {
+                                    <div className="cursor-pointer"><u>{element.label}</u></div>
+                                } 
                                 modal nested>
                                 {
                                     close => (
-                                        <div className='modal'>
+                                        <div className='modal bg-black p-2 rounded border-2 border-green-500/100'>
                                             <div className='content'>
-                                                Welcome to GFG!!!
+                                            <b>Name:</b> {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
+                                            <ul><b>email Addresses:</b>
+                                                {
+                                                element.email?.map((elementEmail, indexEmail) => {
+                                                    return (
+                                                        <li className="flex px-2" key={indexEmail}>
+                                                            {elementEmail.label}: {elementEmail.emailAddress}
+                                                        </li>
+                                                )})}
+                                            </ul>
+                                            <ul><b>Phone Numbers:</b>
+                                                {
+                                                element.phoneNumbers?.map((elementPhone, indexPhone) => {
+                                                    return (
+                                                        <li className="flex px-2" key={indexPhone}>
+                                                            {elementPhone.label}: {elementPhone.number}
+                                                        </li>
+                                                )})}
+                                            </ul>
+                                            <ul><b>Addressess:</b>
+                                                {
+                                                element.physicalAddress?.map((elementPA, indexPA) => {
+                                                    return (
+                                                        <li className="flex px-2" key={indexPA}>
+                                                            <p>{elementPA.label}</p><br/>
+                                                            Street: {elementPA.streetOne}<br/>
+                                                            Street: {elementPA.streetTwo}<br/>
+                                                            City: {elementPA.city}  State: {elementPA.state} Zip Code: {elementPA.zipCode}
+                                                        </li>
+                                                )})}
+                                            </ul>
                                             </div>
                                             <div>
                                                 <button onClick=
                                                     {() => close()}>
-                                                        Close modal
+                                                        Close
                                                 </button>
                                             </div>
                                         </div>
                                     )
                                 }
                             </Popup>
-
-                            <ul>email Addresses:
-                                {
-                                element.email?.map((elementEmail, indexEmail) => {
-                                    return (
-                                        <li className="flex p-2" key={indexEmail}>
-                                            {elementEmail.label}<br/>
-                                            email Adresses: {elementEmail.emailAddress}
-                                        </li>
-                                )})}
-                            </ul>
-                            <ul>Addresses:
-                                {
-                                element.physicalAddress?.map((elementPA, indexPA) => {
-                                    return (
-                                        <li className="flex p-2" key={indexPA}>
-                                            {elementPA.label}<br/>
-                                            Street: {elementPA.streetOne}<br/>
-                                            Street: {elementPA.streetTwo}<br/>
-                                            City: {elementPA.city}  State: {elementPA.state} Zip Code: {elementPA.zipCode}
-                                        </li>
-                                )})}
-                            </ul>
-                            <ul>Phone Numbers:
-                                {
-                                element.phoneNumbers?.map((elementPhone, indexPhone) => {
-                                    return (
-                                        <li className="flex p-2" key={indexPhone}>
-                                            {elementPhone.label} {elementPhone.number}
-                                        </li>
-                                )})}
-                            </ul>
+                            <br />
+                            {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
                         </li>
                         )})
                 }
+                <Popup trigger= {<button>Add</button>} modal nested>{close => ( <div>here {handleAddContact()}</div> )}</Popup>
             </ul>
             <br />
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
@@ -225,8 +280,8 @@ export function CustomList(props){
     
     return(
         <>
-            <h1>This might be a custom list</h1>
-            <h2>{props.listRef.id}</h2> 
+            <b>This might be a custom list</b>
+            <b>{props.listRef.id}</b> 
             <br />
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         </>
