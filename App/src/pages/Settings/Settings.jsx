@@ -22,8 +22,6 @@ const options= [
                 name: "Profile Info", 
                 description: "Manage your account information",
                 tags: ["Name", "Email", "Profile Picture", "Phone Number"],
-
-
             },
             {
                 name: "Password Management",
@@ -249,8 +247,14 @@ const [visibleOptions,setVisibleOptions]=useState(options);
                             {option.values.map((value) => (
                                 <div key={value.name} className = 'border-2 border-black dark:border-white rounded text-black dark:text-white mb-4 p-4' >
                                     <ul className="list-group">
+                                        {value.name === "Profile Info" ? (
+                                            <a href='/edit'>
+                                                {value.name}
+                                            </a>
+                                        ) : (
+                                            value.name
+                                        )}
                                         <li className="list-group-tem mb-2">
-                                            <h6 style={{textIndent: '10px', fontWeight: 'bold'}}>{value.name}</h6>
                                             <p style={{textIndent: '40px'}}>{value.description}</p>
                                             {value.action}
                                         </li>

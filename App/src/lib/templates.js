@@ -1,13 +1,16 @@
 export const userTemplate = {
-    "fName": "",
-    "lName": "",
-    "username": "",
-    "email": "",
-    "organization": "",
-    "title": "",
-    "phone": "",
-    "namePrefix": "",
     "isActive": true,
+    "details": {
+        "name": "",
+        "username": "",
+        "emailPref": "",
+        "organization": "",
+        "title": "",
+        "phone": "",
+        "namePrefix": ""
+    },
+    "groups": [],
+    "connections": [],
     "settings": {
         "lightMode": true,
         "emailNotifs": true,
