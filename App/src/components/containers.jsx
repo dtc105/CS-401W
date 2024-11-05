@@ -88,7 +88,7 @@ export function CheckboxList(props){
 }
 
 /**
- * Container builder for textarea
+ * Container builder htmlFor textarea
  * @param {*} props 
  * @returns a form containing a textarea field
  */
@@ -111,7 +111,7 @@ export function Text(props){
 }
 
 /**
- * Container builder for Calendars
+ * Container builder htmlFor Calendars
  * @param {*} props 
  * @returns a //!
  */
@@ -129,7 +129,7 @@ export function CalendarList(props){
 }
 
 /**
- * Container builder for Contacts
+ * Container builder htmlFor Contacts
  * @param {*} props 
  * @returns a form containing //!
  */
@@ -142,28 +142,78 @@ export function ContactsList(props){
     function handleAddContact(){
         const templateData = templates.newContact;
         console.log("add Contact:\n", templateData, "\nContacts:\n", contacts);
-        return(displayContact(templateData));
+        return(add_changeContact(templateData));
         //setContacts(prev => [...prev, {templateData}]);
     }
 
-    function displayContact(props){
+    function handleSubmit(e){
+        const formValues = e.target.elements;
+        //console.log(e.target.elements);
+        //console.log("Submit", e.target.elements.namePrefix.value);
+        Object.keys(e.target.elements).map((element)=> {
+            const f=e.target.elements[element].value;
+            //console.log("Submit-map",element, f)
+        })
+
+        const jsonString = {
+            "label": formValues.nameLabel.value,
+            "nameFirst": formValues.nameFirst.value,
+            "nameLast": formValues.nameLast.value,
+            "nameMiddle": formValues.nameMiddle.value,
+            "namePrefix": formValues.namePrefix.value,
+            "nameSuffix": formValues.nameSuffix.value,
+            "email": [{
+                "label": formValues.emailLabel.value,
+                "emailAddress": formValues.emailAddress.value,
+            }],
+            "phoneNumbers": [{
+                "label": formValues.phoneLabel.value,
+                "number": formValues.number.value,
+                "extention": formValues.extension.value,
+            }],
+            "physicalAddress": [{
+                "label": formValues.addressLabel.value,
+                "streetOne": formValues.streetOne.value,
+                "streetTwo": formValues.streetOne.value,
+                "city": formValues.city.value,
+                "state": formValues.state.value,
+                "country": "USA",
+                "zipCode": formValues.zipCode.value,
+            }],
+        }
+        console.log("submitJson", jsonString);
+
+    }
+
+    function add_changeContact(props){
 
         return(
-            <div className='modal bg-black p-2 rounded border-2 border-green-500/100'>
-                <div className='content text-green-500'>
+            <form onSubmit={(e) => handleSubmit(e)} className='modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100'>
+                <div className='text-green-500'>
                 <b>Name:</b> <br />
-                <label for="prefix">Prefix: </label> <input type="text" placeholder={props.namePrefix} id="prefix"/> <br />
-                <label>First Name: </label> <input type="text" placeholder={props.nameFirst}/><br />
-                <label>Last Name: </label><input type="text" placeholder={props.nameLast}/><br />
-                <label>Middle Name:</label> <input type="text" placeholder={props.nameMiddle}/><br />
-                <label>Suffix:</label> <input type="text" placeholder={props.nameSuffix}/><br />
-                
+                <div className="grid grid-cols-[auto_1fr] gap-1">
+                    <label className="text-right">Nick Name: </label> <input type="text" placeholder={props.label} id="nameLabel"/>
+                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" placeholder={props.namePrefix} id="namePrefix"/>
+                    <label className="text-right">First Name: </label> <input type="text" placeholder={props.nameFirst} id="nameFirst"/>
+                    <label className="text-right">Middle Name: </label> <input type="text" placeholder={props.nameMiddle} id="nameMiddle"/>
+                    <label className="text-right">Last Name: </label><input type="text" placeholder={props.nameLast} id="nameLast"/>
+                    <label className="text-right">Suffix:</label> <input type="text" placeholder={props.nameSuffix} id="nameSuffix"/>
+                </div>
                 <ul><b>email Addresses:</b>
                     {
                     props.email?.map((elementEmail, indexEmail) => {
                         return (
                             <li className="flex px-2" key={indexEmail}>
-                                {elementEmail.label}: {elementEmail.emailAddress}
+                                <div className="grid grid-cols-[auto_1fr] gap-1">
+                                    <select name="emailLabel" id="emailLabel">
+                                        <option value="">Select</option>
+                                        <option value="Work">Work</option>
+                                        <option value="Personal">Personal</option>
+                                        <option value="School">School</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                <input type="email" placeholder={elementEmail.emailAddress} id="emailAddress"/>
+                                </div>
                             </li>
                     )})}
                 </ul>
@@ -172,7 +222,17 @@ export function ContactsList(props){
                     props.phoneNumbers?.map((elementPhone, indexPhone) => {
                         return (
                             <li className="flex px-2" key={indexPhone}>
-                                {elementPhone.label}: {elementPhone.number}
+                                <div className="grid grid-cols-[auto_1fr] gap-1">
+                                    <select name="phoneLabel" id="phoneLabel">
+                                        <option value="">Select</option>
+                                        <option value="Work">Work</option>
+                                        <option value="Home">Home</option>
+                                        <option value="Cell">Cell</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" placeholder={elementPhone.number} id="number"/>
+                                <label className="text-right" htmlFor="extension">Ext.</label><input type="text" placeholder="123" id="extension"/>
+                                </div>
                             </li>
                     )})}
                 </ul>
@@ -180,30 +240,42 @@ export function ContactsList(props){
                     {
                     props.physicalAddress?.map((elementPA, indexPA) => {
                         return (
-                            <li className="flex px-2" key={indexPA}>
-                                <p>{elementPA.label}</p><br/>
-                                Street: {elementPA.streetOne}<br/>
-                                Street: {elementPA.streetTwo}<br/>
-                                City: {elementPA.city}  State: {elementPA.state} Zip Code: {elementPA.zipCode}
+                            <li className="flex flex-col  px-2" key={indexPA}>
+                                <section className="grid gap-1">
+                                    <select name="addressLabel" id="addressLabel" className="w-24">
+                                        <option value="">Select</option>
+                                        <option value="Buisness">Buisness</option>
+                                        <option value="Home">Home</option>
+                                        <option value="Mailing">Mailing</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <div className="grid grid-cols-[auto_1fr] gap-1">
+                                        <label htmlFor="streetOne">Street:</label> <input type="text" placeholder={elementPA.streetOne} id="streetOne"/>
+                                        <label htmlFor="streetTwo">Street:</label> <input type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
+                                    </div>
+                                    <div>  
+                                        <label htmlFor="city">City:</label> <input className="w-32" type="text" placeholder={elementPA.city} id="city" />
+                                        <label htmlFor="state"> State:</label> <input className="w-32" type="text" placeholder={elementPA.state} id="state"/>
+                                        <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
+                                    </div>
+                                </section>
                             </li>
                     )})}
                 </ul>
                 </div>
-            </div>
+                <button type="submit" className="m-auto p-2 ">Submit</button>
+            </form>
         )
     }
     
     return(
         <>
-            <b>This will be a contacts list</b>
-            <b>{props.listRef.id}</b> 
-            <br/>
             <ul>
                 {
                 props.list.data?.map((element, index) => {
                     return (
                         <li className="flex p-2" key={index}>
-                            <Popup trigger= /**https://www.geeksforgeeks.org/how-to-create-popup-box-in-reactjs/ */
+                            <Popup trigger= /**https://www.geekshtmlForgeeks.org/how-to-create-popup-box-in-reactjs/ */
                                 {
                                     <div className="cursor-pointer"><u>{element.label}</u></div>
                                 } 
@@ -269,7 +341,7 @@ export function ContactsList(props){
 }
 
 /**
- * Container builder for Custom Lists //!Maybe
+ * Container builder htmlFor Custom Lists //!Maybe
  * @param {*} props 
  * @returns a form containing //!
  */

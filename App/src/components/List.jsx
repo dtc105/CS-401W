@@ -41,11 +41,12 @@ function List(props){
         }
         getList();
 
+        async function waitForName(){setLegend(await list["ListName"]);}//Makes the render wait for data
+        waitForName();
+
     }, []);
 
-    //async function waitForName(){setLegend(await list["ListName"]);}//Makes the render wait for data
-
-    //waitForName(); //! freezes up whole page :(
+   
 
     useEffect (()=> {
         if (legendRef.current) legendRef.current.focus();
