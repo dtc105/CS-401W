@@ -5,7 +5,7 @@ import { changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
 import { ref } from "firebase/storage";
 import { db } from "../lib/firebase.js";
-import { updateDoc, setDoc, arrayRemove, deleteDoc } from "firebase/firestore";
+import { updateDoc, setDoc, arrayRemove, deleteDoc, arrayUnion, getDoc } from "firebase/firestore";
 import * as templates from "../lib/templates.js";
 
 // function handleLegendClick(){
@@ -142,7 +142,7 @@ export function ContactsList(props){
     function handleAddContact(){
         const templateData = templates.newContact;
         console.log("add Contact:\n", templateData, "\nContacts:\n", contacts);
-        return(add_changeContact(templateData));
+        return(addContact(templateData));
         //setContacts(prev => [...prev, {templateData}]);
     }
 
@@ -181,11 +181,13 @@ export function ContactsList(props){
                 "zipCode": formValues.zipCode.value,
             }],
         }
-        console.log("submitJson", jsonString);
+        console.log("submitJson", props.listRef.id, jsonString);
+        updateDoc(props.listRef, {data: arrayUnion(jsonString)});
+        setContacts(props.listRef.data);
 
     }
 
-    function add_changeContact(props){
+    function addContact(props){
 
         return(
             <form onSubmit={(e) => handleSubmit(e)} className='modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100'>
@@ -268,6 +270,128 @@ export function ContactsList(props){
         )
     }
     
+    function changeContact(props){
+        setTData(props);
+
+        return(
+            <form onSubmit={(e) => {handleEdit(e)}} className='modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100'>
+                <div className='text-green-500'>
+                <b>Name:</b> <br />
+                <div className="grid grid-cols-[auto_1fr] gap-1">
+                    <label className="text-right">Nick Name: </label> <input type="text" defaultValue={props.label} id="nameLabel"/>
+                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" defaultValue={props.namePrefix} id="namePrefix"/>
+                    <label className="text-right">First Name: </label> <input type="text" defaultValue={props.nameFirst} id="nameFirst"/>
+                    <label className="text-right">Middle Name: </label> <input type="text" defaultValue={props.nameMiddle} id="nameMiddle"/>
+                    <label className="text-right">Last Name: </label><input type="text" defaultValue={props.nameLast} id="nameLast"/>
+                    <label className="text-right">Suffix:</label> <input type="text" defaultValue={props.nameSuffix} id="nameSuffix"/>
+                </div>
+                <ul><b>email Addresses:</b>
+                    {
+                    props.email?.map((elementEmail, indexEmail) => {
+                        return (
+                            <li className="flex px-2" key={indexEmail}>
+                                <div className="grid grid-cols-[auto_1fr] gap-1">
+                                    <select name="emailLabel" id="emailLabel">
+                                        <option value="">Select</option>
+                                        <option value="Work">Work</option>
+                                        <option value="Personal">Personal</option>
+                                        <option value="School">School</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                <input type="email" defaultValue={elementEmail.emailAddress} id="emailAddress"/>
+                                </div>
+                            </li>
+                    )})}
+                </ul>
+                <ul><b>Phone Numbers:</b>
+                    {
+                    props.phoneNumbers?.map((elementPhone, indexPhone) => {
+                        return (
+                            <li className="flex px-2" key={indexPhone}>
+                                <div className="grid grid-cols-[auto_1fr] gap-1">
+                                    <select name="phoneLabel" id="phoneLabel">
+                                        <option value="">Select</option>
+                                        <option value="Work">Work</option>
+                                        <option value="Home">Home</option>
+                                        <option value="Cell">Cell</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" defaultValue={elementPhone.number} id="number"/>
+                                <label className="text-right" htmlFor="extension">Ext.</label><input type="text" defaultValue={elementPhone.extension} id="extension"/>
+                                </div>
+                            </li>
+                    )})}
+                </ul>
+                <ul><b>Addressess:</b>
+                    {
+                    props.physicalAddress?.map((elementPA, indexPA) => {
+                        return (
+                            <li className="flex flex-col  px-2" key={indexPA}>
+                                <section className="grid gap-1">
+                                    <select name="addressLabel" id="addressLabel" className="w-24">
+                                        <option value="">Select</option>
+                                        <option value="Buisness">Buisness</option>
+                                        <option value="Home">Home</option>
+                                        <option value="Mailing">Mailing</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <div className="grid grid-cols-[auto_1fr] gap-1">
+                                        <label htmlFor="streetOne">Street:</label> <input type="text" defaultValue={elementPA.streetOne} id="streetOne"/>
+                                        <label htmlFor="streetTwo">Street:</label> <input type="text" defaultValue={elementPA.streetTwo} id="streetTwo"/>
+                                    </div>
+                                    <div>  
+                                        <label htmlFor="city">City:</label> <input className="w-32" type="text" defaultValue={elementPA.city} id="city" />
+                                        <label htmlFor="state"> State:</label> <input className="w-32" type="text" defaultValue={elementPA.state} id="state"/>
+                                        <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode" defaultValue={elementPA.zipCode} id="zipCode"/>
+                                    </div>
+                                </section>
+                            </li>
+                    )})}
+                </ul>
+                </div>
+                <button type="submit" className="m-auto p-2 ">Submit</button>
+            </form>
+        )
+    }
+
+    function handleEdit(e){
+        const formValues = e.target.elements;
+        
+
+        const jsonString = {
+            "label": formValues.nameLabel.value,
+            "nameFirst": formValues.nameFirst.value,
+            "nameLast": formValues.nameLast.value,
+            "nameMiddle": formValues.nameMiddle.value,
+            "namePrefix": formValues.namePrefix.value,
+            "nameSuffix": formValues.nameSuffix.value,
+            "email": [{
+                "label": formValues.emailLabel.value,
+                "emailAddress": formValues.emailAddress.value,
+            }],
+            "phoneNumbers": [{
+                "label": formValues.phoneLabel.value,
+                "number": formValues.number.value,
+                "extention": formValues.extension.value,
+            }],
+            "physicalAddress": [{
+                "label": formValues.addressLabel.value,
+                "streetOne": formValues.streetOne.value,
+                "streetTwo": formValues.streetOne.value,
+                "city": formValues.city.value,
+                "state": formValues.state.value,
+                "country": "USA",
+                "zipCode": formValues.zipCode.value,
+            }],
+        }
+        console.log("submitJson", listRef.id, jsonString);
+        console.log("tData", tData);
+        updateDoc(listRef, {data: arrayRemove(tData)});
+        updateDoc(props.listRef, {data: arrayUnion(jsonString)});
+        setContacts(props.listRef.data);
+
+    }
+
     return(
         <>
             <ul>
@@ -317,10 +441,12 @@ export function ContactsList(props){
                                             </ul>
                                             </div>
                                             <div>
-                                                <button onClick=
-                                                    {() => close()}>
-                                                        Close
-                                                </button>
+                                                <button onClick={() => close()}>Close</button>
+                                                <Popup trigger= {<button>Edit</button>} modal nested>{close => ( <div>Edit {changeContact(element, index)}</div> )}</Popup>
+                                                <button onClick={() => {
+                                                    //updateDoc(listRef, {data: arrayRemove(element)}); close()
+                                                    console.log(element);
+                                                    }}>Delete</button>
                                             </div>
                                         </div>
                                     )
@@ -331,10 +457,8 @@ export function ContactsList(props){
                         </li>
                         )})
                 }
-                <Popup trigger= {<button>Add</button>} modal nested>{close => ( <div>here {handleAddContact()}</div> )}</Popup>
+                <Popup trigger= {<button>Add</button>} modal nested>{close => ( <div>Add {handleAddContact()}</div> )}</Popup>
             </ul>
-            <br />
-            <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         </>
        
     )
