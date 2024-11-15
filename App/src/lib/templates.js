@@ -3,7 +3,7 @@ export const userTemplate = {
     "details": {
         "name": "",
         "username": "",
-        "emailPref": "",
+        "email": "",
         "organization": "",
         "title": "",
         "phone": "",
