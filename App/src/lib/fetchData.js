@@ -16,13 +16,12 @@ export async function getAllUsers() {
 }
 
 /**
- * Returns a "random" user
+ * Returns the first user
  * @returns {string} the id of the user
  */
-export async function getOneUser() {
+export async function getFirstUser() {
     try {
         const querySnapshot = await getDocs(query(collection(db, "users")));
-        //console.log("from getoneuser: ", querySnapshot.docs[0].id);
         return querySnapshot.docs[0].id;
     } catch (e) {
         console.error(e);
@@ -36,7 +35,6 @@ export async function getOneUser() {
  */
 export async function getUserbyId(id) {
     try {
-        //const querySnapshot = await getDocs(query(collection(db, "users"), where("id", "==", id)));
         const querySnapshot = getByID("users", id);
         return querySnapshot[0].data();
     } catch (e) {
@@ -53,7 +51,6 @@ export async function getUserbyId(id) {
  */
 export async function getPlannerbyUserId(userID) {
     try {
-        //const userCollection = await getDocs(query(collection(db, "userConnections"), where("id", "==", userID)));
         const userCollection = getByID("userConnections", userID);
         return userCollection[0].data().planners;
     } catch (e) {

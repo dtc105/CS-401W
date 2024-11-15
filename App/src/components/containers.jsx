@@ -34,7 +34,7 @@ export function CheckboxList(props){
         checkboxesCopy[index].value = !checkboxesCopy[index].value
         setCheckboxes(checkboxesCopy)
         updateDoc(listRef, {data: checkboxes});
-    };
+    }
     
     function onNameChange(e, index) {
         const checkboxesCopy = [...checkboxes];
@@ -44,44 +44,43 @@ export function CheckboxList(props){
 
     return(
         <>
-
-        <ul>
-            {
-                checkboxes?.map((element, index) => {
-                    return (
-                        <li className="flex p-2" key={index}>
-                            <input 
-                                type="checkbox" 
-                                checked={element.value} 
-                                value={element.value} 
-                                onChange={(e) => handleChangeCheckbox(index)} 
-                            />
-                            <input 
-                                className="rightlabel" 
-                                type="text" 
-                                value={element.name} 
-                                onChange={(e)=>onNameChange(e, index)} 
-                                onBlur={() => updateDoc(listRef, {data: checkboxes})}
-                            />
-                            {/*element.myUID*/} 
-                            <button 
-                                className="deleteBTN"
-                                onClick={()=> {
-                                    console.log("HELP!!!!", index );
-                                    updateDoc(listRef, {data: arrayRemove(checkboxes[index])});
-                                    setCheckboxes(prev => prev.filter((_, filterIndex) => index != filterIndex));
-                                }}                                             
-                                >
-                            <img src="/assets/Button_Delete-01_25095.png" alt="delete" width="15px" />
-                            </button>
-                        </li>
-                    )
-                })
-            }
-            <button onClick={() => setCheckboxes(prev => [...prev, {name: "Change Me", value: false, myUID: 1+Math.random()}])}>
-                Add
-            </button>
-        </ul>
+            <ul>
+                {
+                    checkboxes?.map((element, index) => {
+                        return (
+                            <li className="flex p-2" key={index}>
+                                <input 
+                                    type="checkbox" 
+                                    checked={element.value} 
+                                    value={element.value} 
+                                    onChange={(e) => handleChangeCheckbox(index)} 
+                                />
+                                <input 
+                                    className="rightlabel" 
+                                    type="text" 
+                                    value={element.name} 
+                                    onChange={(e)=>onNameChange(e, index)} 
+                                    onBlur={() => updateDoc(listRef, {data: checkboxes})}
+                                />
+                                {/*element.myUID*/} 
+                                <button 
+                                    className="deleteBTN"
+                                    onClick={()=> {
+                                        console.log("HELP!!!!", index );
+                                        updateDoc(listRef, {data: arrayRemove(checkboxes[index])});
+                                        setCheckboxes(prev => prev.filter((_, filterIndex) => index != filterIndex));
+                                    }}                                             
+                                    >
+                                <img src="/assets/Button_Delete-01_25095.png" alt="delete" width="15px" />
+                                </button>
+                            </li>
+                        )
+                    })
+                }
+                <button onClick={() => setCheckboxes(prev => [...prev, {name: "Change Me", value: false, myUID: 1+Math.random()}])}>
+                    Add
+                </button>
+            </ul>
         </>
        
     )
@@ -102,7 +101,8 @@ export function Text(props){
             <textarea 
                 value={theText} 
                 onChange={(e)=>setTheText(e.target.value)} 
-                onBlur={()=>updateDoc(props.listRef, {data: theText})}/> 
+                onBlur={()=>updateDoc(props.listRef, {data: theText})}
+            /> 
             <br />
             <button onClick={()=>updateDoc(props.listRef, {data: theText}, {merge: true})}>Update</button>
         </>
@@ -135,7 +135,7 @@ export function CalendarList(props){
  */
 export function ContactsList(props){
 
-    const listRef=props.listRef;
+    const listRef = props.listRef;
     const [contacts, setContacts] = useState(props.list.data);
     const [tData, setTData] = useState(props);
 
@@ -148,12 +148,9 @@ export function ContactsList(props){
 
     function handleSubmit(e){
         const formValues = e.target.elements;
-        //console.log(e.target.elements);
-        //console.log("Submit", e.target.elements.namePrefix.value);
-        Object.keys(e.target.elements).map((element)=> {
-            const f=e.target.elements[element].value;
-            //console.log("Submit-map",element, f)
-        })
+        // Object.keys(e.target.elements).map((element)=> {
+        //     const f=e.target.elements[element].value;
+        // })
 
         const jsonString = {
             "label": formValues.nameLabel.value,
@@ -183,12 +180,10 @@ export function ContactsList(props){
         }
         console.log("submitJson", props.listRef.id, jsonString);
         updateDoc(props.listRef, {data: arrayUnion(jsonString)});
-        setContacts(props.listRef.data);
-
+        setContacts(prev => [...prev, jsonString]);
     }
 
     function addContact(props){
-
         return(
             <form onSubmit={(e) => handleSubmit(e)} className='modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100'>
                 <div className='text-green-500'>
@@ -201,69 +196,78 @@ export function ContactsList(props){
                     <label className="text-right">Last Name: </label><input type="text" placeholder={props.nameLast} id="nameLast"/>
                     <label className="text-right">Suffix:</label> <input type="text" placeholder={props.nameSuffix} id="nameSuffix"/>
                 </div>
-                <ul><b>email Addresses:</b>
-                    {
-                    props.email?.map((elementEmail, indexEmail) => {
-                        return (
-                            <li className="flex px-2" key={indexEmail}>
-                                <div className="grid grid-cols-[auto_1fr] gap-1">
-                                    <select name="emailLabel" id="emailLabel">
-                                        <option value="">Select</option>
-                                        <option value="Work">Work</option>
-                                        <option value="Personal">Personal</option>
-                                        <option value="School">School</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                <input type="email" placeholder={elementEmail.emailAddress} id="emailAddress"/>
-                                </div>
-                            </li>
-                    )})}
-                </ul>
-                <ul><b>Phone Numbers:</b>
-                    {
-                    props.phoneNumbers?.map((elementPhone, indexPhone) => {
-                        return (
-                            <li className="flex px-2" key={indexPhone}>
-                                <div className="grid grid-cols-[auto_1fr] gap-1">
-                                    <select name="phoneLabel" id="phoneLabel">
-                                        <option value="">Select</option>
-                                        <option value="Work">Work</option>
-                                        <option value="Home">Home</option>
-                                        <option value="Cell">Cell</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" placeholder={elementPhone.number} id="number"/>
-                                <label className="text-right" htmlFor="extension">Ext.</label><input type="text" placeholder="123" id="extension"/>
-                                </div>
-                            </li>
-                    )})}
-                </ul>
-                <ul><b>Addressess:</b>
-                    {
-                    props.physicalAddress?.map((elementPA, indexPA) => {
-                        return (
-                            <li className="flex flex-col  px-2" key={indexPA}>
-                                <section className="grid gap-1">
-                                    <select name="addressLabel" id="addressLabel" className="w-24">
-                                        <option value="">Select</option>
-                                        <option value="Buisness">Buisness</option>
-                                        <option value="Home">Home</option>
-                                        <option value="Mailing">Mailing</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                    <div className="grid grid-cols-[auto_1fr] gap-1">
-                                        <label htmlFor="streetOne">Street:</label> <input type="text" placeholder={elementPA.streetOne} id="streetOne"/>
-                                        <label htmlFor="streetTwo">Street:</label> <input type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
-                                    </div>
-                                    <div>  
-                                        <label htmlFor="city">City:</label> <input className="w-32" type="text" placeholder={elementPA.city} id="city" />
-                                        <label htmlFor="state"> State:</label> <input className="w-32" type="text" placeholder={elementPA.state} id="state"/>
-                                        <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
-                                    </div>
-                                </section>
-                            </li>
-                    )})}
-                </ul>
+                    <ul>
+                        <b>email Addresses:</b>
+                        {
+                            props.email?.map((elementEmail, indexEmail) => {
+                                return (
+                                    <li className="flex px-2" key={indexEmail}>
+                                        <div className="grid grid-cols-[auto_1fr] gap-1">
+                                            <select name="emailLabel" id="emailLabel">
+                                                <option value="">Select</option>
+                                                <option value="Work">Work</option>
+                                                <option value="Personal">Personal</option>
+                                                <option value="School">School</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        <input type="email" placeholder={elementEmail.emailAddress} id="emailAddress"/>
+                                        </div>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                    <ul>
+                        <b>Phone Numbers:</b>
+                        {
+                            props.phoneNumbers?.map((elementPhone, indexPhone) => {
+                                return (
+                                    <li className="flex px-2" key={indexPhone}>
+                                        <div className="grid grid-cols-[auto_1fr] gap-1">
+                                            <select name="phoneLabel" id="phoneLabel">
+                                                <option value="">Select</option>
+                                                <option value="Work">Work</option>
+                                                <option value="Home">Home</option>
+                                                <option value="Cell">Cell</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" placeholder={elementPhone.number} id="number"/>
+                                        <label className="text-right" htmlFor="extension">Ext.</label><input type="text" placeholder="123" id="extension"/>
+                                        </div>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                    <ul>
+                        <b>Addressess:</b>
+                        {
+                            props.physicalAddress?.map((elementPA, indexPA) => {
+                                return (
+                                    <li className="flex flex-col  px-2" key={indexPA}>
+                                        <section className="grid gap-1">
+                                            <select name="addressLabel" id="addressLabel" className="w-24">
+                                                <option value="">Select</option>
+                                                <option value="Buisness">Buisness</option>
+                                                <option value="Home">Home</option>
+                                                <option value="Mailing">Mailing</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            <div className="grid grid-cols-[auto_1fr] gap-1">
+                                                <label htmlFor="streetOne">Street:</label> <input type="text" placeholder={elementPA.streetOne} id="streetOne"/>
+                                                <label htmlFor="streetTwo">Street:</label> <input type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
+                                            </div>
+                                            <div>  
+                                                <label htmlFor="city">City:</label> <input className="w-32" type="text" placeholder={elementPA.city} id="city" />
+                                                <label htmlFor="state"> State:</label> <input className="w-32" type="text" placeholder={elementPA.state} id="state"/>
+                                                <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
+                                            </div>
+                                        </section>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
                 </div>
                 <button type="submit" className="m-auto p-2 ">Submit</button>
             </form>
@@ -396,7 +400,7 @@ export function ContactsList(props){
         <>
             <ul>
                 {
-                props.list.data?.map((element, index) => {
+                contacts?.map((element, index) => {
                     return (
                         <li className="flex p-2" key={index}>
                             <Popup trigger= /**https://www.geekshtmlForgeeks.org/how-to-create-popup-box-in-reactjs/ */
@@ -408,45 +412,76 @@ export function ContactsList(props){
                                     close => (
                                         <div className='modal bg-black p-2 rounded border-2 border-green-500/100'>
                                             <div className='content'>
-                                            <b>Name:</b> {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
-                                            <ul><b>email Addresses:</b>
-                                                {
-                                                element.email?.map((elementEmail, indexEmail) => {
-                                                    return (
-                                                        <li className="flex px-2" key={indexEmail}>
-                                                            {elementEmail.label}: {elementEmail.emailAddress}
-                                                        </li>
-                                                )})}
-                                            </ul>
-                                            <ul><b>Phone Numbers:</b>
-                                                {
-                                                element.phoneNumbers?.map((elementPhone, indexPhone) => {
-                                                    return (
-                                                        <li className="flex px-2" key={indexPhone}>
-                                                            {elementPhone.label}: {elementPhone.number}
-                                                        </li>
-                                                )})}
-                                            </ul>
-                                            <ul><b>Addressess:</b>
-                                                {
-                                                element.physicalAddress?.map((elementPA, indexPA) => {
-                                                    return (
-                                                        <li className="flex px-2" key={indexPA}>
-                                                            <p>{elementPA.label}</p><br/>
-                                                            Street: {elementPA.streetOne}<br/>
-                                                            Street: {elementPA.streetTwo}<br/>
-                                                            City: {elementPA.city}  State: {elementPA.state} Zip Code: {elementPA.zipCode}
-                                                        </li>
-                                                )})}
-                                            </ul>
+                                                <b>Name:</b> 
+                                                {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
+                                                <ul>
+                                                    <b>Email Addresses:</b>
+                                                    {
+                                                        element.email?.map((elementEmail, indexEmail) => {
+                                                            return (
+                                                                <li className="flex px-2" key={indexEmail}>
+                                                                    {elementEmail.label}: {elementEmail.emailAddress}
+                                                                </li>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
+                                                <ul>
+                                                    <b>Phone Numbers:</b>
+                                                    {
+                                                        element.phoneNumbers?.map((elementPhone, indexPhone) => {
+                                                            return (
+                                                                <li className="flex px-2" key={indexPhone}>
+                                                                    {elementPhone.label}: {elementPhone.number}
+                                                                </li>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
+                                                <ul>
+                                                    <b>Addressess:</b>
+                                                    {
+                                                        element.physicalAddress?.map((elementPA, indexPA) => {
+                                                            return (
+                                                                <li className="flex px-2" key={indexPA}>
+                                                                    <p>{elementPA.label}</p><br/>
+                                                                    Street: {elementPA.streetOne}<br/>
+                                                                    Street: {elementPA.streetTwo}<br/>
+                                                                    City: {elementPA.city}  State: {elementPA.state} Zip Code: {elementPA.zipCode}
+                                                                </li>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
                                             </div>
                                             <div>
                                                 <button onClick={() => close()}>Close</button>
-                                                <Popup trigger= {<button>Edit</button>} modal nested>{close => ( <div>Edit {changeContact(element, index)}</div> )}</Popup>
-                                                <button onClick={() => {
-                                                    //updateDoc(listRef, {data: arrayRemove(element)}); close()
-                                                    console.log(element);
-                                                    }}>Delete</button>
+                                                <Popup 
+                                                    trigger={<button>Edit</button>} 
+                                                    modal 
+                                                    nested
+                                                >
+                                                    {
+                                                        (close) => {
+                                                            close();
+                                                            return (
+                                                                <div>
+                                                                    Edit {changeContact(element, index)}
+                                                                </div> 
+                                                            )
+                                                        }
+                                                    }
+                                                </Popup>
+                                                <button 
+                                                    onClick={() => {
+                                                            updateDoc(listRef, {data: arrayRemove(element)}); 
+                                                            setContacts(prev => prev.filter((_, fIndex) => fIndex != index));
+                                                            close();
+                                                            console.log(element);
+                                                        }}
+                                                >
+                                                    Delete
+                                                </button>
                                             </div>
                                         </div>
                                     )
