@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import Popup from "reactjs-popup";
-import "./list.css";
 import { changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
 import { ref } from "firebase/storage";
@@ -66,7 +65,7 @@ export function CheckboxList(props){
                                 <button 
                                     className="deleteBTN"
                                     onClick={()=> {
-                                        console.log("HELP!!!!", index );
+                                        // console.log("HELP!!!!", index );
                                         updateDoc(listRef, {data: arrayRemove(checkboxes[index])});
                                         setCheckboxes(prev => prev.filter((_, filterIndex) => index != filterIndex));
                                     }}                                             
@@ -141,7 +140,7 @@ export function ContactsList(props){
 
     function handleAddContact(){
         const templateData = templates.newContact;
-        console.log("add Contact:\n", templateData, "\nContacts:\n", contacts);
+        // console.log("add Contact:\n", templateData, "\nContacts:\n", contacts);
         return(addContact(templateData));
         //setContacts(prev => [...prev, {templateData}]);
     }
@@ -178,7 +177,7 @@ export function ContactsList(props){
                 "zipCode": formValues.zipCode.value,
             }],
         }
-        console.log("submitJson", props.listRef.id, jsonString);
+        // console.log("submitJson", props.listRef.id, jsonString);
         updateDoc(props.listRef, {data: arrayUnion(jsonString)});
         setContacts(prev => [...prev, jsonString]);
     }
@@ -388,8 +387,8 @@ export function ContactsList(props){
                 "zipCode": formValues.zipCode.value,
             }],
         }
-        console.log("submitJson", listRef.id, jsonString);
-        console.log("tData", tData);
+        // console.log("submitJson", listRef.id, jsonString);
+        // console.log("tData", tData);
         updateDoc(listRef, {data: arrayRemove(tData)});
         updateDoc(props.listRef, {data: arrayUnion(jsonString)});
         setContacts(props.listRef.data);
@@ -477,7 +476,7 @@ export function ContactsList(props){
                                                             updateDoc(listRef, {data: arrayRemove(element)}); 
                                                             setContacts(prev => prev.filter((_, fIndex) => fIndex != index));
                                                             close();
-                                                            console.log(element);
+                                                            // console.log(element);
                                                         }}
                                                 >
                                                     Delete

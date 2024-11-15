@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import "./list.css";
 import { createDoc, changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
 import { CheckboxList, Text, CalendarList, ContactsList, CustomList} from "./containers";
@@ -29,14 +28,10 @@ function List(props){
     useEffect(() => {
         
         async function getList() {
-
             const listref = await getListbyId(eventID, listID);
             setListRef(listref);
-           //console.log("********\nlists - getList- listRef:\n", listRef)
             setList((await getDoc(listref)).data());
-            //setList(listref);
             setType((await getDoc(listref)).data()["ListType"]);
-            //console.log("#####\nlist.jsx, getlist list: \n", list);
             setLegend(await list["ListName"]);
         }
         getList();
@@ -55,24 +50,23 @@ function List(props){
     const switchListType = () => {
         switch(listType){
             case "checkbox":
-                //console.log("CHECKBOX", list);
                 return <CheckboxList list={list} listRef={listRef}/>;
             case "text":
                 return <Text list={list} listRef={listRef}/>;
             case "calendar":
-                //console.log("CALENDAR");
                 return <CalendarList list={list} listRef={listRef}/>;
             case "contacts":
                 return <ContactsList list={list} listRef={listRef}/>;
             case "custom":
                 return <CustomList list={list} listRef={listRef}/>;
             default:
-                //console.log(listType);
                 return <div>That didnt work!! <br />{listID}<br /> {listType}</div>;
         }
     }
 
-    function handleDeleteList(){console.log("Delete does nothing ATT")} //! needs code
+    // function handleDeleteList() {
+    //     props.setItems(prev => prev.filter((ele, _) => ele != props.listID));
+    // } //! needs code
 
     return (
         <>
@@ -98,7 +92,6 @@ function List(props){
                         { switchListType() /* Different list formats */} 
                         <br />
                     </fieldset>
-                    <button onClick={handleDeleteList} className="btnRight">Delete</button>
                 </form>
                 <br />
             </main> 
