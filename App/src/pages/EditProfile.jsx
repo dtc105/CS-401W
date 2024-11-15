@@ -18,6 +18,7 @@ function EditProfile() {
             setUserDetails(user.details);
         }
         getUser();
+        console.log(userDetails);
     }, [userId, id]);
 
     const handleInputChange = (event) => {
@@ -44,77 +45,77 @@ function EditProfile() {
     };
 
     return (
-        <div className="flex flex-col border p-4 mb-4 text-center">
-            <h2>Update Profile Information</h2>
+        <div 
+            className="flex flex-col items-center border rounded gap-4 w-max m-auto p-4"
+        >
+            <h2 className='text-lg'>Update Profile Information</h2>
             {message && <p className='text-red'>{message}</p>}
             <form onSubmit={handleSubmit} className='flex flex-col'>
-                <div className='flex flex-col'>
-                    <label>Preferred Email:</label>
+                <div className='grid grid-cols-[auto_1fr] gap-1'>
+                    <label className='text-right'>Preferred Email:</label>
                     <input 
-                        className='text-black w-3/5 m-auto' 
+                        className='text-black w-5/6 m-auto' 
                         type="text"
                         name="email"
-                        value={userDetails.email || ''} 
+                        value={userDetails.email} 
                         onChange={handleInputChange}
                         defaultValue={userDetails.email}
-                        />
-                </div>
-                <div className='flex flex-col'>
-                    <label>Name:</label>
+                        placeholder='Enter your email...'
+                    />
+                    <label className='text-right'><span className='text-red-400'>*</span>Name:</label>
                     <input 
-                        className='text-black w-3/5 m-auto' 
+                        className='text-black w-5/6 m-auto' 
                         type="text"
                         name="name"
-                        value={userDetails.name || ''}
+                        value={userDetails.name}
                         onChange={handleInputChange}
                         defaultValue={userDetails.name}
-                        />
-                </div>
-                <div className='flex flex-col'>
-                    <label>Prefix:</label>
+                        placeholder='Enter your name...'
+                        required
+                    />
+                    <label className='text-right'>Prefix:</label>
                     <input 
-                        className='text-black w-3/5 m-auto' 
+                        className='text-black w-5/6 m-auto' 
                         type="text"
                         name="prefix"
-                        value={userDetails.prefix || ''}
+                        value={userDetails.namePrefix}
                         onChange={handleInputChange}
-                        defaultValue={userDetails.prefix}
-                        />
-                </div>
-                <div className='flex flex-col'> 
-                    <label>Organization:</label>
+                        defaultValue={userDetails.namePrefix}
+                        placeholder='Enter your prefix...'
+                    />
+                    <label className='text-right'>Organization:</label>
                     <input 
-                        className='text-black w-3/5 m-auto' 
+                        className='text-black w-5/6 m-auto' 
                         type="text"
                         name="organization"
-                        value={userDetails.organization || ''}
+                        value={userDetails.organization}
                         onChange={handleInputChange}
                         defaultValue={userDetails.organization}
-                        />
-                </div>
-                <div className='flex flex-col'>
-                <label>Phone Number:</label>
-                <input 
-                    className='text-black w-3/5 m-auto' 
-                    type="text"
-                    name="phone"
-                    value={userDetails.phone || ''}
-                    onChange={handleInputChange}
-                    defaultValue={userDetails.phone}
+                        placeholder='Enter your organization...'
                     />
-                </div>
-                <div className='flex flex-col'>
-                <label>Job Title/Occupation:</label>
-                <input 
-                    className='text-black w-3/5 m-auto' 
-                    type="text"
-                    name="title"
-                    value={userDetails.title || ''}
-                    onChange={handleInputChange}
-                    defaultValue={userDetails.title}
+                    <label className='text-right'>Phone Number:</label>
+                    <input 
+                        className='text-black w-5/6 m-auto' 
+                        type="text"
+                        name="phone"
+                        value={userDetails.phone}
+                        onChange={handleInputChange}
+                        defaultValue={userDetails.phone}
+                        placeholder='Enter a phone number...'
                     />
+                    <label className='text-right'>Job Title/Occupation:</label>
+                    <input 
+                        className='text-black w-5/6 m-auto' 
+                        type="text"
+                        name="title"
+                        value={userDetails.title}
+                        onChange={handleInputChange}
+                        defaultValue={userDetails.title}
+                        placeholder='Enter your job title...'
+                    />
+                    <h6 className='text-xs text-center col-span-2 p-2'><span className='text-red-400'>*</span> - field is required.</h6>
                 </div>
-                <button type='submit' className='rounded text-white bg-blue-400'>Update</button>
+                <button type='submit' className='rounded text-white bg-blue-400 w-fit m-auto'>Update</button>
             </form>
         </div>
     );
