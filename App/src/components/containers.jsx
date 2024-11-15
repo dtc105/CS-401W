@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import Popup from "reactjs-popup";
 import { changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
-import { ref } from "firebase/storage";
 import { db } from "../lib/firebase.js";
 import { updateDoc, setDoc, arrayRemove, deleteDoc, arrayUnion, getDoc } from "firebase/firestore";
 import * as templates from "../lib/templates.js";
@@ -43,19 +42,20 @@ export function CheckboxList(props){
 
     return(
         <>
-            <ul>
+            <ul className="flex flex-col items-center">
                 {
                     checkboxes?.map((element, index) => {
                         return (
-                            <li className="flex p-2" key={index}>
+                            <li className="flex p-2 items-center gap-2" key={index}>
                                 <input 
                                     type="checkbox" 
+                                    className="scale-125"
                                     checked={element.value} 
                                     value={element.value} 
                                     onChange={(e) => handleChangeCheckbox(index)} 
                                 />
                                 <input 
-                                    className="rightlabel" 
+                                    className="text-slate-900 rounded px-2 py-1" 
                                     type="text" 
                                     value={element.name} 
                                     onChange={(e)=>onNameChange(e, index)} 
@@ -63,21 +63,30 @@ export function CheckboxList(props){
                                 />
                                 {/*element.myUID*/} 
                                 <button 
-                                    className="deleteBTN"
+                                    className="rounded hover:bg-red-600 aspect-square h-fit transition-colors p-1"
                                     onClick={()=> {
-                                        // console.log("HELP!!!!", index );
                                         updateDoc(listRef, {data: arrayRemove(checkboxes[index])});
                                         setCheckboxes(prev => prev.filter((_, filterIndex) => index != filterIndex));
                                     }}                                             
                                     >
-                                <img src="/assets/Button_Delete-01_25095.png" alt="delete" width="15px" />
+                                        <img src="/assets/x.svg" alt="delete" className="invert scale-105" />
+
                                 </button>
                             </li>
                         )
                     })
                 }
-                <button onClick={() => setCheckboxes(prev => [...prev, {name: "Change Me", value: false, myUID: 1+Math.random()}])}>
-                    Add
+                <button 
+                    onClick={() => setCheckboxes(prev => [
+                        ...prev, 
+                        {
+                            name: "Change Me", 
+                            value: false, 
+                            index: checkboxes.at(-1).index + 1
+                        }])}
+                    className="w-2/5 m-auto bg-blue-500 py-1 rounded"
+                    >
+                    <img src="/assets/plus.svg" alt="add" className="invert scale-125 m-auto" />
                 </button>
             </ul>
         </>
@@ -281,12 +290,12 @@ export function ContactsList(props){
                 <div className='text-green-500'>
                 <b>Name:</b> <br />
                 <div className="grid grid-cols-[auto_1fr] gap-1">
-                    <label className="text-right">Nick Name: </label> <input type="text" defaultValue={props.label} id="nameLabel"/>
-                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" defaultValue={props.namePrefix} id="namePrefix"/>
-                    <label className="text-right">First Name: </label> <input type="text" defaultValue={props.nameFirst} id="nameFirst"/>
-                    <label className="text-right">Middle Name: </label> <input type="text" defaultValue={props.nameMiddle} id="nameMiddle"/>
-                    <label className="text-right">Last Name: </label><input type="text" defaultValue={props.nameLast} id="nameLast"/>
-                    <label className="text-right">Suffix:</label> <input type="text" defaultValue={props.nameSuffix} id="nameSuffix"/>
+                    <label className="text-right">Nick Name: </label> <input type="text" value={props.label} id="nameLabel"/>
+                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" value={props.namePrefix} id="namePrefix"/>
+                    <label className="text-right">First Name: </label> <input type="text" value={props.nameFirst} id="nameFirst"/>
+                    <label className="text-right">Middle Name: </label> <input type="text" value={props.nameMiddle} id="nameMiddle"/>
+                    <label className="text-right">Last Name: </label><input type="text" value={props.nameLast} id="nameLast"/>
+                    <label className="text-right">Suffix:</label> <input type="text" value={props.nameSuffix} id="nameSuffix"/>
                 </div>
                 <ul><b>email Addresses:</b>
                     {
@@ -301,7 +310,7 @@ export function ContactsList(props){
                                         <option value="School">School</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                <input type="email" defaultValue={elementEmail.emailAddress} id="emailAddress"/>
+                                <input type="email" value={elementEmail.emailAddress} id="emailAddress"/>
                                 </div>
                             </li>
                     )})}
@@ -319,8 +328,8 @@ export function ContactsList(props){
                                         <option value="Cell">Cell</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" defaultValue={elementPhone.number} id="number"/>
-                                <label className="text-right" htmlFor="extension">Ext.</label><input type="text" defaultValue={elementPhone.extension} id="extension"/>
+                                <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" value={elementPhone.number} id="number"/>
+                                <label className="text-right" htmlFor="extension">Ext.</label><input type="text" value={elementPhone.extension} id="extension"/>
                                 </div>
                             </li>
                     )})}
@@ -339,13 +348,13 @@ export function ContactsList(props){
                                         <option value="Other">Other</option>
                                     </select>
                                     <div className="grid grid-cols-[auto_1fr] gap-1">
-                                        <label htmlFor="streetOne">Street:</label> <input type="text" defaultValue={elementPA.streetOne} id="streetOne"/>
-                                        <label htmlFor="streetTwo">Street:</label> <input type="text" defaultValue={elementPA.streetTwo} id="streetTwo"/>
+                                        <label htmlFor="streetOne">Street:</label> <input type="text" value={elementPA.streetOne} id="streetOne"/>
+                                        <label htmlFor="streetTwo">Street:</label> <input type="text" value={elementPA.streetTwo} id="streetTwo"/>
                                     </div>
                                     <div>  
-                                        <label htmlFor="city">City:</label> <input className="w-32" type="text" defaultValue={elementPA.city} id="city" />
-                                        <label htmlFor="state"> State:</label> <input className="w-32" type="text" defaultValue={elementPA.state} id="state"/>
-                                        <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode" defaultValue={elementPA.zipCode} id="zipCode"/>
+                                        <label htmlFor="city">City:</label> <input className="w-32" type="text" value={elementPA.city} id="city" />
+                                        <label htmlFor="state"> State:</label> <input className="w-32" type="text" value={elementPA.state} id="state"/>
+                                        <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode" value={elementPA.zipCode} id="zipCode"/>
                                     </div>
                                 </section>
                             </li>

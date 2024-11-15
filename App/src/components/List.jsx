@@ -14,40 +14,42 @@ import { getDoc, updateDoc } from "firebase/firestore";
  */
 function List(props){
 
-    const legendRef = useRef(null);
-
-    const eventID =props.eventID;
-    const listID = props.listID;
+    const eventId = props.eventId;
+    const listId = props.listId;
     
     const [listRef, setListRef] = useState({}); //reference to document, not the doc itself
     const [list, setList] = useState({}); //copy or snapshot of the document
-    const [listType, setType] = useState("");
-    const [inputDisplay, setInputDisplay] = useState(false);
-    const [legend, setLegend] = useState("");
+    const [listType, setListType] = useState("");
+    const [title, setTitle] = useState("");
+
+    const titleSpanRef = useRef(null);
+    const titleInputRef = useRef(null);
     
     useEffect(() => {
         
         async function getList() {
-            const listref = await getListbyId(eventID, listID);
+            const listref = await getListbyId(eventId, listId);
             setListRef(listref);
             setList((await getDoc(listref)).data());
-            setType((await getDoc(listref)).data()["ListType"]);
-            setLegend(await list["ListName"]);
         }
         getList();
-
-        async function waitForName(){setLegend(await list["ListName"]);}//Makes the render wait for data
-        waitForName();
-
+        setListType(list["ListType"]);
+        setTitle(list["ListName"]);
     }, []);
 
-   
-
-    useEffect (()=> {
-        if (legendRef.current) legendRef.current.focus();
-    }, [inputDisplay]);
+    useEffect(() => {
+        try {
+            if (titleSpanRef && titleInputRef) {
+                const titleWidth = titleSpanRef.current.offsetWidth;
+                titleInputRef.current.style.width = `${titleWidth + 10}px`;
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }, [title]);
 
     const switchListType = () => {
+        console.log(listType);
         switch(listType){
             case "checkbox":
                 return <CheckboxList list={list} listRef={listRef}/>;
@@ -60,40 +62,41 @@ function List(props){
             case "custom":
                 return <CustomList list={list} listRef={listRef}/>;
             default:
-                return <div>That didnt work!! <br />{listID}<br /> {listType}</div>;
+                return <div>That didnt work!! <br />{listId}<br /> {listType}</div>;
         }
     }
-
-    // function handleDeleteList() {
-    //     props.setItems(prev => prev.filter((ele, _) => ele != props.listID));
-    // } //! needs code
+    
+    //TODO: MAKE DELETE FUNCTION
 
     return (
         <>
+            <div className='grid grid-cols-[1fr_auto_1fr] justify-end'>
+                {/* Hidden span to get appropriate witdth for input */}
+                <div className="inline-block col-start-2">
+                    <span ref={titleSpanRef} className="invisible absolute">
+                        {title || " "}
+                    </span>
+                    <input 
+                        type="text" 
+                        className='bg-transparent outline-none border-none w-fit overflow-ellipsis box-border inline-block cursor-'
+                        ref={titleInputRef}
+                        onChange={(e) => setTitle(e.target.value)}
+                        value={title}
+                    />
+                </div>
+                <button 
+                    className='col-start-3 m-2 ml-auto p-2 hover:bg-red-600 rounded transition-colors'
+                    onClick={() => {
+                        props.setItems(prev => prev.filter((filterId, _) => filterId != listId));
+                        // ! REMOVE DOC HERE
+                    }}
+                >
+                    <img src="/assets/trash.svg" alt="remove" className='invert' />
+                </button>
+
+            </div>
             <main className = "container">
-                <form onSubmit={(e) => e.preventDefault()}>
-                    {inputDisplay && (
-                        <input 
-                            ref={legendRef}
-                            type="text" 
-                            value={legend} 
-                            onChange={(e) => setLegend(e.target.value)} 
-                            onBlur={() => { 
-                                updateDoc(listRef, {ListName: legend});
-                                setInputDisplay(false);
-                            }}
-                        />
-                    )}
-                    <fieldset>
-                        <legend onClick={() => {setInputDisplay(true);}}>
-                            {/**waitForName*/}
-                            {legend}
-                        </legend>
-                        { switchListType() /* Different list formats */} 
-                        <br />
-                    </fieldset>
-                </form>
-                <br />
+                { () => switchListType() /* Different list formats */} 
             </main> 
         </>
 

@@ -112,7 +112,6 @@ export async function getListsbyEventId(eventID) {
     const ref = await doc(db, "planner", eventID);
     const lists = await getDocs(collection(ref,"lists"));
     let listOut = [];
-    console.log("FETCH DATA!!",lists.docs);
     return lists.docs.map((list, _) => {
         return list.id;
     })
