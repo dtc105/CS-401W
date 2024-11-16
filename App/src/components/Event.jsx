@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { createDoc, changeDoc} from "../lib/pushData";
 import * as fetch from "../lib/fetchData.js"
 import List from "./List.jsx";
@@ -16,7 +16,6 @@ function Event(props){
 		const [items, setItems] = useState([]);
 		const [isLoading, setIsLoading] = useState(true);
 		const [error, setError] = useState(null);
-		const [hovering, setHovering] = useState(-1);
 
 		const onOptionChangeHandler = (event) => {
 			setIsDisabled(false);
@@ -62,37 +61,30 @@ function Event(props){
 		
 		return(
 			<>
-				<header>
-					<section>
-							<select onChange={onOptionChangeHandler}> {/*makes a dropdowmn menu/list of templates to add to the event*/}
-								<option value="">Select an Option</option>
-									{
-										Object.keys(templates.listTemplate).map((type, index) =>{
-											return (
-												<option key={index} value={type}>{type}</option>
-											)
-										})
-									}
-							</select>
-							<button onClick={() => createListBtn()} disabled={isDisabled}>Create List</button>
-					</section>
-				</header>
-				<main>
-					<section className="listGrid">
-						<ul> {/*List of documents from 'lists' subcollection*/}
-							{/*eventLists*/}
-							{
-								items.map((item, itemIndex) => {
-									return (
-										<li key={itemIndex} onMouseEnter={() => setHovering(itemIndex)} onMouseLeave={() => setHovering(-1)}>
-											<List eventId={eventId} listId={item} setItems={setItems}  />
-										</li>
-									)
-								})
-							}
-						</ul>
-					</section>
-				</main>
+				<section>
+						<select onChange={onOptionChangeHandler}> {/*makes a dropdowmn menu/list of templates to add to the event*/}
+							<option value="">Select an Option</option>
+								{
+									Object.keys(templates.listTemplate).map((type, index) =>{
+										return (
+											<option key={index} value={type}>{type}</option>
+										)
+									})
+								}
+						</select>
+						<button onClick={() => createListBtn()} disabled={isDisabled}>Create List</button>
+				</section>
+				<section className="grid auto-cols-auto lg:grid-cols-3 2xl:grid-cols-5 gap-2">
+						{
+							items.map((item, itemIndex) => {
+								return (
+									<div key={itemIndex} className="border border-white rounded-lg p-2">
+										<List eventId={eventId} listId={item} setItems={setItems}  />
+									</div>
+								)
+							})
+						}
+				</section>
 			</>
 		)
 }

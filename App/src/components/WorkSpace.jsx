@@ -33,13 +33,13 @@ function WorkSpace() {
 
     return(
         <>
-            <section>
+            {/* <section>
                 <button onClick={createEventBtn}>Create Event</button>
-            </section>
-            <main>
+            </section> */}
+            <section>
                 <h2>Some tabs maybe?</h2>
                 <Event eventId={eventId}/>
-            </main>
+            </section>
         </>
     )
 }

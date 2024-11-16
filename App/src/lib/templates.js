@@ -48,9 +48,9 @@ export const listTemplate = {
         "ListType": "contacts",
         "data": [{
             "label": "",
-            "nameFirst": "FirstName",
+            "nameFirst": "First Name",
             "nameLast": "Last Name",
-            "nameMiddle": "MiddleName",
+            "nameMiddle": "Middle Name",
             "namePrefix": "Mrs., Mr., Dr., etc..",
             "nameSuffix": "Sr, Jr, III",
             "email": [{

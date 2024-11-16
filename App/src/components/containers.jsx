@@ -111,7 +111,6 @@ export function Text(props){
                 onChange={(e)=>setTheText(e.target.value)} 
                 onBlur={()=>updateDoc(props.listRef, {data: theText})}
             /> 
-            <br />
             <button onClick={()=>updateDoc(props.listRef, {data: theText}, {merge: true})}>Update</button>
         </>
        
@@ -129,8 +128,8 @@ export function CalendarList(props){
 
     return(
         <>
-            <b>This will be a calendar</b>
-            <b>{props.listRef.id}</b>
+            <p>This will be a calendar</p>
+            <p>{props.listRef.id}</p>
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         </>
     )
@@ -193,19 +192,30 @@ export function ContactsList(props){
 
     function addContact(props){
         return(
-            <form onSubmit={(e) => handleSubmit(e)} className='modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100'>
-                <div className='text-green-500'>
-                <b>Name:</b> <br />
-                <div className="grid grid-cols-[auto_1fr] gap-1">
-                    <label className="text-right">Nick Name: </label> <input type="text" placeholder={props.label} id="nameLabel"/>
-                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" placeholder={props.namePrefix} id="namePrefix"/>
-                    <label className="text-right">First Name: </label> <input type="text" placeholder={props.nameFirst} id="nameFirst"/>
-                    <label className="text-right">Middle Name: </label> <input type="text" placeholder={props.nameMiddle} id="nameMiddle"/>
-                    <label className="text-right">Last Name: </label><input type="text" placeholder={props.nameLast} id="nameLast"/>
-                    <label className="text-right">Suffix:</label> <input type="text" placeholder={props.nameSuffix} id="nameSuffix"/>
+            <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col justify-center gap-4 bg-200 p-2 rounded border-2">
+                <div className="text-">
+                <p>Name:</p> 
+                <div className="grid grid-cols-[auto_1fr] gap-2 items-center">
+                    <label className="text-right">Nick Name</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.label} id="nameLabel"/>
+
+                    <label htmlFor="prefix" className="text-right">Prefix</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.namePrefix} id="namePrefix"/>
+
+                    <label className="text-right">First Name</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.nameFirst} id="nameFirst"/>
+
+                    <label className="text-right">Middle Name</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.nameMiddle} id="nameMiddle"/>
+
+                    <label className="text-right">Last Name</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.nameLast} id="nameLast"/>
+
+                    <label className="text-right">Suffix</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.nameSuffix} id="nameSuffix"/>
                 </div>
                     <ul>
-                        <b>email Addresses:</b>
+                        <p>Email Addresses:</p>
                         {
                             props.email?.map((elementEmail, indexEmail) => {
                                 return (
@@ -226,7 +236,7 @@ export function ContactsList(props){
                         }
                     </ul>
                     <ul>
-                        <b>Phone Numbers:</b>
+                        <p>Phone Numbers:</p>
                         {
                             props.phoneNumbers?.map((elementPhone, indexPhone) => {
                                 return (
@@ -248,11 +258,11 @@ export function ContactsList(props){
                         }
                     </ul>
                     <ul>
-                        <b>Addressess:</b>
+                        <p>Addressess:</p>
                         {
                             props.physicalAddress?.map((elementPA, indexPA) => {
                                 return (
-                                    <li className="flex flex-col  px-2" key={indexPA}>
+                                    <li className="flex flex-col px-2" key={indexPA}>
                                         <section className="grid gap-1">
                                             <select name="addressLabel" id="addressLabel" className="w-24">
                                                 <option value="">Select</option>
@@ -262,13 +272,21 @@ export function ContactsList(props){
                                                 <option value="Other">Other</option>
                                             </select>
                                             <div className="grid grid-cols-[auto_1fr] gap-1">
-                                                <label htmlFor="streetOne">Street:</label> <input type="text" placeholder={elementPA.streetOne} id="streetOne"/>
-                                                <label htmlFor="streetTwo">Street:</label> <input type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
+                                                <label htmlFor="streetOne">Street:</label>
+                                                <input type="text" placeholder={elementPA.streetOne} id="streetOne"/>
+
+                                                <label htmlFor="streetTwo">Street:</label>
+                                                <input type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
                                             </div>
                                             <div>  
-                                                <label htmlFor="city">City:</label> <input className="w-32" type="text" placeholder={elementPA.city} id="city" />
-                                                <label htmlFor="state"> State:</label> <input className="w-32" type="text" placeholder={elementPA.state} id="state"/>
-                                                <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
+                                                <label htmlFor="city">City:</label>
+                                                <input className="w-32" type="text" placeholder={elementPA.city} id="city" />
+
+                                                <label htmlFor="state"> State:</label>
+                                                <input className="w-32" type="text" placeholder={elementPA.state} id="state"/>
+
+                                                <label htmlFor="zipCode"> Zip Code:</label>
+                                                <input className="w-14" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
                                             </div>
                                         </section>
                                     </li>
@@ -286,9 +304,9 @@ export function ContactsList(props){
         setTData(props);
 
         return(
-            <form onSubmit={(e) => {handleEdit(e)}} className='modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100'>
-                <div className='text-green-500'>
-                <b>Name:</b> <br />
+            <form onSubmit={(e) => {handleEdit(e)}} className="modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100">
+                <div className="text-green-500">
+                <p>Name:</p> 
                 <div className="grid grid-cols-[auto_1fr] gap-1">
                     <label className="text-right">Nick Name: </label> <input type="text" value={props.label} id="nameLabel"/>
                     <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" value={props.namePrefix} id="namePrefix"/>
@@ -297,7 +315,7 @@ export function ContactsList(props){
                     <label className="text-right">Last Name: </label><input type="text" value={props.nameLast} id="nameLast"/>
                     <label className="text-right">Suffix:</label> <input type="text" value={props.nameSuffix} id="nameSuffix"/>
                 </div>
-                <ul><b>email Addresses:</b>
+                <ul><p>email Addresses:</p>
                     {
                     props.email?.map((elementEmail, indexEmail) => {
                         return (
@@ -315,7 +333,7 @@ export function ContactsList(props){
                             </li>
                     )})}
                 </ul>
-                <ul><b>Phone Numbers:</b>
+                <ul><p>Phone Numbers:</p>
                     {
                     props.phoneNumbers?.map((elementPhone, indexPhone) => {
                         return (
@@ -334,7 +352,7 @@ export function ContactsList(props){
                             </li>
                     )})}
                 </ul>
-                <ul><b>Addressess:</b>
+                <ul><p>Addressess:</p>
                     {
                     props.physicalAddress?.map((elementPA, indexPA) => {
                         return (
@@ -413,17 +431,21 @@ export function ContactsList(props){
                         <li className="flex p-2" key={index}>
                             <Popup trigger= /**https://www.geekshtmlForgeeks.org/how-to-create-popup-box-in-reactjs/ */
                                 {
-                                    <div className="cursor-pointer"><u>{element.label}</u></div>
+                                    <div className="cursor-pointer underline">
+                                        {element.label}
+                                    </div>
                                 } 
-                                modal nested>
+                                modal 
+                                nested
+                            >
                                 {
-                                    close => (
-                                        <div className='modal bg-black p-2 rounded border-2 border-green-500/100'>
-                                            <div className='content'>
-                                                <b>Name:</b> 
+                                    (close) => (
+                                        <div className="modal bg-black p-2 rounded border-2 border-green-500/100">
+                                            <div className="content">
+                                                <p>Name:</p> 
                                                 {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
                                                 <ul>
-                                                    <b>Email Addresses:</b>
+                                                    <p>Email Addresses:</p>
                                                     {
                                                         element.email?.map((elementEmail, indexEmail) => {
                                                             return (
@@ -435,7 +457,7 @@ export function ContactsList(props){
                                                     }
                                                 </ul>
                                                 <ul>
-                                                    <b>Phone Numbers:</b>
+                                                    <p>Phone Numbers:</p>
                                                     {
                                                         element.phoneNumbers?.map((elementPhone, indexPhone) => {
                                                             return (
@@ -447,14 +469,14 @@ export function ContactsList(props){
                                                     }
                                                 </ul>
                                                 <ul>
-                                                    <b>Addressess:</b>
+                                                    <p>Addressess:</p>
                                                     {
                                                         element.physicalAddress?.map((elementPA, indexPA) => {
                                                             return (
                                                                 <li className="flex px-2" key={indexPA}>
-                                                                    <p>{elementPA.label}</p><br/>
-                                                                    Street: {elementPA.streetOne}<br/>
-                                                                    Street: {elementPA.streetTwo}<br/>
+                                                                    <p>{elementPA.label}</p><pr/>
+                                                                    Street: {elementPA.streetOne}<pr/>
+                                                                    Street: {elementPA.streetTwo}<pr/>
                                                                     City: {elementPA.city}  State: {elementPA.state} Zip Code: {elementPA.zipCode}
                                                                 </li>
                                                             )
@@ -495,7 +517,7 @@ export function ContactsList(props){
                                     )
                                 }
                             </Popup>
-                            <br />
+                            
                             {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
                         </li>
                         )})
@@ -519,9 +541,9 @@ export function CustomList(props){
     
     return(
         <>
-            <b>This might be a custom list</b>
-            <b>{props.listRef.id}</b> 
-            <br />
+            <p>This might be a custom list</p>
+            <p>{props.listRef.id}</p> 
+            
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         </>
        

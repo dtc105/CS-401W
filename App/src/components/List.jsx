@@ -5,7 +5,7 @@ import { CheckboxList, Text, CalendarList, ContactsList, CustomList} from "./con
 import { getDoc, updateDoc } from "firebase/firestore";
 
 /**
- * Gets a document from an Events 'lists' sub-collection determined by listID
+ * Gets a document from an Events "lists" sub-collection determined by listID
  * Calls a function in Containers.jsx to build correct container
  * ---the container type used is determined by the "ListType" field
  * ---uses switch to call correct function, or returns and error message
@@ -19,23 +19,33 @@ function List(props){
     
     const [listRef, setListRef] = useState({}); //reference to document, not the doc itself
     const [list, setList] = useState({}); //copy or snapshot of the document
-    const [listType, setListType] = useState("");
+    const [listType, setListType] = useState(null);
     const [title, setTitle] = useState("");
 
     const titleSpanRef = useRef(null);
     const titleInputRef = useRef(null);
-    
+
     useEffect(() => {
         
         async function getList() {
-            const listref = await getListbyId(eventId, listId);
-            setListRef(listref);
-            setList((await getDoc(listref)).data());
+            try {
+                const ref = await getListbyId(eventId, listId);
+                const doc = await getDoc(ref);
+                setListRef(ref);
+                setList(doc.data());
+            } catch (e) {
+                console.error(e);
+            }
         }
         getList();
-        setListType(list["ListType"]);
-        setTitle(list["ListName"]);
-    }, []);
+    }, [eventId, listId]);
+
+    useEffect(() => {
+        if (list) {
+            setListType(list["ListType"]);
+            setTitle(list["ListName"]);
+        }
+    }, [list, listRef]);
 
     useEffect(() => {
         try {
@@ -47,30 +57,12 @@ function List(props){
             console.error(e);
         }
     }, [title]);
-
-    const switchListType = () => {
-        console.log(listType);
-        switch(listType){
-            case "checkbox":
-                return <CheckboxList list={list} listRef={listRef}/>;
-            case "text":
-                return <Text list={list} listRef={listRef}/>;
-            case "calendar":
-                return <CalendarList list={list} listRef={listRef}/>;
-            case "contacts":
-                return <ContactsList list={list} listRef={listRef}/>;
-            case "custom":
-                return <CustomList list={list} listRef={listRef}/>;
-            default:
-                return <div>That didnt work!! <br />{listId}<br /> {listType}</div>;
-        }
-    }
     
     //TODO: MAKE DELETE FUNCTION
 
     return (
         <>
-            <div className='grid grid-cols-[1fr_auto_1fr] justify-end'>
+            <div className="grid grid-cols-[1fr_auto_1fr] justify-end items-center">
                 {/* Hidden span to get appropriate witdth for input */}
                 <div className="inline-block col-start-2">
                     <span ref={titleSpanRef} className="invisible absolute">
@@ -78,28 +70,44 @@ function List(props){
                     </span>
                     <input 
                         type="text" 
-                        className='bg-transparent outline-none border-none w-fit overflow-ellipsis box-border inline-block cursor-'
+                        className="bg-transparent outline-none border-none w-fit overflow-ellipsis box-border inline-block cursor-"
                         ref={titleInputRef}
                         onChange={(e) => setTitle(e.target.value)}
-                        value={title}
+                        value={title || ""}
                     />
                 </div>
                 <button 
-                    className='col-start-3 m-2 ml-auto p-2 hover:bg-red-600 rounded transition-colors'
+                    className="col-start-3 m-2 ml-auto p-2 hover:bg-red-600 rounded transition-colors"
                     onClick={() => {
                         props.setItems(prev => prev.filter((filterId, _) => filterId != listId));
                         // ! REMOVE DOC HERE
                     }}
                 >
-                    <img src="/assets/trash.svg" alt="remove" className='invert' />
+                    <img src="/assets/trash.svg" alt="remove" className="invert" />
                 </button>
 
             </div>
-            <main className = "container">
-                { () => switchListType() /* Different list formats */} 
-            </main> 
+            <hr className="mb-4 mt-2" />
+            <SwitchListType type={listType} list={list} listRef={listRef} />
         </>
 
     )
 }
 export default List;
+
+function SwitchListType ({type, list, listRef}) {
+    switch(type){
+        case "checkbox":
+            return <CheckboxList list={list} listRef={listRef}/>;
+        case "text":
+            return <Text list={list} listRef={listRef}/>;
+        case "calendar":
+            return <CalendarList list={list} listRef={listRef}/>;
+        case "contacts":
+            return <ContactsList list={list} listRef={listRef}/>;
+        case "custom":
+            return <CustomList list={list} listRef={listRef}/>;
+        default:
+            return <div>Loading...</div>;
+    }
+}
