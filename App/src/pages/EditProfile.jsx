@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { useUserStore } from "../lib/userStore.js";
 import { getUserbyId } from "../lib/fetchData.js";
+import { updateUserDetails } from '../lib/pushData.js';
 import Avatar from "../components/Avatar.jsx";
 
 function EditProfile() {
@@ -18,7 +19,6 @@ function EditProfile() {
             setUserDetails(user.details);
         }
         getUser();
-        console.log(userDetails);
     }, [userId, id]);
 
     const handleInputChange = (event) => {
@@ -115,7 +115,7 @@ function EditProfile() {
                     />
                     <h6 className='text-xs text-center col-span-2 p-2'><span className='text-red-400'>*</span> - field is required.</h6>
                 </div>
-                <button type='submit' className='rounded text-white bg-blue-400 w-fit m-auto'>Update</button>
+                <button type='submit' className='rounded text-white bg-blue-400 w-fit m-auto' onSubmit={handleSubmit}>Update</button>
             </form>
         </div>
     );

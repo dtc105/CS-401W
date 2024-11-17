@@ -161,3 +161,13 @@ export async function updateProfileInfo(keyName, id, value){
     }
     return;
 }
+
+export async function updateUserDetails(userId, userDetails) {
+    try {
+        const userDoc = doc(db, 'users', userId);
+
+        await updateDoc(userDoc, {details: userDetails});
+    } catch (error) {
+        console.error('Error in updateUserDetails function: ', error);
+    }
+}
