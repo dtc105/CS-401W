@@ -1,6 +1,7 @@
 export const userTemplate = {
     "isActive": true,
     "details": {
+        'avatar': '',
         "name": "",
         "username": "",
         "email": "",
