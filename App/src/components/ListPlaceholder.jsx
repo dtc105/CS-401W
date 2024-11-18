@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import "./list.css";
 import { createDoc, changeDoc } from "../lib/pushData";
 
 

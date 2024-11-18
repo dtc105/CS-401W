@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Popup from "reactjs-popup";
-import "./list.css";
 import { changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
-import { ref } from "firebase/storage";
 import { db } from "../lib/firebase.js";
 import { updateDoc, setDoc, arrayRemove, deleteDoc, arrayUnion, getDoc } from "firebase/firestore";
 import * as templates from "../lib/templates.js";
@@ -45,19 +43,20 @@ export function CheckboxList(props){
 
     return(
         <>
-            <ul>
+            <ul className="flex flex-col items-center">
                 {
                     checkboxes?.map((element, index) => {
                         return (
-                            <li className="flex p-2" key={index}>
+                            <li className="flex p-2 items-center gap-2" key={index}>
                                 <input 
                                     type="checkbox" 
+                                    className="scale-125"
                                     checked={element.value} 
                                     value={element.value} 
                                     onChange={(e) => handleChangeCheckbox(index)} 
                                 />
                                 <input 
-                                    className="rightlabel" 
+                                    className="text-slate-900 rounded px-2 py-1" 
                                     type="text" 
                                     value={element.name} 
                                     onChange={(e)=>onNameChange(e, index)} 
@@ -65,21 +64,30 @@ export function CheckboxList(props){
                                 />
                                 {/*element.myUID*/} 
                                 <button 
-                                    className="deleteBTN"
+                                    className="rounded hover:bg-red-600 aspect-square h-fit transition-colors p-1"
                                     onClick={()=> {
-                                        console.log("HELP!!!!", index );
                                         updateDoc(listRef, {data: arrayRemove(checkboxes[index])});
                                         setCheckboxes(prev => prev.filter((_, filterIndex) => index != filterIndex));
                                     }}                                             
                                     >
-                                <img src="/assets/Button_Delete-01_25095.png" alt="delete" width="15px" />
+                                        <img src="/assets/x.svg" alt="delete" className="invert scale-105" />
+
                                 </button>
                             </li>
                         )
                     })
                 }
-                <button onClick={() => setCheckboxes(prev => [...prev, {name: "Change Me", value: false, myUID: 1+Math.random()}])}>
-                    Add
+                <button 
+                    onClick={() => setCheckboxes(prev => [
+                        ...prev, 
+                        {
+                            name: "Change Me", 
+                            value: false, 
+                            index: checkboxes.at(-1).index + 1
+                        }])}
+                    className="w-2/5 m-auto bg-blue-500 py-1 rounded"
+                    >
+                    <img src="/assets/plus.svg" alt="add" className="invert scale-125 m-auto" />
                 </button>
             </ul>
         </>
@@ -104,7 +112,6 @@ export function Text(props){
                 onChange={(e)=>setTheText(e.target.value)} 
                 onBlur={()=>updateDoc(props.listRef, {data: theText})}
             /> 
-            <br />
             <button onClick={()=>updateDoc(props.listRef, {data: theText}, {merge: true})}>Update</button>
         </>
        
@@ -122,8 +129,8 @@ export function CalendarList(props){
 
     return(
         <>
-            <b>This will be a calendar</b>
-            <b>{props.listRef.id}</b>
+            <p>This will be a calendar</p>
+            <p>{props.listRef.id}</p>
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         </>
     )
@@ -142,7 +149,7 @@ export function ContactsList(props){
 
     function handleAddContact(){
         const templateData = templates.newContact;
-        console.log("add Contact:\n", templateData, "\nContacts:\n", contacts);
+        // console.log("add Contact:\n", templateData, "\nContacts:\n", contacts);
         return(addContact(templateData));
         //setContacts(prev => [...prev, {templateData}]);
     }
@@ -186,26 +193,37 @@ export function ContactsList(props){
                 "zipCode": formValues.zipCode.value,
             }],
         }
-        console.log("submitJson", props.listRef.id, jsonString);
+        // console.log("submitJson", props.listRef.id, jsonString);
         updateDoc(props.listRef, {data: arrayUnion(jsonString)});
         setContacts(prev => [...prev, jsonString]);
     }
 
     function addContact(data){
         return(
-            <form onSubmit={(e) => handleSubmit(e)} className='modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100'>
-                <div className='text-green-500'>
-                <b>Name:</b> <br />
-                <div className="grid grid-cols-[auto_1fr] gap-1">
-                    <label className="text-right">Nick Name: </label> <input type="text" placeholder={data.label} id="nameLabel" required/>
-                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" placeholder={data.namePrefix} id="namePrefix"/>
-                    <label className="text-right">First Name: </label> <input type="text" placeholder={data.nameFirst} id="nameFirst"/>
-                    <label className="text-right">Middle Name: </label> <input type="text" placeholder={data.nameMiddle} id="nameMiddle"/>
-                    <label className="text-right">Last Name: </label><input type="text" placeholder={data.nameLast} id="nameLast"/>
-                    <label className="text-right">Suffix:</label> <input type="text" placeholder={data.nameSuffix} id="nameSuffix"/>
+            <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col justify-center gap-4 bg-200 p-2 rounded border-2">
+                <div className="text-">
+                <p>Name:</p> 
+                <div className="grid grid-cols-[auto_1fr] gap-2 items-center">
+                    <label className="text-right">Nick Name</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.label} id="nameLabel"/>
+
+                    <label htmlFor="prefix" className="text-right">Prefix</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.namePrefix} id="namePrefix"/>
+
+                    <label className="text-right">First Name</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.nameFirst} id="nameFirst"/>
+
+                    <label className="text-right">Middle Name</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.nameMiddle} id="nameMiddle"/>
+
+                    <label className="text-right">Last Name</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.nameLast} id="nameLast"/>
+
+                    <label className="text-right">Suffix</label>
+                    <input type="text" className="text-black px-2 py-1 rounded" placeholder={props.nameSuffix} id="nameSuffix"/>
                 </div>
                     <ul>
-                        <b>email Addresses:</b>
+                        <p>Email Addresses:</p>
                         {
                             data.email?.map((elementEmail, indexEmail) => {
                                 return (
@@ -226,7 +244,7 @@ export function ContactsList(props){
                         }
                     </ul>
                     <ul>
-                        <b>Phone Numbers:</b>
+                        <p>Phone Numbers:</p>
                         {
                             data.phoneNumbers?.map((elementPhone, indexPhone) => {
                                 return (
@@ -248,11 +266,11 @@ export function ContactsList(props){
                         }
                     </ul>
                     <ul>
-                        <b>Addressess:</b>
+                        <p>Addressess:</p>
                         {
                             data.physicalAddress?.map((elementPA, indexPA) => {
                                 return (
-                                    <li className="flex flex-col  px-2" key={indexPA}>
+                                    <li className="flex flex-col px-2" key={indexPA}>
                                         <section className="grid gap-1">
                                             <select name="addressLabel" id="addressLabel" className="w-24">
                                                 <option value="">Select</option>
@@ -262,13 +280,21 @@ export function ContactsList(props){
                                                 <option value="Other">Other</option>
                                             </select>
                                             <div className="grid grid-cols-[auto_1fr] gap-1">
-                                                <label htmlFor="streetOne">Street:</label> <input type="text" placeholder={elementPA.streetOne} id="streetOne"/>
-                                                <label htmlFor="streetTwo">Street:</label> <input type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
+                                                <label htmlFor="streetOne">Street:</label>
+                                                <input type="text" placeholder={elementPA.streetOne} id="streetOne"/>
+
+                                                <label htmlFor="streetTwo">Street:</label>
+                                                <input type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
                                             </div>
                                             <div>  
-                                                <label htmlFor="city">City:</label> <input className="w-32" type="text" placeholder={elementPA.city} id="city" />
-                                                <label htmlFor="state"> State:</label> <input className="w-32" type="text" placeholder={elementPA.state} id="state"/>
-                                                <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
+                                                <label htmlFor="city">City:</label>
+                                                <input className="w-32" type="text" placeholder={elementPA.city} id="city" />
+
+                                                <label htmlFor="state"> State:</label>
+                                                <input className="w-32" type="text" placeholder={elementPA.state} id="state"/>
+
+                                                <label htmlFor="zipCode"> Zip Code:</label>
+                                                <input className="w-14" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
                                             </div>
                                         </section>
                                     </li>
@@ -286,18 +312,18 @@ export function ContactsList(props){
         setTData(data);
 
         return(
-            <form onSubmit={(e) => {handleEdit(e)}} className='modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100'>
-                <div className='text-green-500'>
-                <b>Name:</b> <br />
+            <form onSubmit={(e) => {handleEdit(e)}} className="modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100">
+                <div className="text-green-500">
+                <p>Name:</p> 
                 <div className="grid grid-cols-[auto_1fr] gap-1">
-                    <label className="text-right">Nick Name: </label> <input type="text" defaultValue={data.label} id="nameLabel"/>
-                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" defaultValue={data.namePrefix} id="namePrefix"/>
-                    <label className="text-right">First Name: </label> <input type="text" defaultValue={data.nameFirst} id="nameFirst"/>
-                    <label className="text-right">Middle Name: </label> <input type="text" defaultValue={data.nameMiddle} id="nameMiddle"/>
-                    <label className="text-right">Last Name: </label><input type="text" defaultValue={data.nameLast} id="nameLast"/>
-                    <label className="text-right">Suffix:</label> <input type="text" defaultValue={data.nameSuffix} id="nameSuffix"/>
+                    <label className="text-right">Nick Name: </label> <input type="text" value={props.label} id="nameLabel"/>
+                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" value={props.namePrefix} id="namePrefix"/>
+                    <label className="text-right">First Name: </label> <input type="text" value={props.nameFirst} id="nameFirst"/>
+                    <label className="text-right">Middle Name: </label> <input type="text" value={props.nameMiddle} id="nameMiddle"/>
+                    <label className="text-right">Last Name: </label><input type="text" value={props.nameLast} id="nameLast"/>
+                    <label className="text-right">Suffix:</label> <input type="text" value={props.nameSuffix} id="nameSuffix"/>
                 </div>
-                <ul><b>email Addresses:</b>
+                <ul><p>email Addresses:</p>
                     {
                     data.email?.map((elementEmail, indexEmail) => {
                         return (
@@ -310,7 +336,7 @@ export function ContactsList(props){
                                         <option value="School">School</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                    <input type="email" defaultValue={elementEmail.emailAddress} id="emailAddress"/>
+                                <input type="email" value={elementEmail.emailAddress} id="emailAddress"/>
                                 </div>
                             </li>
                     )})}
@@ -325,7 +351,7 @@ export function ContactsList(props){
                         Add
                         </button> */}
                 </ul>
-                <ul><b>Phone Numbers:</b>
+                <ul><p>Phone Numbers:</p>
                     {
                     data.phoneNumbers?.map((elementPhone, indexPhone) => {
                         return (
@@ -338,13 +364,13 @@ export function ContactsList(props){
                                         <option value="Cell">Cell</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" defaultValue={elementPhone.number} id="number"/>
-                                <label className="text-right" htmlFor="extension">Ext.</label><input type="text" defaultValue={elementPhone.extension} id="extension"/>
+                                <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" value={elementPhone.number} id="number"/>
+                                <label className="text-right" htmlFor="extension">Ext.</label><input type="text" value={elementPhone.extension} id="extension"/>
                                 </div>
                             </li>
                     )})}
                 </ul>
-                <ul><b>Addressess:</b>
+                <ul><p>Addressess:</p>
                     {
                     data.physicalAddress?.map((elementPA, indexPA) => {
                         return (
@@ -359,13 +385,13 @@ export function ContactsList(props){
                                         <option value="Other">Other</option>
                                     </select>
                                     <div className="grid grid-cols-[auto_1fr] gap-1">
-                                        <label htmlFor="streetOne">Street:</label> <input type="text" defaultValue={elementPA.streetOne} id="streetOne"/>
-                                        <label htmlFor="streetTwo">Street:</label> <input type="text" defaultValue={elementPA.streetTwo} id="streetTwo"/>
+                                        <label htmlFor="streetOne">Street:</label> <input type="text" value={elementPA.streetOne} id="streetOne"/>
+                                        <label htmlFor="streetTwo">Street:</label> <input type="text" value={elementPA.streetTwo} id="streetTwo"/>
                                     </div>
                                     <div>  
-                                        <label htmlFor="city">City:</label> <input className="w-32" type="text" defaultValue={elementPA.city} id="city" />
-                                        <label htmlFor="state"> State:</label> <input className="w-32" type="text" defaultValue={elementPA.state} id="state"/>
-                                        <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode" defaultValue={elementPA.zipCode} id="zipCode"/>
+                                        <label htmlFor="city">City:</label> <input className="w-32" type="text" value={elementPA.city} id="city" />
+                                        <label htmlFor="state"> State:</label> <input className="w-32" type="text" value={elementPA.state} id="state"/>
+                                        <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode" value={elementPA.zipCode} id="zipCode"/>
                                     </div>
                                 </section>
                             </li>
@@ -412,8 +438,8 @@ export function ContactsList(props){
                 "zipCode": formValues.zipCode.value,
             }],
         }
-        console.log("submitJson", listRef.id, jsonString);
-        console.log("tData", tData);
+        // console.log("submitJson", listRef.id, jsonString);
+        // console.log("tData", tData);
         updateDoc(listRef, {data: arrayRemove(tData)});
         updateDoc(props.listRef, {data: arrayUnion(jsonString)});
         setContacts(props.listRef.data);
@@ -429,17 +455,21 @@ export function ContactsList(props){
                         <li className="flex p-2" key={index}>
                             <Popup trigger= /**https://www.geekshtmlForgeeks.org/how-to-create-popup-box-in-reactjs/ */
                                 {
-                                    <div className="cursor-pointer"><u>{element.label}</u></div>
+                                    <div className="cursor-pointer underline">
+                                        {element.label}
+                                    </div>
                                 } 
-                                modal nested>
+                                modal 
+                                nested
+                            >
                                 {
-                                    close => (
-                                        <div className='modal bg-black p-2 rounded border-2 border-green-500/100'>
-                                            <div className='content'>
-                                                <b>Name: </b> 
+                                    (close) => (
+                                        <div className="modal bg-black p-2 rounded border-2 border-green-500/100">
+                                            <div className="content">
+                                                <p>Name:</p> 
                                                 {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
                                                 <ul>
-                                                    <b>Email Addresses:</b>
+                                                    <p>Email Addresses:</p>
                                                     {
                                                         element.email?.map((elementEmail, indexEmail) => {
                                                             return (
@@ -451,7 +481,7 @@ export function ContactsList(props){
                                                     }
                                                 </ul>
                                                 <ul>
-                                                    <b>Phone Numbers:</b>
+                                                    <p>Phone Numbers:</p>
                                                     {
                                                         element.phoneNumbers?.map((elementPhone, indexPhone) => {
                                                             return (
@@ -463,14 +493,14 @@ export function ContactsList(props){
                                                     }
                                                 </ul>
                                                 <ul>
-                                                    <b>Addressess:</b>
+                                                    <p>Addressess:</p>
                                                     {
                                                         element.physicalAddress?.map((elementPA, indexPA) => {
                                                             return (
                                                                 <li className="flex px-2" key={indexPA}>
-                                                                    <p>{elementPA.label}</p><br/>
-                                                                    Street: {elementPA.streetOne}<br/>
-                                                                    Street: {elementPA.streetTwo}<br/>
+                                                                    <p>{elementPA.label}</p><pr/>
+                                                                    Street: {elementPA.streetOne}<pr/>
+                                                                    Street: {elementPA.streetTwo}<pr/>
                                                                     City: {elementPA.city}  State: {elementPA.state} Zip Code: {elementPA.zipCode}
                                                                 </li>
                                                             )
@@ -501,7 +531,7 @@ export function ContactsList(props){
                                                             updateDoc(listRef, {data: arrayRemove(element)}); 
                                                             setContacts(prev => prev.filter((_, fIndex) => fIndex != index));
                                                             close();
-                                                            console.log(element);
+                                                            // console.log(element);
                                                         }}
                                                 >
                                                     Delete
@@ -511,7 +541,7 @@ export function ContactsList(props){
                                     )
                                 }
                             </Popup>
-                            <br />
+                            
                             {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
                         </li>
                         )})
@@ -537,9 +567,9 @@ export function CustomList(props){
     
     return(
         <>
-            <b>This might be a custom list</b>
-            <b>{props.listRef.id}</b> 
-            <br />
+            <p>This might be a custom list</p>
+            <p>{props.listRef.id}</p> 
+            
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         </>
        
