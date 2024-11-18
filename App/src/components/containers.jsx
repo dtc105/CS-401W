@@ -7,6 +7,7 @@ import { ref } from "firebase/storage";
 import { db } from "../lib/firebase.js";
 import { updateDoc, setDoc, arrayRemove, deleteDoc, arrayUnion, getDoc } from "firebase/firestore";
 import * as templates from "../lib/templates.js";
+import { fetchSignInMethodsForEmail } from "firebase/auth";
 
 // function handleLegendClick(){
 //     console.log("handleLegendClick");
@@ -146,6 +147,13 @@ export function ContactsList(props){
         //setContacts(prev => [...prev, {templateData}]);
     }
 
+    function handleAddContactFilled(){ //! for testing, can be removed later
+        const templateData = templates.newContactTest;
+        console.log("add Contact:\n", templateData, "\nContacts:\n", contacts);
+        return(changeContact(templateData));
+        //setContacts(prev => [...prev, {templateData}]);
+    }
+
     function handleSubmit(e){
         const formValues = e.target.elements;
         // Object.keys(e.target.elements).map((element)=> {
@@ -171,7 +179,7 @@ export function ContactsList(props){
             "physicalAddress": [{
                 "label": formValues.addressLabel.value,
                 "streetOne": formValues.streetOne.value,
-                "streetTwo": formValues.streetOne.value,
+                "streetTwo": formValues.streetTwo.value,
                 "city": formValues.city.value,
                 "state": formValues.state.value,
                 "country": "USA",
@@ -183,23 +191,23 @@ export function ContactsList(props){
         setContacts(prev => [...prev, jsonString]);
     }
 
-    function addContact(props){
+    function addContact(data){
         return(
             <form onSubmit={(e) => handleSubmit(e)} className='modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100'>
                 <div className='text-green-500'>
                 <b>Name:</b> <br />
                 <div className="grid grid-cols-[auto_1fr] gap-1">
-                    <label className="text-right">Nick Name: </label> <input type="text" placeholder={props.label} id="nameLabel"/>
-                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" placeholder={props.namePrefix} id="namePrefix"/>
-                    <label className="text-right">First Name: </label> <input type="text" placeholder={props.nameFirst} id="nameFirst"/>
-                    <label className="text-right">Middle Name: </label> <input type="text" placeholder={props.nameMiddle} id="nameMiddle"/>
-                    <label className="text-right">Last Name: </label><input type="text" placeholder={props.nameLast} id="nameLast"/>
-                    <label className="text-right">Suffix:</label> <input type="text" placeholder={props.nameSuffix} id="nameSuffix"/>
+                    <label className="text-right">Nick Name: </label> <input type="text" placeholder={data.label} id="nameLabel" required/>
+                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" placeholder={data.namePrefix} id="namePrefix"/>
+                    <label className="text-right">First Name: </label> <input type="text" placeholder={data.nameFirst} id="nameFirst"/>
+                    <label className="text-right">Middle Name: </label> <input type="text" placeholder={data.nameMiddle} id="nameMiddle"/>
+                    <label className="text-right">Last Name: </label><input type="text" placeholder={data.nameLast} id="nameLast"/>
+                    <label className="text-right">Suffix:</label> <input type="text" placeholder={data.nameSuffix} id="nameSuffix"/>
                 </div>
                     <ul>
                         <b>email Addresses:</b>
                         {
-                            props.email?.map((elementEmail, indexEmail) => {
+                            data.email?.map((elementEmail, indexEmail) => {
                                 return (
                                     <li className="flex px-2" key={indexEmail}>
                                         <div className="grid grid-cols-[auto_1fr] gap-1">
@@ -220,7 +228,7 @@ export function ContactsList(props){
                     <ul>
                         <b>Phone Numbers:</b>
                         {
-                            props.phoneNumbers?.map((elementPhone, indexPhone) => {
+                            data.phoneNumbers?.map((elementPhone, indexPhone) => {
                                 return (
                                     <li className="flex px-2" key={indexPhone}>
                                         <div className="grid grid-cols-[auto_1fr] gap-1">
@@ -242,7 +250,7 @@ export function ContactsList(props){
                     <ul>
                         <b>Addressess:</b>
                         {
-                            props.physicalAddress?.map((elementPA, indexPA) => {
+                            data.physicalAddress?.map((elementPA, indexPA) => {
                                 return (
                                     <li className="flex flex-col  px-2" key={indexPA}>
                                         <section className="grid gap-1">
@@ -274,46 +282,56 @@ export function ContactsList(props){
         )
     }
     
-    function changeContact(props){
-        setTData(props);
+    function changeContact(data){
+        setTData(data);
 
         return(
             <form onSubmit={(e) => {handleEdit(e)}} className='modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100'>
                 <div className='text-green-500'>
                 <b>Name:</b> <br />
                 <div className="grid grid-cols-[auto_1fr] gap-1">
-                    <label className="text-right">Nick Name: </label> <input type="text" defaultValue={props.label} id="nameLabel"/>
-                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" defaultValue={props.namePrefix} id="namePrefix"/>
-                    <label className="text-right">First Name: </label> <input type="text" defaultValue={props.nameFirst} id="nameFirst"/>
-                    <label className="text-right">Middle Name: </label> <input type="text" defaultValue={props.nameMiddle} id="nameMiddle"/>
-                    <label className="text-right">Last Name: </label><input type="text" defaultValue={props.nameLast} id="nameLast"/>
-                    <label className="text-right">Suffix:</label> <input type="text" defaultValue={props.nameSuffix} id="nameSuffix"/>
+                    <label className="text-right">Nick Name: </label> <input type="text" defaultValue={data.label} id="nameLabel"/>
+                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text" defaultValue={data.namePrefix} id="namePrefix"/>
+                    <label className="text-right">First Name: </label> <input type="text" defaultValue={data.nameFirst} id="nameFirst"/>
+                    <label className="text-right">Middle Name: </label> <input type="text" defaultValue={data.nameMiddle} id="nameMiddle"/>
+                    <label className="text-right">Last Name: </label><input type="text" defaultValue={data.nameLast} id="nameLast"/>
+                    <label className="text-right">Suffix:</label> <input type="text" defaultValue={data.nameSuffix} id="nameSuffix"/>
                 </div>
                 <ul><b>email Addresses:</b>
                     {
-                    props.email?.map((elementEmail, indexEmail) => {
+                    data.email?.map((elementEmail, indexEmail) => {
                         return (
                             <li className="flex px-2" key={indexEmail}>
                                 <div className="grid grid-cols-[auto_1fr] gap-1">
-                                    <select name="emailLabel" id="emailLabel">
+                                    <select name="emailLabel" id="emailLabel" defaultValue={elementEmail.label}>
                                         <option value="">Select</option>
                                         <option value="Work">Work</option>
                                         <option value="Personal">Personal</option>
                                         <option value="School">School</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                <input type="email" defaultValue={elementEmail.emailAddress} id="emailAddress"/>
+                                    <input type="email" defaultValue={elementEmail.emailAddress} id="emailAddress"/>
                                 </div>
                             </li>
                     )})}
+                    {/* <button onClick={() => {console.log("add email")
+                                updateDoc(data.listRef.data, {email: arrayUnion({
+                                    "label": "select",
+                                    "emailAddress": "me@email.com",
+                                })});
+                                //setContacts(prev => [...prev, jsonString]);
+                            }
+                        }>
+                        Add
+                        </button> */}
                 </ul>
                 <ul><b>Phone Numbers:</b>
                     {
-                    props.phoneNumbers?.map((elementPhone, indexPhone) => {
+                    data.phoneNumbers?.map((elementPhone, indexPhone) => {
                         return (
                             <li className="flex px-2" key={indexPhone}>
                                 <div className="grid grid-cols-[auto_1fr] gap-1">
-                                    <select name="phoneLabel" id="phoneLabel">
+                                    <select name="phoneLabel" id="phoneLabel" defaultValue={elementPhone.label}>
                                         <option value="">Select</option>
                                         <option value="Work">Work</option>
                                         <option value="Home">Home</option>
@@ -328,11 +346,12 @@ export function ContactsList(props){
                 </ul>
                 <ul><b>Addressess:</b>
                     {
-                    props.physicalAddress?.map((elementPA, indexPA) => {
+                    data.physicalAddress?.map((elementPA, indexPA) => {
                         return (
                             <li className="flex flex-col  px-2" key={indexPA}>
                                 <section className="grid gap-1">
-                                    <select name="addressLabel" id="addressLabel" className="w-24">
+                                    <select name="addressLabel" id="addressLabel" className="w-24" defaultValue={elementPA.label}>
+                                        {/*console.log("***************\nMailing PA: ", elementPA.label)*/}
                                         <option value="">Select</option>
                                         <option value="Buisness">Buisness</option>
                                         <option value="Home">Home</option>
@@ -361,6 +380,11 @@ export function ContactsList(props){
     function handleEdit(e){
         const formValues = e.target.elements;
         
+        console.log("Submit: ", formValues.emailAddress[0]?.value)
+
+        let jsonEmail = {};
+        
+
 
         const jsonString = {
             "label": formValues.nameLabel.value,
@@ -381,7 +405,7 @@ export function ContactsList(props){
             "physicalAddress": [{
                 "label": formValues.addressLabel.value,
                 "streetOne": formValues.streetOne.value,
-                "streetTwo": formValues.streetOne.value,
+                "streetTwo": formValues.streetTwo.value,
                 "city": formValues.city.value,
                 "state": formValues.state.value,
                 "country": "USA",
@@ -412,7 +436,7 @@ export function ContactsList(props){
                                     close => (
                                         <div className='modal bg-black p-2 rounded border-2 border-green-500/100'>
                                             <div className='content'>
-                                                <b>Name:</b> 
+                                                <b>Name: </b> 
                                                 {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
                                                 <ul>
                                                     <b>Email Addresses:</b>
@@ -463,7 +487,7 @@ export function ContactsList(props){
                                                 >
                                                     {
                                                         (close) => {
-                                                            close();
+                                                            //close(); //! closing as soon as opens??
                                                             return (
                                                                 <div>
                                                                     Edit {changeContact(element, index)}
@@ -493,6 +517,8 @@ export function ContactsList(props){
                         )})
                 }
                 <Popup trigger= {<button>Add</button>} modal nested>{close => ( <div>Add {handleAddContact()}</div> )}</Popup>
+                <br />
+                <Popup trigger= {<button>AddTest</button>} modal nested>{close => ( <div>Add {handleAddContactFilled()}</div> )}</Popup>
             </ul>
         </>
        

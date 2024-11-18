@@ -1,4 +1,4 @@
-import { getAllUsers, getOneUser, getEventsbyOwner } from "../lib/fetchData";
+import { getAllUsers,getFirstUser, getEventsbyOwner } from "../lib/fetchData";
 import { createDoc, changeDoc, createEvent} from "../lib/pushData";
 import Event from "./Event"
 import "./list.css";
@@ -8,7 +8,7 @@ const eventID = "GvZjTZf1bzjj7mRUSXBk"; // !place holder, will need to 'know' do
 function WorkSpace(){
 
     async function myLoad(){
-        const aUser = await getOneUser();
+        const aUser = await getFirstUser();
         //console.log("aUser:", aUser);
         // const userID = aUser; //"J9BTZDWAy2qMouAsr4wN"// place holder for Current User
         // console.log("userId: ", userID);

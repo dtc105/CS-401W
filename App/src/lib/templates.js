@@ -119,3 +119,46 @@ export const newAddress = {
     "country": "USA",
     "zipCode": "12345",
 }
+
+export const newContactTest = { //prefilled fields for testing
+    "label": "Slambert",
+    "nameFirst": "Scott",
+    "nameLast": "Lambert",
+    "nameMiddle": "",
+    "namePrefix": "Dr",
+    "nameSuffix": "",
+    "email": [
+        {
+            "label": "School",
+            "emailAddress": "me@email.com",
+        },
+        {
+            "label": "Work",
+            "emailAddress": "me@work.email.com",
+        },
+],
+    "phoneNumbers": [{
+        "label": "Work",
+        "number": "1234567890",
+        "extention": "",
+    }],
+    "physicalAddress": [{
+        "label": "Mailing",
+        "streetOne": "123 Anywhere St",
+        "streetTwo": "care of School of Buisness",
+        "city": "Providence",
+        "state": "RI",
+        "country": "USA",
+        "zipCode": "12345",
+    }],
+}
+
+export const newAddressTest = { //For testing Purposes
+    "label": "buisness, home, mailing, etc...",
+    "streetOne": "123 Anywhere St",
+    "streetTwo": "suite, apt, care of",
+    "city": "City, Town",
+    "state": "state/province",
+    "country": "USA",
+    "zipCode": "12345",
+}

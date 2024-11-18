@@ -40,10 +40,6 @@ function List(props){
             setLegend(await list["ListName"]);
         }
         getList();
-
-        async function waitForName(){setLegend(await list["ListName"]);}//Makes the render wait for data
-        waitForName();
-
     }, []);
 
    
