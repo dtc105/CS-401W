@@ -8,11 +8,12 @@ import { userTemplate } from "./templates.js";
  * @returns {Reference} new users reference
  */
 export async function createUser(id, inData) {
-    const stamp = timestamp("lastChange");
+    const lastChangeStamp = timestamp("lastChange");
+    const createdAtStamp = timestamp('createdAt');
 
     let userRef;
     try {
-        userRef = await setDoc(doc(db, "users", id), {...userTemplate, ...inData, ...stamp});
+        userRef = await setDoc(doc(db, "users", id), {...userTemplate, ...inData, ...lastChangeStamp, ...createdAtStamp});
     } catch (e) {
         console.error(e);
         return;
@@ -87,7 +88,7 @@ export async function changeDoc(collectionID, docID, data) {
 
 
 // Constant used for all timestamps
-const validFieldNames = ["dateCreated", "dateCompleted", "dateRead", "lastChange"];
+const validFieldNames = ["createdAt", "dateCompleted", "dateRead", "lastChange"];
  
 /**
  * Adds/changes a timestamp to show when the doc was last changed  
@@ -133,7 +134,7 @@ export function timestamp(fieldName = "lastChange") {
  * @param {object} listAttributes 
  * @returns {DocumentReference} A Promise resolved with a DocumentReference pointing to the newly created document after it has been written to the backend (Note that it won't resolve while you're offline).
  */
-export async function createList(eventDocName, listAttributes){// 
+export async function createList(eventDocName, listAttributes){
     
     const docID = "/planner/"+eventDocName+"/lists"; //path to lists subcollection
     let data = {};
@@ -145,4 +146,28 @@ export async function createList(eventDocName, listAttributes){//
     const ref = await createDoc(docID, data);
     console.log("in createList " ,ref);
     return ref;
+}
+
+// Might work???
+export async function updateProfileInfo(keyName, id, value){
+    const userDoc = doc(db, "users", id);
+
+    try {
+        await updateDoc(userdoc, {
+            keyName: {value}
+        });
+    } catch (e) {
+        console.log("Could not update ${keyName} with ${value}");
+    }
+    return;
+}
+
+export async function updateUserDetails(userId, userDetails) {
+    try {
+        const userDoc = doc(db, 'users', userId);
+
+        await updateDoc(userDoc, {details: userDetails});
+    } catch (error) {
+        console.error('Error in updateUserDetails function: ', error);
+    }
 }

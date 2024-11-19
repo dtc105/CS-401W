@@ -1,6 +1,7 @@
 //import data from './listSkeletons/checklist.json' assert { type: 'json' };
+
 import { createDoc } from "./pushData.js";
-import { getAllListSkeletons } from "./fetchData.js";
+import * as templates from "./templates.js";
 
 /**
  * Creates a new list , adds initial data, returns the new docs ref
@@ -11,13 +12,11 @@ import { getAllListSkeletons } from "./fetchData.js";
 export async function createList(eventDocName, listAttributes){// 
     
     const docID = "/planner/"+eventDocName+"/lists"; //path to lists subcollection
-    let data = {};
+    const templateData = templates.listTemplate[listAttributes];
 
-    const skel = await getAllListSkeletons();
-    skel.forEach(skel => console.log('skel:', skel));
-    data = skel[2];
+    const ref = await createDoc(docID, templateData);
 
-    const ref = await createDoc(docID, data);
     console.log("in createList " ,ref);
+
     return ref;
 }

@@ -60,7 +60,7 @@ function User() {
                                 <div className="h-12">
                                     <Avatar user={currentUser}/>
                                 </div>
-                                <span>{currentUser.username}</span>
+                                <span>{currentUser?.username || 'Guest' }</span>
                                 <img 
                                     src={dropDownOpen ? "assets/caret-up-fill.svg" : "assets/caret-down-fill.svg"} 
                                     alt="drop down icon" 

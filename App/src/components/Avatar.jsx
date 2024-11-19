@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 /**
  * 
  * @param {UserObject} props - takes in the object of the current user, get object from fetchData
@@ -15,21 +13,10 @@ function Avatar(props) {
             <img 
                 src={currentUser?.avatar || "/assets/default-avatar.svg"} 
                 alt="avatar icon" 
-                className="contain-content object-cover h-5/6 aspect-square rounded-circle"
+                className="contain-content object-cover aspect-square rounded-circle h-full"
             />
-            {/* <div className="relative h-1/3 aspect-square rounded-circle bg-green-400 border-2 border-300 left-5/8 bottom-1/4"></div> */}
         </div>
     );
 }
-
-Avatar.propTypes = {
-    user: PropTypes.shape({
-        username: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        createdAt: PropTypes.string
-    })
-}
-
-
 
 export default Avatar;

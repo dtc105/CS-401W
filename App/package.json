@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.20",
+<<<<<<< HEAD
     "country-flag-emoji": "^1.0.3",
+=======
+    "cors": "^2.8.5",
+>>>>>>> 38ac83c87158c384b669273178d299306df6c93c
     "firebase": "^10.13.1",
     "formik": "^2.4.6",
     "postcss": "^8.4.41",
@@ -23,9 +27,13 @@
     "react-otp-input": "^3.1.1",
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^6.26.1",
+<<<<<<< HEAD
     "react-scripts": "^5.0.1",
     "react-select": "^5.8.3",
     "react-select-country-list": "^2.2.3",
+=======
+    "reactjs-popup": "^2.0.6",
+>>>>>>> 38ac83c87158c384b669273178d299306df6c93c
     "tailwindcss": "^3.4.10",
     "yup": "^1.4.0",
     "zustand": "^4.5.5"

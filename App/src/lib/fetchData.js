@@ -1,5 +1,5 @@
 import { db } from "../lib/firebase.js";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, setDoc, getDoc, doc } from "firebase/firestore";
 
 /**
  * Returns all users
@@ -22,7 +22,7 @@ export async function getAllUsers() {
 export async function getOneUser() {
     try {
         const querySnapshot = await getDocs(query(collection(db, "users")));
-        console.log("from getoneuser: ", querySnapshot.docs[0].id);
+        //console.log("from getoneuser: ", querySnapshot.docs[0].id);
         return querySnapshot.docs[0].id;
     } catch (e) {
         console.error(e);
@@ -37,8 +37,10 @@ export async function getOneUser() {
 export async function getUserbyId(id) {
     try {
         //const querySnapshot = await getDocs(query(collection(db, "users"), where("id", "==", id)));
-        const querySnapshot = getByID("users", id);
-        return querySnapshot[0].data();
+        const querySnapshot = await getByID("users", id);
+        const data = await querySnapshot.data()
+
+        return {id: id, data: data}
     } catch (e) {
         console.error(e);
     }
@@ -86,38 +88,65 @@ export async function getEventbyId(eventID) {
 export async function getEventsbyOwner(ownerID) {
     try {
         const querySnapshot = await getDocs(query(collection(db, "planner")));//, where("ownerId", "==", ownerID)));
-        console.log("from getEventsbyOwner: ", querySnapshot.docs[0].id);
+        //console.log("from getEventsbyOwner: ", querySnapshot.docs[0].id);
         return querySnapshot;
     } catch (e) {
         console.error(e);
     }
 }
 
+
 /**
- * ? Does something
- * ! NEEDS WORK (listId not used)
+ * Retuns the data of the specified documents from the 'lists' subcollection of a specified event
+ * @param {string} eventID 
  * @param {string} listID 
  * @returns 
  */
-export async function getListbyId(listID) {
-    //const event = await getDocs(query(collection(db, "events"), where("id", "==", eventID)));
-    const event = getByID("users", id);
-    return event[0].data();
+export async function getListbyId(eventID, listID) {
+    const ref = await doc(db, "planner", eventID);
+    const list = await doc(ref, "lists", listID);
+    //console.log("*******\ngetListbyID ref:\n ", ref);
+    //console.log("*******\ngetListbyID list: \n", list);
+    //return list.data();
+    return list;
 }
 
 /**
- * Returns all list skeletons
- * ! List skeletons not used anymore
- * @see ./templates.js
- * @deprecated
- * @returns all list skeletons
+ * Returns a list of documents from the 'lists' subcollection of a specified event
+ * @param {string} eventID 
+ * @returns 
  */
-export async function getAllListSkeletons() {
+export async function getListsbyEventId(eventID) {
+    const ref = await doc(db, "planner", eventID);
+    const lists = await getDocs(collection(ref,"lists"));
+    let listOut =[];
+    lists.forEach(lists => {
+        //console.log("ListsByEventID - lists: ", lists.id);
+        listOut.push(lists.id);
+    });
+    
+    // listOut.forEach(listOut => {
+    //     console.log("ListsByEventID - listout: ", listOut);
+    // });
+
+    return listOut;
+}
+
+export async function getKeyValue(userID, keyName) {
     try {
-        const querySnapshot = await getDocs(query(collection(db, "listSkeletons")));
-        return querySnapshot.docs.map((doc) => doc.data());
-    } catch (e) {
-        console.error(e);
+        const docRef = doc(db, "users", userID);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const keyValue = docSnap.data()[keyName];
+            console.log(docSnap.data());
+            console.log(`Value of ${keyName}:`, keyValue);
+            return keyValue;
+        } else {
+            console.log('Data does not exist.');
+        }
+    } catch (error) {
+        console.log('Error retrieving data', error);
     }
 }
 
@@ -128,9 +157,10 @@ export async function getAllListSkeletons() {
  * @returns {Doc} Document with matching collection and id
  * @throws if something goes wrong
  */
-function getByID (getCollection, getID){
-    const res = getDocs(query(collection(db, getCollection), where("id", "==", getID)));
-    return res;
+async function getByID (collection, id){
+    const docRef = await doc(db, collection, id);
+    const docSnap = await getDoc(docRef);
+    return docSnap;
 }
 
 

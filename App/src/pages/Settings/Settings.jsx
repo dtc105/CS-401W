@@ -36,6 +36,7 @@ function Settings() {
                 }
             ]
         },
+<<<<<<< HEAD
         {
             header: { name: "Notifications" },
             values: [
@@ -49,6 +50,27 @@ function Settings() {
                     tags: ["Email", "Phone Number"]
                 }
             ]
+=======
+
+        values: [
+            {
+                name: "Profile Info", 
+                description: "Manage your account information",
+                tags: ["Name", "Email", "Profile Picture", "Phone Number"],
+            },
+            {
+                name: "Password Management",
+                description: "Change/Reset your password",
+                tags:["Change Password", "Reset Password"]
+            }
+        ],
+
+    },
+
+    {
+        header: {
+                name: 'Display',
+>>>>>>> 38ac83c87158c384b669273178d299306df6c93c
         },
         {
             header: { name: "Organization" },
@@ -163,9 +185,22 @@ function Settings() {
                                     padding: '15px'
                                 }}>
                                     <ul className="list-group">
+<<<<<<< HEAD
                                         <li className="list-group-item mb-2">
                                             <h6 style={{ textIndent: '10px', fontWeight: 'bold' }}>{value.name}</h6>
                                             <p style={{ textIndent: '40px' }}>{value.description}</p>
+=======
+                                        {value.name === "Profile Info" ? (
+                                            <a href='/edit'>
+                                                {value.name}
+                                            </a>
+                                        ) : (
+                                            value.name
+                                        )}
+                                        <li className="list-group-tem mb-2">
+                                            <p style={{textIndent: '40px'}}>{value.description}</p>
+                                            {value.action}
+>>>>>>> 38ac83c87158c384b669273178d299306df6c93c
                                         </li>
                                     </ul>
                                 </div>
