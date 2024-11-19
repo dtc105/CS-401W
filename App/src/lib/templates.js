@@ -134,14 +134,24 @@ export const newContactTest = { //prefilled fields for testing
         },
         {
             "label": "Work",
-            "emailAddress": "me@work.email.com",
+            "emailAddress": "me@work.com",
         },
+        
 ],
-    "phoneNumbers": [{
-        "label": "Work",
-        "number": "1234567890",
-        "extention": "",
-    }],
+    "phoneNumbers": [
+            {
+            "label": "Work",
+            "number": "1234567890",
+            "extention": "1",
+            },
+            {
+            "label": "Home",
+            "number": "1234567890",
+            "extention": "2",
+            },
+
+    ],
+        
     "physicalAddress": [{
         "label": "Mailing",
         "streetOne": "123 Anywhere St",
