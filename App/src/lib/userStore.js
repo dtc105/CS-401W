@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase.js";
 
@@ -16,7 +15,7 @@ import { db } from "./firebase.js";
  * 
  * @property {function} fetchUserInfo           - Fetches user info
  */
-export const useUserStore = create(persist((set) => ({
+export const useUserStore = create((set) => ({
         currentUser: null,
         userId: null,
         removeUser: () => {
@@ -37,10 +36,6 @@ export const useUserStore = create(persist((set) => ({
                 set({currentUser: null, isLoading: false, userId: null});
             }
         }
-    }),
-    {
-        name: "currentUserStorage",
-        storage: createJSONStorage(() => localStorage)
-    }
+    })
 
-));
+);

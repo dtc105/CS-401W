@@ -15,11 +15,11 @@ function Profile() {
 
     useEffect(() => {
         async function getUser() {
-            const user = await getUserbyId(id || userId);
+            const user = (await getUserbyId(id || userId)).data;
             setUserDoc(user);
             setUserDetails(user.details);
             setUserGroups(user.groups);
-            setUserConnections(user.connections);
+            setUserConnections(await Promise.all(user.connections.map(async (connection, index) => (await getUserbyId(connection)).data)));
             setCreatedAt(user.createdAt.seconds);
         }
         getUser();
@@ -33,21 +33,21 @@ function Profile() {
 
     return (
         <div className="grid place-content-center">
-            <div id="profile" className="grid grid-cols-2 grid-rows-2 gap-8 text-2xl">
+            <div id="profile" className="grid grid-cols-2 grid-rows-2 gap-8 text-2xl aspect-square">
                 <div>
                     <Avatar />
                 </div>
                 <div id="connections" className="border rounded p-2">
                     <p className="text-center">Connections</p>
                     <hr />
-                    <ul>
+                    <ul className="flex flex-col overflow-auto">
                         {
                             userConnections.map((connection, index) => {
                                 return (
-                                    <li className="m-1 text-lg" key={index}>
-                                        <a href={`http://localhost:5173/profile/${connection.userid}`}>{connection.name}</a>
+                                    <li>
+                                        <a href={`/profile/${connection.id}`} className="flex gap-2 items-center mx-1"><Avatar user={connection.id}/>{connection.username}</a>
                                     </li>
-                                );
+                                )
                             })
                         }
                     </ul>
@@ -62,20 +62,20 @@ function Profile() {
                             Object
                                 .keys(userDetails)
                                 .sort()
-                                .filter((key) => !["name", "username", "namePrefix"].includes(key) && userDetails[key])
+                                .filter((key) => !["name", "username", "prefix", "avatar"].includes(key) && userDetails[key])
                                 .map((key, index) => {
                                 return (
                                     <li className="m-1 text-lg" key={index}> {key.charAt(0).toUpperCase() + key.slice(1)}: {userDetails[key]} </li>
                                 );
                             })
                         }
-                        <p className='text-center text-lg '>Joined on {formatDate(createdAt)}</p>
+                        <p className='text-center text-lg text-bottom'>Joined on {formatDate(createdAt)}</p>
                     </ul>
                 </div>
                 <div id="groups" className="border rounded p-2">
                     <p className="text-center">Groups</p>
                     <hr />
-                    <ul> Not yet implemented!
+                    <ul className="flex flex-col overflow-auto"> Not yet implemented!
                         {/* {
                             userGroups.map((group, index) => {
                                 return (
