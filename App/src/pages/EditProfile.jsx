@@ -19,7 +19,7 @@ function EditProfile() {
 
     useEffect(() => {
         async function getUser() {
-            const user = await getUserbyId(id || userId);
+            const user = (await getUserbyId(id || userId)).data;
             setUserDoc(user);
             setUserDetails(user.details);
         }

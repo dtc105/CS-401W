@@ -38,7 +38,9 @@ export async function getUserbyId(id) {
     try {
         //const querySnapshot = await getDocs(query(collection(db, "users"), where("id", "==", id)));
         const querySnapshot = await getByID("users", id);
-        return querySnapshot.data();
+        const data = await querySnapshot.data()
+
+        return {id: id, data: data}
     } catch (e) {
         console.error(e);
     }
@@ -156,7 +158,7 @@ export async function getKeyValue(userID, keyName) {
  * @throws if something goes wrong
  */
 async function getByID (collection, id){
-    const docRef = doc(db, collection, id);
+    const docRef = await doc(db, collection, id);
     const docSnap = await getDoc(docRef);
     return docSnap;
 }
