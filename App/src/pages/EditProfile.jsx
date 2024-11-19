@@ -5,6 +5,7 @@ import { getUserbyId } from "../lib/fetchData.js";
 import { updateUserDetails } from '../lib/pushData.js';
 import { ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import { storage } from "../lib/firebase.js";
+import { useNavigate } from 'react-router-dom';
 import Avatar from "../components/Avatar.jsx";
 
 function EditProfile() {
@@ -14,6 +15,7 @@ function EditProfile() {
     const [userDetails, setUserDetails] = useState({});
     const [avatarFile, setAvatarFile] = useState(null);
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function getUser() {
@@ -25,38 +27,23 @@ function EditProfile() {
     }, [userId, id]);
 
     const handleInputChange = (event) => {
-        const { name, value, files } = event.target;
-
-        if(name === 'avatar' && files && files.length > 0) {
-            setAvatarFile(files[0]);
-        } else {
-            setUserDetails({
-                ...userDetails,
-                [name]: value
-            });
-        }
+        const { name, value } = event.target;
+        setUserDetails({
+            ...userDetails,
+            [name]: value
+        });
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            let avatarURL = userDetails.avatar;
+            const response = await updateUserDetails(userId, userDetails);
+            setMessage('Profile has been updated successfully. Redirecting in 3 seconds...');
+            setUserDoc({ ...userDoc });
+            setTimeout(() => {
+                navigate('/profile');
+            }, 3000);
 
-            if(avatarFile) {
-                const avatarRef = ref(storage, `avatar/${id || userId}`);
-                    await uploadBytes(avatarRef, avatarFile);
-
-                    avatarURL = await getDownloadURL(avatarRef);
-            }
-
-            const allDetails = {
-                ...userDetails,
-                avatar: avatarURL
-            }
-
-            const response = await updateUserDetails(userId, allDetails);
-            setMessage('Profile has been updated successfully.');
-            setUserDoc({ ...userDoc, avatar: avatarURL});
         } catch (error) {
             console.error('An error occurred: ', error);
             setMessage('An error occured when attempting to update profile. See console for details.');
@@ -107,9 +94,9 @@ function EditProfile() {
                         className='text-black w-5/6 m-auto' 
                         type="text"
                         name="prefix"
-                        value={userDetails.namePrefix}
+                        value={userDetails.prefix}
                         onChange={handleInputChange}
-                        defaultValue={userDetails.namePrefix}
+                        defaultValue={userDetails.prefix}
                         placeholder='Enter your prefix...'
                     />
                     <label className='text-right'>Organization:</label>

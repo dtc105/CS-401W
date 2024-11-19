@@ -8,7 +8,7 @@ export const userTemplate = {
         "organization": "",
         "title": "",
         "phone": "",
-        "namePrefix": ""
+        "prefix": ""
     },
     "groups": [],
     "connections": [],
