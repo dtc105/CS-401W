@@ -7,8 +7,8 @@ import Settings from "../pages/Settings/Settings.jsx";
 import LoginContainer from "../pages/LoginContainer.jsx";
 import FAQs from "../pages/Settings/FAQs.jsx";
 import ForgotPass from "../pages/Settings/ForgotPass.jsx";
-
-
+import PhoneAuth from '../pages/PhoneAuth.jsx';
+import OTPVerify from "../pages/OTPVerify.jsx";
 /**
  * Main body of the site, not to be confused with /src/main.jsx
  * @returns {Feature}
@@ -26,6 +26,8 @@ function Main() {
 		            <Route path='/reset'     element={<ForgotPass />} />
                     <Route path='/register' Component={RegisterContainer} />
 		            <Route path='/faqs'     Component={FAQs} />
+                    <Route path="/phone-auth" element={<PhoneAuth />} />
+                    <Route path="/otp-verify" element={<OTPVerify />} />
 				</Routes>
 			</Router>
         </main>

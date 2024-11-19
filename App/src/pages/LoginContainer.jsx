@@ -22,7 +22,7 @@ function Login() {
             await signInWithEmailAndPassword(auth, email, password);
             navigate('/profile');
         } catch (err) {
-            console.error(err);
+            console.error(combinedMessage);
             setErrorMessage('Incorrect email or password. Please try again.');
         } finally {
             setIsLoggingIn(false);
