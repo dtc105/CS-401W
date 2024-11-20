@@ -6,15 +6,12 @@ import Profile from "../pages/Profile.jsx";
 import Settings from "../pages/Settings/Settings.jsx";
 import LoginContainer from "../pages/LoginContainer.jsx";
 import FAQs from "../pages/Settings/FAQs.jsx";
-<<<<<<< HEAD
 import ForgotPass from "../pages/Settings/ForgotPass.jsx";
 import PhoneAuth from '../pages/PhoneAuth.jsx';
 import OTPVerify from "../pages/OTPVerify.jsx";
-=======
 import EditProfile from "../pages/EditProfile.jsx";
 
 
->>>>>>> 38ac83c87158c384b669273178d299306df6c93c
 /**
  * Main body of the site, not to be confused with /src/main.jsx
  * @returns {Feature}
@@ -33,12 +30,9 @@ function Main() {
 		            <Route path='/reset'     element={<ForgotPass />} />
                     <Route path='/register' Component={RegisterContainer} />
 		            <Route path='/faqs'     Component={FAQs} />
-<<<<<<< HEAD
                     <Route path="/phone-auth" element={<PhoneAuth />} />
                     <Route path="/otp-verify" element={<OTPVerify />} />
-=======
                     <Route path='/edit'     Component={EditProfile} />
->>>>>>> 38ac83c87158c384b669273178d299306df6c93c
 				</Routes>
 			</Router>
         </main>

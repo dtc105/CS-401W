@@ -36,42 +36,6 @@ function Settings() {
                 }
             ]
         },
-<<<<<<< HEAD
-        {
-            header: { name: "Notifications" },
-            values: [
-                {
-                    name: "Default Reminders",
-                    description: "Enable automatic reminders for deadlines/tasks",
-                },
-                {
-                    name: "Notification Preferences",
-                    description: "Choose how to receive notifications",
-                    tags: ["Email", "Phone Number"]
-                }
-            ]
-=======
-
-        values: [
-            {
-                name: "Profile Info", 
-                description: "Manage your account information",
-                tags: ["Name", "Email", "Profile Picture", "Phone Number"],
-            },
-            {
-                name: "Password Management",
-                description: "Change/Reset your password",
-                tags:["Change Password", "Reset Password"]
-            }
-        ],
-
-    },
-
-    {
-        header: {
-                name: 'Display',
->>>>>>> 38ac83c87158c384b669273178d299306df6c93c
-        },
         {
             header: { name: "Organization" },
             values: [
@@ -112,7 +76,7 @@ function Settings() {
                     )
                 },
                 {
-                    name: "Contact Support | Give Feedback :)",
+                    name: "Contact Support | Give Feedback",
                     description: (
                         <span>
                             To get in touch with support or provide feedback to improve the platform:
@@ -147,11 +111,11 @@ function Settings() {
                 (typeof item.description === 'string' && item.description.toLowerCase().includes(value))
             );
 
-            if (option.header.name.toLowerCase().includes(value)) {
-                return { header: option.header, values: option.values };
+            if (filteredValues.length > 0 || option.header.name.toLowerCase().includes(value)) {
+                return { header: option.header, values: filteredValues.length > 0 ? filteredValues : option.values };
             }
 
-            return filteredValues.length > 0 ? { header: option.header, values: filteredValues } : null;
+            return null;
         }).filter(Boolean);
 
         setVisibleOptions(returnedItems);
@@ -185,22 +149,15 @@ function Settings() {
                                     padding: '15px'
                                 }}>
                                     <ul className="list-group">
-<<<<<<< HEAD
                                         <li className="list-group-item mb-2">
-                                            <h6 style={{ textIndent: '10px', fontWeight: 'bold' }}>{value.name}</h6>
+                                            {value.name === "Profile Info" ? (
+                                                <a href='/edit'>
+                                                    {value.name}
+                                                </a>
+                                            ) : (
+                                                value.name
+                                            )}
                                             <p style={{ textIndent: '40px' }}>{value.description}</p>
-=======
-                                        {value.name === "Profile Info" ? (
-                                            <a href='/edit'>
-                                                {value.name}
-                                            </a>
-                                        ) : (
-                                            value.name
-                                        )}
-                                        <li className="list-group-tem mb-2">
-                                            <p style={{textIndent: '40px'}}>{value.description}</p>
-                                            {value.action}
->>>>>>> 38ac83c87158c384b669273178d299306df6c93c
                                         </li>
                                     </ul>
                                 </div>
