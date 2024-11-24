@@ -41,6 +41,18 @@ function User() {
             >
                 <div className="flex flex-1 justify-start items-end gap-4">
 
+                <div className="relative group w-12 h-12 bg-purple-950 text-white rounded-lg cursor-pointer transition-all duration-300">
+                    <div className="flex items-center justify-center h-full">
+                        <img src='assets/envelope-fill.svg'/>
+                    </div>
+                    
+                    <div className="absolute top-0 left-0 w-full h-full bg-purple-950 text-white p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300">
+                        <p className="text-sm">Jane Doe Accept/Decline</p>
+                        <p className="text-sm">John Smith Accept/Decline</p>
+                        <p className="text-sm">Alice Johnson Accept/Decline</p>
+                    </div>
+                </div>
+
                 <a href="/about">About</a>
 
                 <a href='/contact'>Contact</a>
