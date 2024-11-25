@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
 
 function Settings() {
     const options = [
@@ -19,17 +17,6 @@ function Settings() {
                             Forgot Password?{" "}
                             <a href="/reset" style={{ color: 'blue', textDecoration: 'underline' }}>
                                 Reset Here
-                            </a>
-                        </span>
-                    )
-                },
-                {
-                    name: "Phone Sign In",
-                    description: (
-                        <span>
-                            Want to sign in with your phone number?{" "}
-                            <a href="/phone-auth" style={{ color: 'blue', textDecoration: 'underline' }}>
-                                Add it Here
                             </a>
                         </span>
                     )

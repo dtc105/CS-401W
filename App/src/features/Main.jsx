@@ -7,8 +7,6 @@ import Settings from "../pages/Settings/Settings.jsx";
 import LoginContainer from "../pages/LoginContainer.jsx";
 import FAQs from "../pages/Settings/FAQs.jsx";
 import ForgotPass from "../pages/Settings/ForgotPass.jsx";
-import PhoneAuth from '../pages/PhoneAuth.jsx';
-import OTPVerify from "../pages/OTPVerify.jsx";
 import EditProfile from "../pages/EditProfile.jsx";
 
 
@@ -30,8 +28,6 @@ function Main() {
 		            <Route path='/reset'     element={<ForgotPass />} />
                     <Route path='/register' Component={RegisterContainer} />
 		            <Route path='/faqs'     Component={FAQs} />
-                    <Route path="/phone-auth" element={<PhoneAuth />} />
-                    <Route path="/otp-verify" element={<OTPVerify />} />
                     <Route path='/edit'     Component={EditProfile} />
 				</Routes>
 			</Router>
