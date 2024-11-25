@@ -72,25 +72,25 @@ const options= [
 
     },
 
-    {
-        header: {
-            name: "Organization"
+    // {
+    //     header: {
+    //         name: "Organization"
 
-        },
+    //     },
 
-        values: [
-            {
-                name: "Manage Teams", 
-                description:"Manage team names, images, and descriptions",
-            },
-            {
-                name:"Add/Remove Members",
-                description:"Assign roles, manage access levels",
+    //     values: [
+    //         {
+    //             name: "Manage Teams", 
+    //             description:"Manage team names, images, and descriptions",
+    //         },
+    //         {
+    //             name:"Add/Remove Members",
+    //             description:"Assign roles, manage access levels",
 
-            },
-        ],
+    //         },
+    //     ],
 
-    },
+    // },
 
     {
         header: {
@@ -248,7 +248,7 @@ const [visibleOptions,setVisibleOptions]=useState(options);
                                 <div key={value.name} className = 'border-2 border-black dark:border-white rounded text-black dark:text-white mb-4 p-4' >
                                     <ul className="list-group">
                                         {value.name === "Profile Info" ? (
-                                            <a href='/edit'>
+                                            <a href='/edit' className='hover:underline'>
                                                 {value.name}
                                             </a>
                                         ) : (
