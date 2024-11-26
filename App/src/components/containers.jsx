@@ -229,14 +229,14 @@ export function ContactsList(props){
                                 return (
                                     <li className="flex px-2" key={indexEmail}>
                                         <div className="grid grid-cols-[auto_1fr] gap-1">
-                                            <select name="emailLabel" id="emailLabel">
-                                                <option value="">Select</option>
+                                            <select className="text-black" name="emailLabel" id="emailLabel">
+                                                <option value="" disabled selected>Select</option>
                                                 <option value="Work">Work</option>
                                                 <option value="Personal">Personal</option>
                                                 <option value="School">School</option>
                                                 <option value="Other">Other</option>
                                             </select>
-                                        <input type="email" placeholder={elementEmail.emailAddress} id="emailAddress"/>
+                                        <input className="text-black" type="email" placeholder={elementEmail.emailAddress} id="emailAddress"/>
                                         </div>
                                     </li>
                                 )
@@ -250,16 +250,18 @@ export function ContactsList(props){
                                 return (
                                     <li className="flex px-2" key={indexPhone}>
                                         <div className="grid grid-cols-[auto_1fr] gap-1">
-                                            <select name="phoneLabel" id="phoneLabel">
-                                                <option value="">Select</option>
+                                            <select className="text-black" name="phoneLabel" id="phoneLabel">
+                                                <option disabled selected value="">Select</option>
                                                 <option value="Work">Work</option>
                                                 <option value="Home">Home</option>
                                                 <option value="Cell">Cell</option>
                                                 <option value="Other">Other</option>
                                             </select>
-                                        <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" placeholder={elementPhone.number} id="number"/>
-                                        <label className="text-right" htmlFor="extension">Ext.</label><input type="text" placeholder="123" id="extension"/>
-                                        </div>
+                                            <div>
+                                                <input className="text-black" type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" placeholder={elementPhone.number} id="number"/>
+                                                <label className="text-right" htmlFor="extension">Ext.</label><input className="text-black" type="text" placeholder="123" id="extension"/>
+                                            </div>
+                                       </div>
                                     </li>
                                 )
                             })
@@ -272,8 +274,8 @@ export function ContactsList(props){
                                 return (
                                     <li className="flex flex-col px-2" key={indexPA}>
                                         <section className="grid gap-1">
-                                            <select name="addressLabel" id="addressLabel" className="w-24">
-                                                <option value="">Select</option>
+                                            <select className="text-black w-24" name="addressLabel" id="addressLabel">
+                                                <option disabled selected value="">Select</option>
                                                 <option value="Buisness">Buisness</option>
                                                 <option value="Home">Home</option>
                                                 <option value="Mailing">Mailing</option>
@@ -281,20 +283,20 @@ export function ContactsList(props){
                                             </select>
                                             <div className="grid grid-cols-[auto_1fr] gap-1">
                                                 <label htmlFor="streetOne">Street:</label>
-                                                <input type="text" placeholder={elementPA.streetOne} id="streetOne"/>
+                                                <input className="text-black" type="text" placeholder={elementPA.streetOne} id="streetOne"/>
 
                                                 <label htmlFor="streetTwo">Street:</label>
-                                                <input type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
+                                                <input className="text-black" type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
                                             </div>
                                             <div>  
                                                 <label htmlFor="city">City:</label>
-                                                <input className="w-32" type="text" placeholder={elementPA.city} id="city" />
+                                                <input className="w-32 text-black" type="text" placeholder={elementPA.city} id="city" />
 
                                                 <label htmlFor="state"> State:</label>
-                                                <input className="w-32" type="text" placeholder={elementPA.state} id="state"/>
+                                                <input className="w-32 text-black" type="text" placeholder={elementPA.state} id="state"/>
 
                                                 <label htmlFor="zipCode"> Zip Code:</label>
-                                                <input className="w-14" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
+                                                <input className="w-14 text-black" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
                                             </div>
                                         </section>
                                     </li>
@@ -364,8 +366,10 @@ export function ContactsList(props){
                                         <option value="Cell">Cell</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$"defaultValue={elementPhone.number} id="number"/>
-                                <label className="text-right" htmlFor="extension">Ext.</label><input type="text"defaultValue={elementPhone.extension} id="extension"/>
+                                    <div>
+                                        <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$"defaultValue={elementPhone.number} id="number"/>
+                                        <label className="text-right" htmlFor="extension">Ext.</label><input type="text"defaultValue={elementPhone.extension} id="extension"/>
+                                    </div>
                                 </div>
                             </li>
                     )})}

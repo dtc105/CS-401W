@@ -18,24 +18,27 @@ import { db } from "./firebase.js";
  */
 export const useUserStore = create(persist((set) => ({
         currentUser: null,
+        userId: null,
         removeUser: () => {
             set({currentUser: null});
         },
         isLoading: true,
         fetchUserInfo: async (uid) => {
-            if (!uid) return set({currentUser: null, isLoading: false});
+            if (!uid) return set({currentUser: null, userId: null, isLoading: false});
             try {
                 const docRef = doc(db, "users", uid);
                 const docSnap = await getDoc(docRef);
 
                 docSnap.exists()
-                    ? set({currentUser: docSnap.data(), isLoading: false})
-                    : set({currentUser: null, isLoading: false});
+                    ? set({currentUser: docSnap.data(),userId: uid, isLoading: false})
+                    : set({currentUser: null, userId: null, isLoading: false});
             } catch (e) {
                 console.log(e);
-                set({currentUser: null, isLoading: false});
+                set({currentUser: null, userId: null, isLoading: false});
             }
-        }
+        },
+        set({currentUser: {...currentUser, {...details, newAvatar}})
+        
     }),
     {
         name: "currentUserStorage",

@@ -53,9 +53,6 @@ export async function createEvent(collectionID, data){
     
         // Adds a subcollection named "lists"
         const subCollectionRef = collection(ref, "lists");
-    
-        // Adds an empty doc to the subcollection "lists"
-        await addDoc(subCollectionRef, {});
     } catch (e) {
         console.error(e);
         return;

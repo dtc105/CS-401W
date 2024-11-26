@@ -23,6 +23,7 @@ export async function getAllUsers() {
 export async function getFirstUser() {
     try {
         const querySnapshot = await getDocs(query(collection(db, "users")));
+        //console.log("getFirstUser: ", querySnapshot.docs);
         return querySnapshot.docs[0].id;
     } catch (e) {
         console.error(e);
@@ -81,8 +82,10 @@ export async function getEventbyId(eventID) {
  */
 export async function getEventsbyOwner(ownerID) {
     try {
-        const querySnapshot = await getDocs(query(collection(db, "planner")));//, where("ownerId", "==", ownerID)));
-        return querySnapshot;
+        const querySnapshot = await getDocs(query(collection(db, "planner"), where("ownerId", "==", ownerID)));
+        return querySnapshot.docs.map(qdoc => {
+            return (
+                {id: qdoc.id, data: qdoc.data()})});
     } catch (e) {
         console.error(e);
     }
@@ -107,8 +110,16 @@ export async function getListbyId(eventID, listID) {
  * @returns 
  */
 export async function getListsbyEventId(eventID) {
-    const ref = await doc(db, "planner", eventID);
-    const lists = await getDocs(collection(ref,"lists"));
+    let lists;
+    try {
+        const event = await doc(db, "planner", eventID);
+        const listsRef = await collection(event, "lists");
+        lists = await getDocs(listsRef);
+    } catch (e) {
+        console.error(e);
+        return;
+    }
+
     let listOut = [];
     return lists.docs.map((list, _) => {
         return list.id;

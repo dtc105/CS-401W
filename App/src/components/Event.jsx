@@ -9,8 +9,8 @@ import * as templates from "../lib/templates.js"
 function Event(props){
 
 		//console.log("Events:\n", props.eventId);
+		const eventId = props.eventId;
 
-		const [eventId, setEventId] = useState(props.eventId); //EventID is sent in from Workspce
 		const [chosenTemplate, setTemplate] = useState(undefined);
 		const [isDisabled, setIsDisabled] = useState(true); // disables Create List button on load to avoid error; button is enabled be onOptionChangeHandler once a list type is chosen
 		const [items, setItems] = useState([]);
@@ -29,6 +29,7 @@ function Event(props){
 		async function createListBtn(){
 			
 			const ref = await createList(eventId, chosenTemplate);
+			setItems(prev => [...prev, ref.id]);
 
 			//console.log("Create List button pressed\n", ref.id);
 			// console.log("Create List button pressed\n", eventId);
@@ -37,9 +38,11 @@ function Event(props){
 		
 		useEffect(() => {
 			const fetchData = async () => {
+				setIsLoading(true)
 				try {
-					let eventLists = await fetch.getListsbyEventId(eventId);
+					const eventLists = await fetch.getListsbyEventId(eventId);
 					setItems(eventLists);
+					console.log("THIS ONE", eventId);
 				} catch (err) {
 					console.error(err);
 					setError(err);
@@ -49,7 +52,11 @@ function Event(props){
 			}
 			
 			fetchData();
-		}, []);
+		}, [eventId]);
+
+		useEffect(() => {
+			console.log("ITEMS",items);
+		}, [items]);
 
 		if (isLoading) {
 			return <div>Loading...</div>;
@@ -62,28 +69,28 @@ function Event(props){
 		return(
 			<>
 				<section>
-						<select onChange={onOptionChangeHandler}> {/*makes a dropdowmn menu/list of templates to add to the event*/}
-							<option value="">Select an Option</option>
-								{
-									Object.keys(templates.listTemplate).map((type, index) =>{
-										return (
-											<option key={index} value={type}>{type}</option>
-										)
-									})
-								}
-						</select>
-						<button onClick={() => createListBtn()} disabled={isDisabled}>Create List</button>
-				</section>
-				<section className="grid auto-cols-auto lg:grid-cols-3 2xl:grid-cols-5 gap-2">
+					<select onChange={onOptionChangeHandler}> {/*makes a dropdowmn menu/list of templates to add to the event*/}
+						<option value="">Select an Option</option>
 						{
-							items.map((item, itemIndex) => {
+							Object.keys(templates.listTemplate).map((type, index) =>{
 								return (
-									<div key={itemIndex} className="border border-white rounded-lg p-2">
-										<List eventId={eventId} listId={item} setItems={setItems}  />
-									</div>
+									<option key={index} value={type}>{type}</option>
 								)
 							})
 						}
+					</select>
+					<button onClick={() => createListBtn()} disabled={isDisabled}>Create List</button>
+				</section>
+				<section className="grid auto-cols-auto lg:grid-cols-3 2xl:grid-cols-5 gap-2">
+					{
+						items.map((item, itemIndex) => {
+							return (
+								<div key={itemIndex} className="border border-white rounded-lg p-2">
+									<List eventId={eventId} listId={item} setItems={setItems}  />
+								</div>
+							)
+						})
+					}
 				</section>
 			</>
 		)
