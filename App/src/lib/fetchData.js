@@ -36,16 +36,8 @@ export async function getFirstUser() {
  */
 export async function getUserbyId(id) {
     try {
-<<<<<<< HEAD
-        //const querySnapshot = await getDocs(query(collection(db, "users"), where("id", "==", id)));
-        const querySnapshot = await getByID("users", id);
-        const data = await querySnapshot.data()
-
-        return {id: id, data: data}
-=======
         const querySnapshot = await getByID("users", id);
         return querySnapshot.data();
->>>>>>> 4e06e482427f953fe1c1fe9855a85f365c129b7b
     } catch (e) {
         console.error(e);
     }
@@ -153,12 +145,6 @@ export async function getKeyValue(userID, keyName) {
  * @returns {Doc} Document with matching collection and id
  * @throws if something goes wrong
  */
-<<<<<<< HEAD
-async function getByID (collection, id){
-    const docRef = await doc(db, collection, id);
-    const docSnap = await getDoc(docRef);
-    return docSnap;
-=======
 async function getByID (getCollection, getID){
     try {
         const res = await getDoc(doc(db, getCollection, getID));
@@ -166,7 +152,6 @@ async function getByID (getCollection, getID){
     } catch (e) {
         console.error(e);
     }
->>>>>>> 4e06e482427f953fe1c1fe9855a85f365c129b7b
 }
 
 
