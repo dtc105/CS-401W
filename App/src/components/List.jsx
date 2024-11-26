@@ -1,12 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import "./list.css";
 import { createDoc, changeDoc } from "../lib/pushData";
 import { getListbyId } from "../lib/fetchData";
 import { CheckboxList, Text, CalendarList, ContactsList, CustomList} from "./containers";
 import { getDoc, updateDoc } from "firebase/firestore";
 
 /**
- * Gets a document from an Events 'lists' sub-collection determined by listID
+ * Gets a document from an Events "lists" sub-collection determined by listID
  * Calls a function in Containers.jsx to build correct container
  * ---the container type used is determined by the "ListType" field
  * ---uses switch to call correct function, or returns and error message
@@ -15,95 +14,100 @@ import { getDoc, updateDoc } from "firebase/firestore";
  */
 function List(props){
 
-    const legendRef = useRef(null);
-
-    const eventID =props.eventID;
-    const listID = props.listID;
+    const eventId = props.eventId;
+    const listId = props.listId;
     
     const [listRef, setListRef] = useState({}); //reference to document, not the doc itself
     const [list, setList] = useState({}); //copy or snapshot of the document
-    const [listType, setType] = useState("");
-    const [inputDisplay, setInputDisplay] = useState(false);
-    const [legend, setLegend] = useState("");
-    
+    const [listType, setListType] = useState(null);
+    const [title, setTitle] = useState("");
+
+    const titleSpanRef = useRef(null);
+    const titleInputRef = useRef(null);
+
     useEffect(() => {
         
         async function getList() {
-
-            const listref = await getListbyId(eventID, listID);
-            setListRef(listref);
-           //console.log("********\nlists - getList- listRef:\n", listRef)
-            setList((await getDoc(listref)).data());
-            //setList(listref);
-            setType((await getDoc(listref)).data()["ListType"]);
-            //console.log("#####\nlist.jsx, getlist list: \n", list);
-            setLegend(await list["ListName"]);
+            try {
+                const ref = await getListbyId(eventId, listId);
+                const doc = await getDoc(ref);
+                setListRef(ref);
+                setList(doc.data());
+            } catch (e) {
+                console.error(e);
+            }
         }
         getList();
+    }, [eventId, listId]);
 
-        async function waitForName(){setLegend(await list["ListName"]);}//Makes the render wait for data
-        waitForName();
-
-    }, []);
-
-   
-
-    useEffect (()=> {
-        if (legendRef.current) legendRef.current.focus();
-    }, [inputDisplay]);
-
-    const switchListType = () => {
-        switch(listType){
-            case "checkbox":
-                //console.log("CHECKBOX", list);
-                return <CheckboxList list={list} listRef={listRef}/>;
-            case "text":
-                return <Text list={list} listRef={listRef}/>;
-            case "calendar":
-                //console.log("CALENDAR");
-                return <CalendarList list={list} listRef={listRef}/>;
-            case "contacts":
-                return <ContactsList list={list} listRef={listRef}/>;
-            case "custom":
-                return <CustomList list={list} listRef={listRef}/>;
-            default:
-                //console.log(listType);
-                return <div>That didnt work!! <br />{listID}<br /> {listType}</div>;
+    useEffect(() => {
+        if (list) {
+            setListType(list["ListType"]);
+            setTitle(list["ListName"]);
         }
-    }
+    }, [list, listRef]);
 
-    function handleDeleteList(){console.log("Delete does nothing ATT")} //! needs code
+    useEffect(() => {
+        try {
+            if (titleSpanRef && titleInputRef) {
+                const titleWidth = titleSpanRef.current.offsetWidth;
+                titleInputRef.current.style.width = `${titleWidth + 10}px`;
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }, [title]);
+    
+    //TODO: MAKE DELETE FUNCTION
 
     return (
         <>
-            <main className = "container">
-                <form onSubmit={(e) => e.preventDefault()}>
-                    {inputDisplay && (
-                        <input 
-                            ref={legendRef}
-                            type="text" 
-                            value={legend} 
-                            onChange={(e) => setLegend(e.target.value)} 
-                            onBlur={() => { 
-                                updateDoc(listRef, {ListName: legend});
-                                setInputDisplay(false);
-                            }}
-                        />
-                    )}
-                    <fieldset>
-                        <legend onClick={() => {setInputDisplay(true);}}>
-                            {/**waitForName*/}
-                            {legend}
-                        </legend>
-                        { switchListType() /* Different list formats */} 
-                        <br />
-                    </fieldset>
-                    <button onClick={handleDeleteList} className="btnRight">Delete</button>
-                </form>
-                <br />
-            </main> 
+            <div className="grid grid-cols-[1fr_auto_1fr] justify-end items-center">
+                {/* Hidden span to get appropriate witdth for input */}
+                <div className="inline-block col-start-2">
+                    <span ref={titleSpanRef} className="invisible absolute">
+                        {title || " "}
+                    </span>
+                    <input 
+                        type="text" 
+                        className="bg-transparent outline-none border-none w-fit overflow-ellipsis box-border inline-block cursor-"
+                        ref={titleInputRef}
+                        onChange={(e) => setTitle(e.target.value)}
+                        value={title || ""}
+                    />
+                </div>
+                <button 
+                    className="col-start-3 m-2 ml-auto p-2 hover:bg-red-600 rounded transition-colors"
+                    onClick={() => {
+                        props.setItems(prev => prev.filter((filterId, _) => filterId != listId));
+                        // ! REMOVE DOC HERE
+                    }}
+                >
+                    <img src="/assets/trash.svg" alt="remove" className="invert" />
+                </button>
+
+            </div>
+            <hr className="mb-4 mt-2" />
+            <SwitchListType type={listType} list={list} listRef={listRef} />
         </>
 
     )
 }
 export default List;
+
+function SwitchListType ({type, list, listRef}) {
+    switch(type){
+        case "checkbox":
+            return <CheckboxList list={list} listRef={listRef}/>;
+        case "text":
+            return <Text list={list} listRef={listRef}/>;
+        case "calendar":
+            return <CalendarList list={list} listRef={listRef}/>;
+        case "contacts":
+            return <ContactsList list={list} listRef={listRef}/>;
+        case "custom":
+            return <CustomList list={list} listRef={listRef}/>;
+        default:
+            return <div>Loading...</div>;
+    }
+}

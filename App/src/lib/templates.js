@@ -60,9 +60,9 @@ export const listTemplate = {
         "ListType": "contacts",
         "data": [{
             "label": "",
-            "nameFirst": "FirstName",
+            "nameFirst": "First Name",
             "nameLast": "Last Name",
-            "nameMiddle": "MiddleName",
+            "nameMiddle": "Middle Name",
             "namePrefix": "Mrs., Mr., Dr., etc..",
             "nameSuffix": "Sr, Jr, III",
             "email": [{
@@ -123,6 +123,59 @@ export const newContact = {
 }
 
 export const newAddress = {
+    "label": "buisness, home, mailing, etc...",
+    "streetOne": "123 Anywhere St",
+    "streetTwo": "suite, apt, care of",
+    "city": "City, Town",
+    "state": "state/province",
+    "country": "USA",
+    "zipCode": "12345",
+}
+
+export const newContactTest = { //prefilled fields for testing
+    "label": "Slambert",
+    "nameFirst": "Scott",
+    "nameLast": "Lambert",
+    "nameMiddle": "",
+    "namePrefix": "Dr",
+    "nameSuffix": "",
+    "email": [
+        {
+            "label": "School",
+            "emailAddress": "me@email.com",
+        },
+        {
+            "label": "Work",
+            "emailAddress": "me@work.com",
+        },
+        
+],
+    "phoneNumbers": [
+            {
+            "label": "Work",
+            "number": "1234567890",
+            "extention": "1",
+            },
+            {
+            "label": "Home",
+            "number": "1234567890",
+            "extention": "2",
+            },
+
+    ],
+        
+    "physicalAddress": [{
+        "label": "Mailing",
+        "streetOne": "123 Anywhere St",
+        "streetTwo": "care of School of Buisness",
+        "city": "Providence",
+        "state": "RI",
+        "country": "USA",
+        "zipCode": "12345",
+    }],
+}
+
+export const newAddressTest = { //For testing Purposes
     "label": "buisness, home, mailing, etc...",
     "streetOne": "123 Anywhere St",
     "streetTwo": "suite, apt, care of",

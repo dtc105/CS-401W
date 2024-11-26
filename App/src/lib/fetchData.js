@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { db } from "../lib/firebase.js";
 import { collection, query, where, getDocs, setDoc, getDoc, doc } from "firebase/firestore";
 
@@ -16,13 +17,12 @@ export async function getAllUsers() {
 }
 
 /**
- * Returns a "random" user
+ * Returns the first user
  * @returns {string} the id of the user
  */
-export async function getOneUser() {
+export async function getFirstUser() {
     try {
         const querySnapshot = await getDocs(query(collection(db, "users")));
-        //console.log("from getoneuser: ", querySnapshot.docs[0].id);
         return querySnapshot.docs[0].id;
     } catch (e) {
         console.error(e);
@@ -36,11 +36,16 @@ export async function getOneUser() {
  */
 export async function getUserbyId(id) {
     try {
+<<<<<<< HEAD
         //const querySnapshot = await getDocs(query(collection(db, "users"), where("id", "==", id)));
         const querySnapshot = await getByID("users", id);
         const data = await querySnapshot.data()
 
         return {id: id, data: data}
+=======
+        const querySnapshot = await getByID("users", id);
+        return querySnapshot.data();
+>>>>>>> 4e06e482427f953fe1c1fe9855a85f365c129b7b
     } catch (e) {
         console.error(e);
     }
@@ -55,9 +60,8 @@ export async function getUserbyId(id) {
  */
 export async function getPlannerbyUserId(userID) {
     try {
-        //const userCollection = await getDocs(query(collection(db, "userConnections"), where("id", "==", userID)));
-        const userCollection = getByID("userConnections", userID);
-        return userCollection[0].data().planners;
+        const userCollection = await getByID("userConnections", userID);
+        return userCollection.data().planners;
     } catch (e) {
         console.error(e);
     }
@@ -65,15 +69,13 @@ export async function getPlannerbyUserId(userID) {
 
 /**
  * Returns a single event ref by id
- * ! NEEDS WORK (eventId not used)
  * @param {string} eventID 
  * @returns event doc
  */
 export async function getEventbyId(eventID) {
     try {
-        //const event = await getDocs(query(collection(db, "events"), where("id", "==", eventID)));
-        const event = getByID("events", id);
-        return event[0].data();
+        const event = await getByID("events", eventId);
+        return event.data();
     } catch (e) {
         console.error(e);
     }
@@ -88,7 +90,6 @@ export async function getEventbyId(eventID) {
 export async function getEventsbyOwner(ownerID) {
     try {
         const querySnapshot = await getDocs(query(collection(db, "planner")));//, where("ownerId", "==", ownerID)));
-        //console.log("from getEventsbyOwner: ", querySnapshot.docs[0].id);
         return querySnapshot;
     } catch (e) {
         console.error(e);
@@ -105,9 +106,6 @@ export async function getEventsbyOwner(ownerID) {
 export async function getListbyId(eventID, listID) {
     const ref = await doc(db, "planner", eventID);
     const list = await doc(ref, "lists", listID);
-    //console.log("*******\ngetListbyID ref:\n ", ref);
-    //console.log("*******\ngetListbyID list: \n", list);
-    //return list.data();
     return list;
 }
 
@@ -119,16 +117,14 @@ export async function getListbyId(eventID, listID) {
 export async function getListsbyEventId(eventID) {
     const ref = await doc(db, "planner", eventID);
     const lists = await getDocs(collection(ref,"lists"));
-    let listOut =[];
-    lists.forEach(lists => {
-        //console.log("ListsByEventID - lists: ", lists.id);
-        listOut.push(lists.id);
-    });
-    
-    // listOut.forEach(listOut => {
-    //     console.log("ListsByEventID - listout: ", listOut);
+    let listOut = [];
+    return lists.docs.map((list, _) => {
+        return list.id;
+    })
+    // lists.forEach(list => {
+    //     listOut.push(list.id);
     // });
-
+    
     return listOut;
 }
 
@@ -157,10 +153,20 @@ export async function getKeyValue(userID, keyName) {
  * @returns {Doc} Document with matching collection and id
  * @throws if something goes wrong
  */
+<<<<<<< HEAD
 async function getByID (collection, id){
     const docRef = await doc(db, collection, id);
     const docSnap = await getDoc(docRef);
     return docSnap;
+=======
+async function getByID (getCollection, getID){
+    try {
+        const res = await getDoc(doc(db, getCollection, getID));
+        return res.data();
+    } catch (e) {
+        console.error(e);
+    }
+>>>>>>> 4e06e482427f953fe1c1fe9855a85f365c129b7b
 }
 
 
