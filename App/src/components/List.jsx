@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { createDoc, changeDoc } from "../lib/pushData";
+import { deleteList } from "../lib/deleteData";
 import { getListbyId } from "../lib/fetchData";
-import { CheckboxList, Text, CalendarList, ContactsList, CustomList} from "./containers";
+import { CheckboxList, Text, CalendarList, ContactsList, CustomList} from "./Containers";
 import { getDoc, updateDoc } from "firebase/firestore";
 
 /**
@@ -26,7 +27,6 @@ function List(props){
     const titleInputRef = useRef(null);
 
     useEffect(() => {
-        
         async function getList() {
             try {
                 const ref = await getListbyId(eventId, listId);
@@ -58,7 +58,10 @@ function List(props){
         }
     }, [title]);
     
-    //TODO: MAKE DELETE FUNCTION
+    async function handleListDelete() {
+        props.setItems(prev => prev.filter((filterId, _) => filterId != listId));
+        await deleteList(eventId, listId);
+    }
 
     return (
         <>
@@ -78,10 +81,7 @@ function List(props){
                 </div>
                 <button 
                     className="col-start-3 m-2 ml-auto p-2 hover:bg-red-600 rounded transition-colors"
-                    onClick={() => {
-                        props.setItems(prev => prev.filter((filterId, _) => filterId != listId));
-                        // ! REMOVE DOC HERE
-                    }}
+                    onClick={handleListDelete}
                 >
                     <img src="/assets/trash.svg" alt="remove" className="invert" />
                 </button>

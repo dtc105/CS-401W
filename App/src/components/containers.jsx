@@ -1,11 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Popup from "reactjs-popup";
-import { changeDoc } from "../lib/pushData";
-import { getListbyId } from "../lib/fetchData";
-import { db } from "../lib/firebase.js";
-import { updateDoc, setDoc, arrayRemove, deleteDoc, arrayUnion, getDoc } from "firebase/firestore";
+import { updateDoc,  arrayRemove,  arrayUnion } from "firebase/firestore";
 import * as templates from "../lib/templates.js";
-import { fetchSignInMethodsForEmail } from "firebase/auth";
 
 // function handleLegendClick(){
 //     console.log("handleLegendClick");
@@ -53,10 +49,10 @@ export function CheckboxList(props){
                                     className="scale-125"
                                     checked={element.value} 
                                     value={element.value} 
-                                    onChange={(e) => handleChangeCheckbox(index)} 
+                                    onChange={(_) => handleChangeCheckbox(index)} 
                                 />
                                 <input 
-                                    className="text-slate-900 rounded px-2 py-1" 
+                                    className="text-slate-900 rounded px-2 py-1 flex-1 w-full" 
                                     type="text" 
                                     value={element.name} 
                                     onChange={(e)=>onNameChange(e, index)} 
@@ -83,7 +79,7 @@ export function CheckboxList(props){
                         {
                             name: "Change Me", 
                             value: false, 
-                            index: checkboxes.at(-1).index + 1
+                            index: checkboxes.at(-1)?.index + 1 || 0
                         }])}
                     className="w-2/5 m-auto bg-blue-500 py-1 rounded"
                     >
@@ -102,18 +98,25 @@ export function CheckboxList(props){
  */
 export function Text(props){
 
-    const listRef=props.listRef;
-    const [theText, setTheText] = useState(props.list.data);
+    const listRef = props.listRef;
+    const [content, setContent] = useState(props.list.data);
     
     return(
-        <>
+        <div className="flex flex-col gap-4 justify-center items-center p-4">
             <textarea 
-                value={theText} 
-                onChange={(e)=>setTheText(e.target.value)} 
-                onBlur={()=>updateDoc(props.listRef, {data: theText})}
+                value={content} 
+                onChange={(e)=>setContent(e.target.value)} 
+                onBlur={()=>updateDoc(listRef, {data: content})}
+                className="text-black w-full"
+                rows={4}
             /> 
-            <button onClick={()=>updateDoc(props.listRef, {data: theText}, {merge: true})}>Update</button>
-        </>
+            <button 
+                className="bg-blue-500 rounded px-2 py-1"
+                onClick={()=>updateDoc(listRef, {data: content}, {merge: true})}
+            >
+                Update
+            </button>
+        </div>
        
     )
 }

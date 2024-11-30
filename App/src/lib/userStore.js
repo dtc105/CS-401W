@@ -37,8 +37,6 @@ export const useUserStore = create(persist((set) => ({
                 set({currentUser: null, userId: null, isLoading: false});
             }
         },
-        set({currentUser: {...currentUser, {...details, newAvatar}})
-        
     }),
     {
         name: "currentUserStorage",

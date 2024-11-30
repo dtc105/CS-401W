@@ -8,7 +8,6 @@ import * as templates from "../lib/templates.js"
 
 function Event(props){
 
-		//console.log("Events:\n", props.eventId);
 		const eventId = props.eventId;
 
 		const [chosenTemplate, setTemplate] = useState(undefined);
@@ -17,24 +16,15 @@ function Event(props){
 		const [isLoading, setIsLoading] = useState(true);
 		const [error, setError] = useState(null);
 
-		const onOptionChangeHandler = (event) => {
-			setIsDisabled(false);
+		function onOptionChangeHandler (event) {
+			setIsDisabled(event.target.value === "");
 			setTemplate(event.target.value);
-			// console.log(
-			// 	"User Selected Value - ",
-			// 	event.target.value
-			// );
 		}
 		
-		async function createListBtn(){
-			
+		async function createListBtn() {
 			const ref = await createList(eventId, chosenTemplate);
 			setItems(prev => [...prev, ref.id]);
-
-			//console.log("Create List button pressed\n", ref.id);
-			// console.log("Create List button pressed\n", eventId);
 		}
-		
 		
 		useEffect(() => {
 			const fetchData = async () => {
@@ -42,57 +32,67 @@ function Event(props){
 				try {
 					const eventLists = await fetch.getListsbyEventId(eventId);
 					setItems(eventLists);
-					console.log("THIS ONE", eventId);
 				} catch (err) {
 					console.error(err);
 					setError(err);
-				} finally {
-					setIsLoading(false);
-				}
+				} 
+				setIsLoading(false);
 			}
 			
 			fetchData();
 		}, [eventId]);
 
-		useEffect(() => {
-			console.log("ITEMS",items);
-		}, [items]);
-
-		if (isLoading) {
-			return <div>Loading...</div>;
-		}
+		if (isLoading) return <div>Loading...</div>;
 	
-		if (error) {
-			return <div>Error: {error.message}</div>;
-		}
+		if (error) return <div>Error loading event</div>;
 		
 		return(
-			<>
-				<section>
-					<select onChange={onOptionChangeHandler}> {/*makes a dropdowmn menu/list of templates to add to the event*/}
+			<div className="flex flex-col gap-4">
+				{/*makes a dropdowmn menu/list of templates to add to the event*/}
+				<section className="flex gap-4">
+					<select 
+						onChange={onOptionChangeHandler} 
+						className="text-black rounded px-2 py-1"
+					> 
 						<option value="">Select an Option</option>
 						{
 							Object.keys(templates.listTemplate).map((type, index) =>{
 								return (
-									<option key={index} value={type}>{type}</option>
+									<option key={index} value={type}>{type.at(0).toUpperCase() + type.slice(1)}</option>
 								)
 							})
 						}
 					</select>
-					<button onClick={() => createListBtn()} disabled={isDisabled}>Create List</button>
+					<button 
+						onClick={createListBtn} 
+						disabled={isDisabled}
+						className="px-2 py-1 rounded bg-blue-500 disabled:cursor-not-allowed disabled:bg-gray-500"
+					>
+						Create List
+					</button>
 				</section>
-				<section className="grid auto-cols-auto lg:grid-cols-3 2xl:grid-cols-5 gap-2">
-					{
-						items.map((item, itemIndex) => {
-							return (
-								<div key={itemIndex} className="border border-white rounded-lg p-2">
-									<List eventId={eventId} listId={item} setItems={setItems}  />
-								</div>
-							)
-						})
-					}
-				</section>
-			</>
+				{
+					items.length > 0 ? (
+						<section className="grid auto-cols-auto lg:grid-cols-3 2xl:grid-cols-5 gap-2">
+							{
+								items.map((item, itemIndex) => {
+									return (
+										<div key={itemIndex} className="border border-white rounded-lg p-2">
+											<List eventId={eventId} listId={item} setItems={setItems}  />
+										</div>
+									)
+								})
+							}
+						</section>
+					) : (
+						<div className="flex flex-col gap-2 text-xl justify-center items-center text-center">
+							Theres nothing here. <br />
+							Try selecting an option and hitting "Create List"
+						</div>
+					)
+				}
+				
+			</div>
 		)
 }
 export default Event;

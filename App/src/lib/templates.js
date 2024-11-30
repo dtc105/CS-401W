@@ -39,9 +39,9 @@ export const listTemplate = {
         },
     },
     "text": {
-        "ListName": "textbox",
+        "ListName": "Textbox",
         "ListType": "text",
-        "data": "start here",
+        "data": "Change me!",
     },
     "contacts": {
         "ListName": "My Contacts",
