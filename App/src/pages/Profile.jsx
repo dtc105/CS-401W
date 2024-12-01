@@ -5,8 +5,10 @@ import { getUserbyId } from "../lib/fetchData.js";
 import Avatar from "../components/Avatar.jsx";
 
 function Profile() {
+    const [ currentUserID, setCurrentUserID ] = useState(null);
     const { userId } = useUserStore();
     const { id } = useParams();
+    const [user, setUser] = useState(null);
     const [userDoc, setUserDoc] = useState({});
     const [userDetails, setUserDetails] = useState({});
     const [userGroups, setUserGroups] = useState({});
@@ -15,12 +17,13 @@ function Profile() {
 
     useEffect(() => {
         async function getUser() {
-            const user = (await getUserbyId(id || userId)).data;
-            setUserDoc(user);
-            setUserDetails(user.details);
-            setUserGroups(user.groups);
-            setUserConnections(await Promise.all(user.connections.map(async (connection, index) => (await getUserbyId(connection)).data)));
-            setCreatedAt(user.createdAt.seconds);
+            const user = await getUserbyId(id || userId);
+            setUser(user);
+            setUserDoc(user.data);
+            setUserDetails(user.data.details);
+            setUserGroups(user.data.groups);
+            setUserConnections(await Promise.all(user.data.connections.map(async (connection, index) => (await getUserbyId(connection)).data)));
+            setCreatedAt(user.data.createdAt.seconds);
         }
         getUser();
     }, [userId, id]);
@@ -37,6 +40,12 @@ function Profile() {
                 <div>
                     <Avatar />
                 </div>
+                {
+                    user?.id !== userId &&
+                    (
+                        <p>Anything here will render if the user owns the account being viewed</p>
+                    )
+                }
                 <div id="connections" className="border rounded p-2">
                     <p className="text-center">Connections</p>
                     <hr />
