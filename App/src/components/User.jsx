@@ -57,7 +57,10 @@ function User() {
                             >
                                 <div className="relative group w-12 h-12 dark:bg-purple-950 bg-gray-500 dark:text-white text-black rounded-lg cursor-pointer transition-all duration-300">
                                     <div className="flex items-center justify-center h-full">
-                                        <img src='assets/envelope-fill.svg'/>
+                                        <img 
+                                            src='assets/envelope-fill.svg'
+                                            onError={(e) => e.target.src = '/assets/envelope-fill.svg'}
+                                        />
                                     </div>
                                     
                                     <div className="absolute top-0 left-0 w-full h-full dark:bg-purple-950 bg-gray-500 dark:text-white text-black p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-300">
@@ -72,9 +75,11 @@ function User() {
                                 </div>
                                 <span>{currentUser?.username || 'Guest' }</span>
                                 <img 
-                                    src={dropDownOpen ? "assets/caret-up-fill.svg" : "assets/caret-down-fill.svg"} 
+                                    src={dropDownOpen ? "assets/caret-up-fill.svg?v=1" : "assets/caret-down-fill.svg?v=1"} 
                                     alt="drop down icon" 
                                     className="h-3"
+                                    onError={(e) => e.target.src = '/assets/caret-down-fill.svg'}
+                                    loading='lazy'
                                 />
                                 
                             </div>
