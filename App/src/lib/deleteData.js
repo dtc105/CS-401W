@@ -10,3 +10,13 @@ export async function deleteList(eventId, listId) {
         console.error(err);
     }
 }
+
+export async function deleteEvent(eventId) {
+    const docRef = doc(db, "planner", eventId);
+
+    try {
+        await deleteDoc(docRef);
+    } catch (err) {
+        console.error(err);
+    }
+}

@@ -1,6 +1,5 @@
-import { createElement } from "react";
 import { db } from "../lib/firebase.js";
-import { collection, query, where, getDocs, setDoc, getDoc, doc } from "firebase/firestore";
+import { collection, query, where, getDocs, getDoc, doc } from "firebase/firestore";
 
 /**
  * Returns all users
@@ -45,22 +44,6 @@ export async function getUserbyId(id) {
 }
 
 /**
- * Gets all planners that is in a users connections
- * ! DEPRECATED (user connections is now stored within users)
- * @deprecated
- * @param {string} userID 
- * @returns array of planner refs
- */
-export async function getPlannerbyUserId(userID) {
-    try {
-        const userCollection = await getByID("userConnections", userID);
-        return userCollection.data().planners;
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-/**
  * Returns a single event ref by id
  * @param {string} eventID 
  * @returns event doc
@@ -80,14 +63,40 @@ export async function getEventbyId(eventID) {
  * @param {string} ownerID 
  * @returns array of event refs
  */
-export async function getEventsbyOwner(ownerID) {
+export async function getEventsbyOwner(ownerId) {
     try {
-        const querySnapshot = await getDocs(query(collection(db, "planner"), where("ownerId", "==", ownerID)));
+        const querySnapshot = await getDocs(query(collection(db, "planner"), where("ownerId", "==", ownerId)));
         return querySnapshot.docs.map(qdoc => {
-            return (
-                {id: qdoc.id, data: qdoc.data()})});
-    } catch (e) {
-        console.error(e);
+            return ({
+                id: qdoc.id, 
+                data: qdoc.data()
+            })
+        });
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export async function getEventsByUser(userId) {
+    try {
+        const ownedEvents = await getDocs(query(collection(db, "planner"), where("ownerId", "==", userId)));
+        const allowedEvents = await getDocs(query(collection(db, "planner"), where("allowedUsers", "array-contains", userId)));
+
+        return ownedEvents.docs.map(qdoc => {
+            return ({
+                id: qdoc.id,
+                relation: "owner",
+                data: qdoc.data(),
+            })
+        }).concat(allowedEvents.docs.map(qdoc => {
+            return ({
+                id: qdoc.id,
+                relation: "user",
+                data: qdoc.data()
+            })
+        }))
+    } catch (err) {
+        console.error(err);
     }
 }
 

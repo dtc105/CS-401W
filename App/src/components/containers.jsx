@@ -159,7 +159,6 @@ export function ContactsList(props){
 
     function handleAddContactFilled(){ //! for testing, can be removed later
         const templateData = templates.newContactTest;
-        console.log("add Contact:\n", templateData, "\nContacts:\n", contacts);
         return(changeContact(templateData));
         //setContacts(prev => [...prev, {templateData}]);
     }

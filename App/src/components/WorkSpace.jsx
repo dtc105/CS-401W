@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom"
-import { getAllUsers, getFirstUser, getEventsbyOwner } from "../lib/fetchData";
-import { createDoc, changeDoc, createEvent} from "../lib/pushData";
 import { useUserStore } from "../lib/userStore";
+import { getEventsByUser } from "../lib/fetchData";
+import { createEvent} from "../lib/pushData";
+import { deleteEvent } from "../lib/deleteData";
 import Event from "./Event"
-import Popup from "reactjs-popup";
+import { leaveEvent, updateEventTitle } from "../lib/putData";
 
 
 function WorkSpace() {
@@ -13,8 +14,7 @@ function WorkSpace() {
     const [eventId, setEventId] = useState(""); 
     const [events, setEvents] = useState([]);
     const [isContextVisible, setIsContextVisible] = useState(false);
-    const [contextPosition, setContextPosition] = useState({x: 0, y: 0});
-    const [contextEvent, setContextEvent] = useState("");
+    const [contextEvent, setContextEvent] = useState({});
 
     const { userId } = useUserStore();
     const navigate = useNavigate();
@@ -25,17 +25,18 @@ function WorkSpace() {
             ownerId: userId,
             allowedUsers: [],
             eventDate: 111965,
+            title: "New Event"
         }
         const event = await createEvent(collectionID, data);
-        setEvents(prev => [...prev, event.id]);
+        setEvents(prev => [...prev, {id: event.id, data: data}]);
+        setEventId(event.id);
     }
     
     
     useEffect(() => {
         async function getEvents() {
             setIsLoading(true);
-            // ! Make events list if user is also added into it
-            const eventsIn = await getEventsbyOwner(userId);
+            const eventsIn = await getEventsByUser(userId);
             setEvents(eventsIn);
             setIsLoading(false);
         }
@@ -53,14 +54,93 @@ function WorkSpace() {
         e.preventDefault();
         setContextEvent(event);
         setIsContextVisible(prev => !prev);
-        setContextPosition({x: e.pageX, y: e.pageY})
+        setEventId(event.id);
     }
 
     function ContextMenu() {
+
+        const [title, setTitle] = useState(contextEvent.data?.title);
+
+        const titleSpanRef = useRef();
+        const titleInputRef = useRef();
+
+        useEffect(() => {
+            try {
+                if (titleSpanRef && titleInputRef) {
+                    const titleWidth = titleSpanRef.current.offsetWidth;
+                    titleInputRef.current.style.width = `${titleWidth}px`;
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }, [title]);
+
+        async function handleDelete() {
+            if (confirm("Are you sure you want to delete this event?")) {
+                setIsContextVisible(false);
+                setEventId(events[0].id);
+                setEvents(prev => prev.filter(ele => ele.id !== contextEvent.id));
+                await deleteEvent(contextEvent.id);
+            }
+        }
+
+        async function handleLeave() {
+            if (confirm("Are you sure you want to leave this event?")) {
+                setIsContextVisible(false);
+                setEventId(events[0].id);
+                setEvents(prev => prev.filter(ele => ele.id !== contextEvent.id));
+                await leaveEvent(contextEvent.id, userId);
+            }
+        }
+
         return (
-            
-            <div className="absolute bg-white text-black p-2" style={{top: `${contextPosition.y}px`, left: `${contextPosition.x}px`}}>
-                <p>{contextEvent || "NO EVENT"}</p>
+            <div 
+                className="absolute w-screen h-screen backdrop-blur-md top-0 left-0 grid place-content-center" 
+                
+            >
+                <div 
+                    className="absolute w-full h-full top-0 left-0" 
+                    onClick={() => setIsContextVisible(false)}
+                />
+                <div 
+                    className="w-fit bg-white text-black border-400 border-4 rounded p-4 flex flex-col justify-center items-center z-10" 
+                >
+                    <span
+                        className="invisible absolute text-xl px-2 py-1 whitespace-pre"
+                        ref={titleSpanRef}
+                    >
+                        {title || ' '}
+                    </span>
+                    <input 
+                        type="text" 
+                        className="text-xl outline-none border-none bg-transparent px-2 py-1"
+                        ref={titleInputRef}
+                        value={title || ''} 
+                        onChange={(e) => setTitle(e.target.value)}
+                        onBlur={() => updateEventTitle(contextEvent.id, title)}
+                        // ! Needs to visually change the title on the tabs
+                    />
+                    <input type="text" />
+                    {
+                        contextEvent.relation === "owner" 
+                        ? (
+                            <button 
+                                className="bg-red-500 rounded px-2 py-1"
+                                onClick={handleDelete}
+                            >
+                                Delete Event
+                            </button>
+                        ) : (
+                            <button 
+                                className="bg-red-500 rounded px-2 py-1"
+                                onClick={handleLeave}
+                            >
+                                Leave Event
+                            </button>
+                        )
+                    }
+                    
+                </div>
             </div>
         )
     }
@@ -93,7 +173,7 @@ function WorkSpace() {
                                 key={index} 
                                 className={`border-t border-x p-1 w-24 truncate rounded-t-lg ${event.id != eventId && "bg-200 border-b"}`}
                                 onClick={() => setEventId(event.id)}
-                                onContextMenu={(e) => handleEventEdit(e, event.id)}
+                                onContextMenu={(e) => handleEventEdit(e, event)}
                             >
                                 {event.data?.title || "New Event"}
                             </button>
