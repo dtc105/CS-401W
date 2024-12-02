@@ -25,7 +25,9 @@ export const userTemplate = {
         "ownedEvents": [],
         "allowedEvents": []
     },
-    "customLists": []
+    "customLists": [],
+    'incomingRequests': [],
+    'outgoingRequests': [],
 };
 
 export const listTemplate = {

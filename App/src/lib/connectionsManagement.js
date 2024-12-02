@@ -1,5 +1,5 @@
 import { db } from "../lib/firebase.js";
-import { updateDoc, doc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { updateDoc, getDoc, doc, arrayUnion, arrayRemove } from "firebase/firestore";
 
 export async function requestConnection(senderID, receiverID) {
     try {
@@ -59,11 +59,13 @@ export async function acceptRequest(senderID, receiverID) {
         const receiverDoc = doc(db, 'users', receiverID);
 
         await updateDoc(senderDoc, {
-            connections: arrayUnion(receiverID)
+            connections: arrayUnion(receiverID),
+            outgoingRequests: arrayRemove(receiverID)
         });
 
         await updateDoc(receiverDoc, {
-            connections: arrayUnion(senderID)
+            connections: arrayUnion(senderID),
+            incomingRequests: arrayRemove(senderID)
         });
     } catch (error) {
         console.error('Error when accepting connection: ', error);

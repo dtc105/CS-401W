@@ -34,20 +34,22 @@ function Profile() {
     };
 
     const isConnected = userConnections?.connections?.includes(id);
+    const viewerId = userId
+    const profileId = user?.id
 
     if (!userDoc) return <p>User does not exist!{id}</p>
 
     return (
         <div className="grid place-content-center">
             <div id="profile" className="grid grid-cols-2 grid-rows-3 gap-8 text-2xl aspect-square">
-                <div>
+                <div className="flex flex-col justify-center items-center">
                     <Avatar />
                     {
                     // user is profile being viewed, userId is the viewer's ID
-                    user?.id !== userId &&
+                    profileId !== viewerId &&
                     (
                         !isConnected ? (
-                            <button onClick={() => requestConnection(userId, user?.id)} className='rounded bg-blue-400 text-white border-gray-800'>
+                            <button onClick={() => requestConnection(userId, user?.id)} className='mt-6 rounded bg-blue-400 text-white border-gray-800 px-6'>
                                 Request Connection
                             </button>
                         ) : (
