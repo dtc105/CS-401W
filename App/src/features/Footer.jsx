@@ -24,9 +24,9 @@ function Footer() {
                     <tr className="flex flex-col gap-2 items-center">
                         <th>About us</th>
                         <td><div className="border-b-2 w-4/5 mx-auto" /></td>
-                        <td>Functions</td>
-                        <td>Developers</td>
-                        <td>Purpose</td>
+                        <a  href='http://localhost:5173/about#:~:text=functionality%20and%20design.-,Functions,-PlanIt%20Agenda%20provides' style={{ color: 'blue', textDecoration: 'underline'}}>Functions</a>
+                        <a href='http://localhost:5173/about#:~:text=and%20attaining%20success.-,The%20Developers,-Zachary%20Cote' style={{ color: 'blue', textDecoration: 'underline'}}>Developers</a>
+                        <a href='http://localhost:5173/about#:~:text=ambitions%20a%20reality.-,Purpose,-PlanIt%20Agenda%20provides' style={{ color: 'blue', textDecoration: 'underline'}}>Purpose</a>
                     </tr>
                 </tbody>
                 <tbody>
