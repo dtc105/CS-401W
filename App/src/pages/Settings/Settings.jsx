@@ -68,7 +68,7 @@ function Settings() {
                         <span>
                             To get in touch with support or provide feedback to improve the platform:
                             <br />
-                            <a href="mailto:email@email.com" style={{ color: 'blue', textDecoration: 'underline', textIndent: '60px', display: 'block' }}>
+                            <a href="PlanItAgenda@googlegroups.com" style={{ color: 'blue', textDecoration: 'underline', textIndent: '60px', display: 'block' }}>
                                 Send us an email
                             </a>
                             <a href="tel:+4011234567" style={{ color: 'blue', textDecoration: 'underline', textIndent: '60px', display: 'block' }}>
