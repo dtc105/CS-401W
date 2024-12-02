@@ -13,7 +13,7 @@ export async function createUser(id, inData) {
 
     let userRef;
     try {
-        userRef = await setDoc(doc(db, "users", id), {...userTemplate, ...inData, ...lastChangeStamp, ...createdAtStamp});
+        userRef = await setDoc(doc(db, "users", id), {...userTemplate, ...inData, ...lastChangeStamp, ...createdAtStamp, 'id': id});
     } catch (e) {
         console.error(e);
         return;

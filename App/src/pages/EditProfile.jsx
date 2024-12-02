@@ -9,12 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from "../components/Avatar.jsx";
 
 function EditProfile() {
-    const { userId } = useUserStore();
+    const { userId, updateAvatar } = useUserStore();
     const { id } = useParams();
     const [userDoc, setUserDoc] = useState({});
     const [userDetails, setUserDetails] = useState({});
-    const [avatarFile, setAvatarFile] = useState(null);
     const [message, setMessage] = useState('');
+    const [selectedAvatar, setSelectedAvatar] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,6 +40,8 @@ function EditProfile() {
             const response = await updateUserDetails(userId, userDetails);
             setMessage('Profile has been updated successfully. Redirecting in 3 seconds...');
             setUserDoc({ ...userDoc });
+            // console.log(userDetails.avatar);
+            updateAvatar(userDetails.avatar);
             setTimeout(() => {
                 navigate('/profile');
             }, 3000);
@@ -52,21 +54,95 @@ function EditProfile() {
 
     return (
         <div 
-            className="flex flex-col items-center border rounded gap-4 w-max m-auto p-4"
+            className="flex flex-col justify-center items-center border rounded gap-4 w-max m-auto p-4"
         >
             <h2 className='text-lg'>Update Profile Information</h2>
             {message && <p className='text-red'>{message}</p>}
-            <form onSubmit={handleSubmit} className='flex flex-col'>
-                <div className='grid grid-cols-[auto_1fr] gap-1 m-auto'>
-                    <Avatar user={userDoc}/>
-                    <input 
-                        className='m-auto'
-                        type='file'
-                        name='avatar'
-                        accept='image/*' 
-                        onChange={handleInputChange}
-                    />
+            <form onSubmit={handleSubmit} className='flex flex-col items-center'>
+                <div className='grid items-center grid-cols-4 gap-1 m-auto p-2'>
+                    <label>
+                        <input type="radio" name="avatar" value="src/avatars/m1.png" onChange={handleInputChange}/>
+                        <img
+                        src="src/avatars/m1.png"
+                        className="justify-center items-center"
+                        value="src/avatars/m1.png"
+                        alt="Male 1"
+                        width="50"
+                        height="50" />
+                    </label>
+                    <label>
+                    <input type="radio" name="avatar" value="src/avatars/m2.png" onChange={handleInputChange}/>
+                        <img
+                        src="src/avatars/m2.png"
+                        className="justify-center items-center"
+                        value="src/avatars/m2.png"
+                        alt="Male 1"
+                        width="50"
+                        height="50"/>
+                    </label>
+                    <label>
+                    <input type="radio" name="avatar" value="src/avatars/m3.png" onChange={handleInputChange}/>
+                        <img
+                        src="src/avatars/m3.png"
+                        className="justify-center items-center"
+                        value="src/avatars/m3.png"
+                        alt="Male 1"
+                        width="50"
+                        height="50"/>
+                    </label>
+                    <label>
+                    <input type="radio" name="avatar" value="src/avatars/m4.png" onChange={handleInputChange}/>
+                        <img
+                        src="src/avatars/m4.png"
+                        className="justify-center items-center"
+                        value="src/avatars/m4.png"
+                        alt="Male 1"
+                        width="50"
+                        height="50" />
+                    </label>
+                    <label>
+                    <input type="radio" name="avatar" value="src/avatars/w1.png" onChange={handleInputChange}/>
+                        <img
+                        src="src/avatars/w1.png"
+                        className="justify-center items-center"
+                        value="src/avatars/w1.png"
+                        alt="Male 1"
+                        width="50"
+                        height="50" />
+                    </label>
+                    <label>
+                    <input type="radio" name="avatar" value="src/avatars/w2.png" onChange={handleInputChange}/>
+                        <img
+                        src="src/avatars/w2.png"
+                        className="justify-center items-center"
+                        value="src/avatars/w2.png"
+                        alt="Male 1"
+                        width="50"
+                        height="50"/>
+                    </label>
+                    <label>
+                    <input type="radio" name="avatar" value="src/avatars/w3.png" onChange={handleInputChange}/>
+                        <img
+                        src="src/avatars/w3.png"
+                        className="justify-center items-center"
+                        value="src/avatars/w3.png"
+                        alt="Male 1"
+                        width="50"
+                        height="50" />
+                    </label>
+                    <label>
+                    <input type="radio" name="avatar" value="src/avatars/w4.png" onChange={handleInputChange}/>
+                        <img
+                        src="src/avatars/w4.png"
+                        className="justify-center items-center"
+                        value="src/avatars/w4.png"
+                        alt="Male 1"
+                        width="50"
+                        height="50" />
+                    </label>
                 </div>
+                {/* <button className="flex items-center justify-center rounded bg-gray-500 w-1/4 mb-2 ">Save Avatar</button> */}
+
                 <div className='grid grid-cols-[auto_1fr] gap-1 m-auto'>
                     <label className='text-right'>Preferred Email:</label>
                     <input 
