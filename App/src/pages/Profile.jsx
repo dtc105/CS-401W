@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useUserStore } from "../lib/userStore.js";
 import { getUserbyId } from "../lib/fetchData.js";
 import Avatar from "../components/Avatar.jsx";
+import { removeConnection, requestConnection } from "../lib/connectionsManagement.js";
 
 function Profile() {
     const [ currentUserID, setCurrentUserID ] = useState(null);
@@ -32,20 +33,31 @@ function Profile() {
         return new Date(time * 1000).toLocaleDateString();
     };
 
+    const isConnected = userConnections?.connections?.includes(id);
+
     if (!userDoc) return <p>User does not exist!{id}</p>
 
     return (
         <div className="grid place-content-center">
-            <div id="profile" className="grid grid-cols-2 grid-rows-2 gap-8 text-2xl aspect-square">
+            <div id="profile" className="grid grid-cols-2 grid-rows-3 gap-8 text-2xl aspect-square">
                 <div>
                     <Avatar />
-                </div>
-                {
+                    {
+                    // user is profile being viewed, userId is the viewer's ID
                     user?.id !== userId &&
                     (
-                        <p>Anything here will render if the user owns the account being viewed</p>
+                        !isConnected ? (
+                            <button onClick={() => requestConnection(userId, user?.id)} className='rounded bg-blue-400 text-white border-gray-800'>
+                                Request Connection
+                            </button>
+                        ) : (
+                            <button onClick={removeConnection(userId, user?.id)} className='rounded bg-blue-400 text-white border-gray-800'>
+                                Remove Connection
+                            </button>
+                        )
                     )
                 }
+                </div>
                 <div id="connections" className="border rounded p-2">
                     <p className="text-center">Connections</p>
                     <hr />

@@ -1,5 +1,5 @@
 import { db } from "../lib/firebase.js";
-import { collection, addDoc, updateDoc, doc, Timestamp, setDoc} from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc, Timestamp, setDoc } from "firebase/firestore";
 import { userTemplate } from "./templates.js";
 
 /**
