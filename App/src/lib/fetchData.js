@@ -1,6 +1,5 @@
-import { createElement } from "react";
 import { db } from "../lib/firebase.js";
-import { collection, query, where, getDocs, setDoc, getDoc, doc } from "firebase/firestore";
+import { collection, query, where, getDocs, getDoc, doc } from "firebase/firestore";
 
 /**
  * Returns all users
@@ -23,6 +22,7 @@ export async function getAllUsers() {
 export async function getFirstUser() {
     try {
         const querySnapshot = await getDocs(query(collection(db, "users")));
+        //console.log("getFirstUser: ", querySnapshot.docs);
         return querySnapshot.docs[0].id;
     } catch (e) {
         console.error(e);
@@ -38,22 +38,6 @@ export async function getUserbyId(id) {
     try {
         const querySnapshot = await getByID("users", id);
         return querySnapshot.data();
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-/**
- * Gets all planners that is in a users connections
- * ! DEPRECATED (user connections is now stored within users)
- * @deprecated
- * @param {string} userID 
- * @returns array of planner refs
- */
-export async function getPlannerbyUserId(userID) {
-    try {
-        const userCollection = await getByID("userConnections", userID);
-        return userCollection.data().planners;
     } catch (e) {
         console.error(e);
     }
@@ -79,12 +63,40 @@ export async function getEventbyId(eventID) {
  * @param {string} ownerID 
  * @returns array of event refs
  */
-export async function getEventsbyOwner(ownerID) {
+export async function getEventsbyOwner(ownerId) {
     try {
-        const querySnapshot = await getDocs(query(collection(db, "planner")));//, where("ownerId", "==", ownerID)));
-        return querySnapshot;
-    } catch (e) {
-        console.error(e);
+        const querySnapshot = await getDocs(query(collection(db, "planner"), where("ownerId", "==", ownerId)));
+        return querySnapshot.docs.map(qdoc => {
+            return ({
+                id: qdoc.id, 
+                data: qdoc.data()
+            })
+        });
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export async function getEventsByUser(userId) {
+    try {
+        const ownedEvents = await getDocs(query(collection(db, "planner"), where("ownerId", "==", userId)));
+        const allowedEvents = await getDocs(query(collection(db, "planner"), where("allowedUsers", "array-contains", userId)));
+
+        return ownedEvents.docs.map(qdoc => {
+            return ({
+                id: qdoc.id,
+                relation: "owner",
+                data: qdoc.data(),
+            })
+        }).concat(allowedEvents.docs.map(qdoc => {
+            return ({
+                id: qdoc.id,
+                relation: "user",
+                data: qdoc.data()
+            })
+        }))
+    } catch (err) {
+        console.error(err);
     }
 }
 
@@ -107,8 +119,16 @@ export async function getListbyId(eventID, listID) {
  * @returns 
  */
 export async function getListsbyEventId(eventID) {
-    const ref = await doc(db, "planner", eventID);
-    const lists = await getDocs(collection(ref,"lists"));
+    let lists;
+    try {
+        const event = await doc(db, "planner", eventID);
+        const listsRef = await collection(event, "lists");
+        lists = await getDocs(listsRef);
+    } catch (e) {
+        console.error(e);
+        return;
+    }
+
     let listOut = [];
     return lists.docs.map((list, _) => {
         return list.id;

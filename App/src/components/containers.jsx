@@ -1,11 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Popup from "reactjs-popup";
-import { changeDoc } from "../lib/pushData";
-import { getListbyId } from "../lib/fetchData";
-import { db } from "../lib/firebase.js";
-import { updateDoc, setDoc, arrayRemove, deleteDoc, arrayUnion, getDoc } from "firebase/firestore";
+import { updateDoc,  arrayRemove,  arrayUnion } from "firebase/firestore";
 import * as templates from "../lib/templates.js";
-import { fetchSignInMethodsForEmail } from "firebase/auth";
 
 // function handleLegendClick(){
 //     console.log("handleLegendClick");
@@ -53,10 +49,10 @@ export function CheckboxList(props){
                                     className="scale-125"
                                     checked={element.value} 
                                     value={element.value} 
-                                    onChange={(e) => handleChangeCheckbox(index)} 
+                                    onChange={(_) => handleChangeCheckbox(index)} 
                                 />
                                 <input 
-                                    className="text-slate-900 rounded px-2 py-1" 
+                                    className="text-slate-900 rounded px-2 py-1 flex-1 w-full" 
                                     type="text" 
                                     value={element.name} 
                                     onChange={(e)=>onNameChange(e, index)} 
@@ -83,7 +79,7 @@ export function CheckboxList(props){
                         {
                             name: "Change Me", 
                             value: false, 
-                            index: checkboxes.at(-1).index + 1
+                            index: checkboxes.at(-1)?.index + 1 || 0
                         }])}
                     className="w-2/5 m-auto bg-blue-500 py-1 rounded"
                     >
@@ -102,18 +98,25 @@ export function CheckboxList(props){
  */
 export function Text(props){
 
-    const listRef=props.listRef;
-    const [theText, setTheText] = useState(props.list.data);
+    const listRef = props.listRef;
+    const [content, setContent] = useState(props.list.data);
     
     return(
-        <>
+        <div className="flex flex-col gap-4 justify-center items-center p-4">
             <textarea 
-                value={theText} 
-                onChange={(e)=>setTheText(e.target.value)} 
-                onBlur={()=>updateDoc(props.listRef, {data: theText})}
+                value={content} 
+                onChange={(e)=>setContent(e.target.value)} 
+                onBlur={()=>updateDoc(listRef, {data: content})}
+                className="text-black w-full"
+                rows={4}
             /> 
-            <button onClick={()=>updateDoc(props.listRef, {data: theText}, {merge: true})}>Update</button>
-        </>
+            <button 
+                className="bg-blue-500 rounded px-2 py-1"
+                onClick={()=>updateDoc(listRef, {data: content}, {merge: true})}
+            >
+                Update
+            </button>
+        </div>
        
     )
 }
@@ -156,7 +159,6 @@ export function ContactsList(props){
 
     function handleAddContactFilled(){ //! for testing, can be removed later
         const templateData = templates.newContactTest;
-        console.log("add Contact:\n", templateData, "\nContacts:\n", contacts);
         return(changeContact(templateData));
         //setContacts(prev => [...prev, {templateData}]);
     }
@@ -229,14 +231,14 @@ export function ContactsList(props){
                                 return (
                                     <li className="flex px-2" key={indexEmail}>
                                         <div className="grid grid-cols-[auto_1fr] gap-1">
-                                            <select name="emailLabel" id="emailLabel">
-                                                <option value="">Select</option>
+                                            <select className="text-black" name="emailLabel" id="emailLabel">
+                                                <option value="" disabled selected>Select</option>
                                                 <option value="Work">Work</option>
                                                 <option value="Personal">Personal</option>
                                                 <option value="School">School</option>
                                                 <option value="Other">Other</option>
                                             </select>
-                                        <input type="email" placeholder={elementEmail.emailAddress} id="emailAddress"/>
+                                        <input className="text-black" type="email" placeholder={elementEmail.emailAddress} id="emailAddress"/>
                                         </div>
                                     </li>
                                 )
@@ -250,16 +252,18 @@ export function ContactsList(props){
                                 return (
                                     <li className="flex px-2" key={indexPhone}>
                                         <div className="grid grid-cols-[auto_1fr] gap-1">
-                                            <select name="phoneLabel" id="phoneLabel">
-                                                <option value="">Select</option>
+                                            <select className="text-black" name="phoneLabel" id="phoneLabel">
+                                                <option disabled selected value="">Select</option>
                                                 <option value="Work">Work</option>
                                                 <option value="Home">Home</option>
                                                 <option value="Cell">Cell</option>
                                                 <option value="Other">Other</option>
                                             </select>
-                                        <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" placeholder={elementPhone.number} id="number"/>
-                                        <label className="text-right" htmlFor="extension">Ext.</label><input type="text" placeholder="123" id="extension"/>
-                                        </div>
+                                            <div>
+                                                <input className="text-black" type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" placeholder={elementPhone.number} id="number"/>
+                                                <label className="text-right" htmlFor="extension">Ext.</label><input className="text-black" type="text" placeholder="123" id="extension"/>
+                                            </div>
+                                       </div>
                                     </li>
                                 )
                             })
@@ -272,8 +276,8 @@ export function ContactsList(props){
                                 return (
                                     <li className="flex flex-col px-2" key={indexPA}>
                                         <section className="grid gap-1">
-                                            <select name="addressLabel" id="addressLabel" className="w-24">
-                                                <option value="">Select</option>
+                                            <select className="text-black w-24" name="addressLabel" id="addressLabel">
+                                                <option disabled selected value="">Select</option>
                                                 <option value="Buisness">Buisness</option>
                                                 <option value="Home">Home</option>
                                                 <option value="Mailing">Mailing</option>
@@ -281,20 +285,20 @@ export function ContactsList(props){
                                             </select>
                                             <div className="grid grid-cols-[auto_1fr] gap-1">
                                                 <label htmlFor="streetOne">Street:</label>
-                                                <input type="text" placeholder={elementPA.streetOne} id="streetOne"/>
+                                                <input className="text-black" type="text" placeholder={elementPA.streetOne} id="streetOne"/>
 
                                                 <label htmlFor="streetTwo">Street:</label>
-                                                <input type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
+                                                <input className="text-black" type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
                                             </div>
                                             <div>  
                                                 <label htmlFor="city">City:</label>
-                                                <input className="w-32" type="text" placeholder={elementPA.city} id="city" />
+                                                <input className="w-32 text-black" type="text" placeholder={elementPA.city} id="city" />
 
                                                 <label htmlFor="state"> State:</label>
-                                                <input className="w-32" type="text" placeholder={elementPA.state} id="state"/>
+                                                <input className="w-32 text-black" type="text" placeholder={elementPA.state} id="state"/>
 
                                                 <label htmlFor="zipCode"> Zip Code:</label>
-                                                <input className="w-14" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
+                                                <input className="w-14 text-black" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
                                             </div>
                                         </section>
                                     </li>
@@ -364,8 +368,10 @@ export function ContactsList(props){
                                         <option value="Cell">Cell</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$"defaultValue={elementPhone.number} id="number"/>
-                                <label className="text-right" htmlFor="extension">Ext.</label><input type="text"defaultValue={elementPhone.extension} id="extension"/>
+                                    <div>
+                                        <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$"defaultValue={elementPhone.number} id="number"/>
+                                        <label className="text-right" htmlFor="extension">Ext.</label><input type="text"defaultValue={elementPhone.extension} id="extension"/>
+                                    </div>
                                 </div>
                             </li>
                     )})}

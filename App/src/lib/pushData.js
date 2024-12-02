@@ -1,6 +1,6 @@
 import { db } from "../lib/firebase.js";
-import { collection, addDoc, updateDoc, doc, Timestamp, setDoc} from "firebase/firestore";
-import { userTemplate } from "./templates.js";
+import { collection, addDoc, updateDoc, doc, Timestamp, setDoc } from "firebase/firestore";
+import { userTemplate, listTemplate } from "./templates.js";
 
 /**
  * Creates a new user
@@ -41,6 +41,24 @@ export async function createDoc(collectionID, data) {
 }
 
 /**
+ * Creates a new list , adds initial data, returns the new docs ref
+ * @param {string} eventDocName 
+ * @param {object} listAttributes 
+ * @returns {DocumentReference} A Promise resolved with a DocumentReference pointing to the newly created document after it has been written to the backend (Note that it won't resolve while you're offline).
+ */
+export async function createList(eventDocName, listAttributes){// 
+    
+    const docID = `/planner/${eventDocName}/lists`; //path to lists subcollection
+    const templateData = listTemplate[listAttributes];
+
+    const ref = await createDoc(docID, templateData);
+
+    console.log("in createList " ,ref);
+
+    return ref;
+}
+
+/**
  * Creates new event framework uses create doc, but also adds a 'lists' subcollection with an empty doc
  * @param {string} collectionID 
  * @param {object} data 
@@ -54,9 +72,6 @@ export async function createEvent(collectionID, data){
     
         // Adds a subcollection named "lists"
         const subCollectionRef = collection(ref, "lists");
-    
-        // Adds an empty doc to the subcollection "lists"
-        await addDoc(subCollectionRef, {});
     } catch (e) {
         console.error(e);
         return;
