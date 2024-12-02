@@ -80,11 +80,22 @@ function About() {
 
                     {/* Doug */}
                     <div className="flex flex-col items-center">
-                        <svg height="300" width="300">
+                        <svg height="300" width="300" viewBox="0 0 300 300">
+                            <defs>
+                                <clipPath id="circleClip">
+                                    <circle cx="150" cy="150" r="140" />
+                                </clipPath>
+                            </defs>
                             <circle cx="150" cy="150" r="140" stroke="black" strokeWidth="3" fill="none" />
-                            <text x="50%" y="50%" textAnchor="middle" fill="black" fontSize="20" dy=".3em">
-                                SVG 4
-                            </text>
+                            <image 
+                                href="/assets/ddoherty.jpeg" 
+                                x="0" 
+                                y="0" 
+                                width="300" 
+                                height="300" 
+                                clipPath="url(#circleClip)" 
+                                preserveAspectRatio="xMidYMid slice" 
+                            />
                         </svg>
                         <p className="mt-4 text-xl font-medium">Douglas Doherty</p>
                     </div>
