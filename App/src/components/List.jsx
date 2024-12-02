@@ -77,6 +77,7 @@ function List(props){
                         ref={titleInputRef}
                         onChange={(e) => setTitle(e.target.value)}
                         value={title || ""}
+                        title="Click to Edit List Name"
                     />
                 </div>
                 <button 

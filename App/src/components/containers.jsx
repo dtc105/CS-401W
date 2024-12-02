@@ -1,17 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Popup from "reactjs-popup";
 import { updateDoc,  arrayRemove,  arrayUnion } from "firebase/firestore";
 import * as templates from "../lib/templates.js";
-
-// function handleLegendClick(){
-//     console.log("handleLegendClick");
-//     document.getElementById("editlegend").style.display="flex";
-// }
-
-// function handleLegendUpdate (listRef, legend){
-//     updateDoc(listRef, {ListName: legend});
-//     document.getElementById("editlegend").style.display="none";
-// }
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 export function CheckboxList(props){
 
@@ -130,10 +122,18 @@ export function CalendarList(props){
 
     const listRef=props.listRef;
 
+    function handleCalendarChange (){
+
+    }
+
     return(
         <>
             <p>This will be a calendar</p>
             <p>{props.listRef.id}</p>
+            <Calendar 
+                className="bg-black"
+                onChange={handleCalendarChange} 
+                />
             <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
         </>
     )
@@ -142,7 +142,7 @@ export function CalendarList(props){
 /**
  * Container builder htmlFor Contacts
  * @param {*} props 
- * @returns a form containing //!
+ * @returns a form containing a Contact List
  */
 export function ContactsList(props){
 

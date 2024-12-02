@@ -113,12 +113,14 @@ function WorkSpace() {
                     </span>
                     <input 
                         type="text" 
-                        className="text-xl outline-none border-none bg-transparent px-2 py-1"
+                        autoFocus
+                        className="text-xl outline-none border-none bg-transparent px-2 py-1 hover:bg-sky-200"
                         ref={titleInputRef}
                         value={title || ''} 
                         onChange={(e) => setTitle(e.target.value)}
                         onBlur={() => updateEventTitle(contextEvent.id, title)}
                         // ! Needs to visually change the title on the tabs
+                        //! should also close popup
                     />
                     <input type="text" />
                     {
@@ -174,8 +176,10 @@ function WorkSpace() {
                                 className={`border-t border-x p-1 w-24 truncate rounded-t-lg ${event.id != eventId && "bg-200 border-b"}`}
                                 onClick={() => setEventId(event.id)}
                                 onContextMenu={(e) => handleEventEdit(e, event)}
+                                title="Right-Click to edit Name or Delete Event"
                             >
                                 {event.data?.title || "New Event"}
+                                
                             </button>
                         );
                     })
