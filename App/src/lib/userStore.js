@@ -37,10 +37,9 @@ export const useUserStore = create(persist((set) => ({
                 set({currentUser: null, userId: null, isLoading: false});
             }
         },
-    }),
-    {
-        name: "currentUserStorage",
-        storage: createJSONStorage(() => localStorage)
-    }
-
-));
+        updateAvatar: (avatarPath) => {
+            console.log("THIS ONE",avatarPath);
+            set((state) => ({currentUser: {...state.currentUser, details: {...state.currentUser.details, avatar: avatarPath}}}))
+        }
+    })
+);
