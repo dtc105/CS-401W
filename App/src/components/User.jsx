@@ -43,7 +43,7 @@ function User() {
 
                 <a href="/about">About</a>
 
-                <a href='/settings#:~:text=Contact%20Support%20%7C%20Give%20Feedback%20%3A)'>Contact</a>
+                <a href='http://localhost:5173/#:~:text=Purpose-,Contact%20us,-Rhode%20Island%20College'>Contact</a>
 
                 </div>
                 {
