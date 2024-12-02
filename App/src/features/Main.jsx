@@ -6,8 +6,12 @@ import Profile from "../pages/Profile.jsx";
 import Settings from "../pages/Settings/Settings.jsx";
 import LoginContainer from "../pages/LoginContainer.jsx";
 import FAQs from "../pages/Settings/FAQs.jsx";
+<<<<<<< HEAD
 import ForgotPass from "../pages/Settings/ForgotPass.jsx";
 import EditProfile from "../pages/EditProfile.jsx";
+=======
+import About from "../pages/About.jsx";
+>>>>>>> aadd8768de15d3da3746c10f3edb40e90b3d557d
 
 
 /**
@@ -25,10 +29,16 @@ function Main() {
                     <Route path='/profile/'  Component={Profile} />
                     <Route path='/profile/:id'  Component={Profile} />
                     <Route path='/settings' Component={Settings} />
+<<<<<<< HEAD
 		            <Route path='/reset'     element={<ForgotPass />} />
                     <Route path='/register' Component={RegisterContainer} />
 		            <Route path='/faqs'     Component={FAQs} />
                     <Route path='/edit'     Component={EditProfile} />
+=======
+                    <Route path='/about'    element={<About />} />
+                    <Route path='/register' Component={RegisterContainer} />
+		            <Route path='/faqs'     element={<FAQs />} />
+>>>>>>> aadd8768de15d3da3746c10f3edb40e90b3d557d
 				</Routes>
 			</Router>
         </main>
