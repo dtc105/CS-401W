@@ -166,3 +166,26 @@ async function getByID (collection, id){
     const docSnap = await getDoc(docRef);
     return docSnap;
 }
+
+export async function getEventsByUser(userId) {
+    try {
+        const ownedEvents = await getDocs(query(collection(db, "planner"), where("ownerId", "==", userId)));
+        const allowedEvents = await getDocs(query(collection(db, "planner"), where("allowedUsers", "array-contains", userId)));
+
+        return ownedEvents.docs.map(qdoc => {
+            return ({
+                id: qdoc.id,
+                relation: "owner",
+                data: qdoc.data(),
+            })
+        }).concat(allowedEvents.docs.map(qdoc => {
+            return ({
+                id: qdoc.id,
+                relation: "user",
+                data: qdoc.data()
+            })
+        }))
+    } catch (err) {
+        console.error(err);
+    }
+}
