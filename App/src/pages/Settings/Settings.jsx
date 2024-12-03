@@ -78,13 +78,8 @@ function Settings() {
                                 Send us an email
                             </a>
                             <a href="tel:+14134002860" style={{ color: 'blue', textDecoration: 'underline', textIndent: '60px', display: 'block' }}>
-<<<<<<< HEAD
-                                Call our service phone number
-                            </a>
-=======
                                 Call us
                                 </a>
->>>>>>> f0b3289b5158a069cfcb8cccd44b6819ebe4b761
                         </span>
                     )
                 }
