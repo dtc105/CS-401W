@@ -16,13 +16,13 @@ export async function getAllUsers() {
 }
 
 /**
- * Returns the first user
+ * Returns a "random" user
  * @returns {string} the id of the user
  */
-export async function getFirstUser() {
+export async function getOneUser() {
     try {
         const querySnapshot = await getDocs(query(collection(db, "users")));
-        //console.log("getFirstUser: ", querySnapshot.docs);
+        //console.log("from getoneuser: ", querySnapshot.docs[0].id);
         return querySnapshot.docs[0].id;
     } catch (e) {
         console.error(e);
@@ -65,13 +65,15 @@ export async function getPlannerbyUserId(userID) {
 
 /**
  * Returns a single event ref by id
+ * ! NEEDS WORK (eventId not used)
  * @param {string} eventID 
  * @returns event doc
  */
 export async function getEventbyId(eventID) {
     try {
-        const event = await getByID("events", eventId);
-        return event.data();
+        //const event = await getDocs(query(collection(db, "events"), where("id", "==", eventID)));
+        const event = getByID("events", id);
+        return event[0].data();
     } catch (e) {
         console.error(e);
     }
@@ -83,40 +85,13 @@ export async function getEventbyId(eventID) {
  * @param {string} ownerID 
  * @returns array of event refs
  */
-export async function getEventsbyOwner(ownerId) {
+export async function getEventsbyOwner(ownerID) {
     try {
-        const querySnapshot = await getDocs(query(collection(db, "planner"), where("ownerId", "==", ownerId)));
-        return querySnapshot.docs.map(qdoc => {
-            return ({
-                id: qdoc.id, 
-                data: qdoc.data()
-            })
-        });
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-export async function getEventsByUser(userId) {
-    try {
-        const ownedEvents = await getDocs(query(collection(db, "planner"), where("ownerId", "==", userId)));
-        const allowedEvents = await getDocs(query(collection(db, "planner"), where("allowedUsers", "array-contains", userId)));
-
-        return ownedEvents.docs.map(qdoc => {
-            return ({
-                id: qdoc.id,
-                relation: "owner",
-                data: qdoc.data(),
-            })
-        }).concat(allowedEvents.docs.map(qdoc => {
-            return ({
-                id: qdoc.id,
-                relation: "user",
-                data: qdoc.data()
-            })
-        }))
-    } catch (err) {
-        console.error(err);
+        const querySnapshot = await getDocs(query(collection(db, "planner")));//, where("ownerId", "==", ownerID)));
+        //console.log("from getEventsbyOwner: ", querySnapshot.docs[0].id);
+        return querySnapshot;
+    } catch (e) {
+        console.error(e);
     }
 }
 
@@ -130,6 +105,9 @@ export async function getEventsByUser(userId) {
 export async function getListbyId(eventID, listID) {
     const ref = await doc(db, "planner", eventID);
     const list = await doc(ref, "lists", listID);
+    //console.log("*******\ngetListbyID ref:\n ", ref);
+    //console.log("*******\ngetListbyID list: \n", list);
+    //return list.data();
     return list;
 }
 
@@ -139,24 +117,18 @@ export async function getListbyId(eventID, listID) {
  * @returns 
  */
 export async function getListsbyEventId(eventID) {
-    let lists;
-    try {
-        const event = await doc(db, "planner", eventID);
-        const listsRef = await collection(event, "lists");
-        lists = await getDocs(listsRef);
-    } catch (e) {
-        console.error(e);
-        return;
-    }
-
-    let listOut = [];
-    return lists.docs.map((list, _) => {
-        return list.id;
-    })
-    // lists.forEach(list => {
-    //     listOut.push(list.id);
-    // });
+    const ref = await doc(db, "planner", eventID);
+    const lists = await getDocs(collection(ref,"lists"));
+    let listOut =[];
+    lists.forEach(lists => {
+        //console.log("ListsByEventID - lists: ", lists.id);
+        listOut.push(lists.id);
+    });
     
+    // listOut.forEach(listOut => {
+    //     console.log("ListsByEventID - listout: ", listOut);
+    // });
+
     return listOut;
 }
 

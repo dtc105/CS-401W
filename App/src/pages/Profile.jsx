@@ -39,6 +39,10 @@ function Profile() {
 
     if (!userDoc) return <p>User does not exist!{id}</p>
 
+    useEffect(() => {
+        console.log("!@#!@#!@#", userConnections);
+    }, [userConnections]);
+
     return (
         <div className="grid place-content-center">
             <div id="profile" className="grid grid-cols-2 grid-rows-3 gap-8 text-2xl aspect-square">
@@ -67,8 +71,23 @@ function Profile() {
                         {
                             userConnections.map((connection, index) => {
                                 return (
-                                    <li>
-                                        <a href={`/profile/${connection.id}`} className="flex gap-2 items-center mx-1"><Avatar user={connection.id}/>{connection.username}</a>
+                                    <li className="">
+                                        <a href={`/profile/${connection.id}`} className="flex gap-2 items-center mx-1">
+                                            <Avatar user={connection.id}/>{connection.username}
+                                        </a>
+                                        {
+                                            profileId === viewerId && (
+                                                <button
+                                                    onClick={() => {
+                                                            removeConnection(connection.id, userId); 
+                                                            setUserConnections(prev => prev.filter(ele => ele.id !== connection.id));
+                                                    }}
+                                                    className="hover:bg-red-500 rounded bg-white"
+                                                >
+                                                    <img src="/assets/x.svg" alt="remove" />
+                                                </button>
+                                            )
+                                        }
                                     </li>
                                 )
                             })
