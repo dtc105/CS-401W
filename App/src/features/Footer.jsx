@@ -41,13 +41,8 @@ function Footer() {
                         </td>
                         <td className="flex items-center gap-2">
                             <img src="assets/envelope-fill.svg" alt="email icon" className="h-4" />
-<<<<<<< HEAD
-                                <a href="PlanItAgenda@googlegroups.com" style={{ color: 'blue', textDecoration: 'underline' }}>
-                                PlanItAgenda@googlegroups.com
-=======
                                 <a href="mailto:planitagenda@googlegroups.com" style={{ color: 'blue', textDecoration: 'underline' }}>
                                 planitagenda@googlegroups.com
->>>>>>> 1f392b64c8bd7db5d9fac68e18d325a413334eb5
                                 </a>
                         </td>
                         <td className="flex items-center gap-2">
