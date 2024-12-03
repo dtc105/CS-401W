@@ -13,10 +13,6 @@ function Register() {
     const [isRegistering, setIsRegistering] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
-    
-    useEffect(() => {
-        console.warn("Registering currently needs new field names");
-    }, []);
 
     async function onSubmit(event) {
     

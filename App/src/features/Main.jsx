@@ -9,6 +9,7 @@ import FAQs from "../pages/Settings/FAQs.jsx";
 import ForgotPass from "../pages/Settings/ForgotPass.jsx";
 import EditProfile from "../pages/EditProfile.jsx";
 import About from "../pages/About.jsx";
+import UserSearch from "../pages/SearchUsers.jsx";
 
 
 /**
@@ -33,6 +34,7 @@ function Main() {
                     <Route path='/about'    element={<About />} />
                     <Route path='/register' Component={RegisterContainer} />
 		            <Route path='/faqs'     element={<FAQs />} />
+                    <Route path='/search'   Component={UserSearch} />
 				</Routes>
 			</Router>
         </main>

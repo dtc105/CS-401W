@@ -72,22 +72,22 @@ function Profile() {
                             userConnections.map((connection, index) => {
                                 return (
                                     <li className="">
-                                        <a href={`/profile/${connection.id}`} className="flex gap-2 items-center mx-1">
+                                        <a href={`/profile/${connection.id}`} className="flex gap-2 items-center mx-1 justify-start">
                                             <Avatar user={connection.id}/>{connection.username}
-                                        </a>
-                                        {
+                                            {
                                             profileId === viewerId && (
                                                 <button
                                                     onClick={() => {
                                                             removeConnection(connection.id, userId); 
                                                             setUserConnections(prev => prev.filter(ele => ele.id !== connection.id));
                                                     }}
-                                                    className="hover:bg-red-500 rounded bg-white"
+                                                    className="hover:bg-red-500 hover:opacity-100 opacity-25 rounded bg-white"
                                                 >
                                                     <img src="/assets/x.svg" alt="remove" />
                                                 </button>
                                             )
                                         }
+                                        </a>
                                     </li>
                                 )
                             })

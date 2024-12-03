@@ -56,6 +56,10 @@ function User() {
         {
             text: "Settings",
             func: () => {navToPage('/settings')}
+        },
+        {
+            text: "Find Users",
+            func: () => {navToPage('/search')}
         }
     ];
 
@@ -139,7 +143,7 @@ function User() {
                     requestsOpen && (
                         <div
                             id='requestsBoxOpen'
-                            className="absolute top-20 w-60 right-45 dark:bg-300 bg-gray-500 dark:text-white text-black p-4 border-l border-b border-r border-zinc-100 border-opacity-50"
+                            className="absolute top-20 w-fit right-45 dark:bg-300 bg-gray-500 dark:text-white text-black p-4 border-l border-b border-r border-zinc-100 border-opacity-50"
                         >
                             {
                                 incomingRequests.length === 0 ? (
@@ -151,29 +155,28 @@ function User() {
                                         console.log(user)
                                         return (
                                             <li>
-                                                <div className="flex space-x-2 pb-2">
-                                                    <a href={`/profile/${user.id}`} className="flex gap-2 items-center mx-1"><Avatar user={user.data.details.avatar}/>{user.data.username}</a>
+                                                <div className="flex space-x-2 w-fit pb-2">
+                                                    <a href={`/profile/${user.id}`} className="flex gap-2 mx-1"><Avatar user={user.data.details.avatar}/><span className='w-fit hover:underline'>{user.data.username}</span></a>
                                                     <button
                                                         onClick={() => {
                                                                 acceptRequest(user.id, currentUser.id); 
                                                                 setRequestsOpen(false);
                                                                 setIncomingRequests(prev => prev.filter(ele => ele.id !== user.id));
-                                                                // incomingRequests.filter((user) => user.id);
                                                             }}
-                                                        className="text-green-500"
+                                                        className="text-green-500 "
                                                     >
-                                                        Accept
+                                                        ✔️
                                                     </button>
                                                     <button
                                                         onClick={() => {
-                                                                retractRequestRequest(user.id, currentUser.id); 
+                                                                retractRequest(user.id, currentUser.id); 
                                                                 setRequestsOpen(false);
                                                                 setIncomingRequests(prev => prev.filter(ele => ele.id !== user.id));
                                                             }}
-                                                        className="hover:bg-red-500 rounded bg-white"
+                                                        className="text-red-600 rounded"
                                                         
                                                     >
-                                                        Remove
+                                                        ✖️
                                                     </button>
                                                     <button
                                                         onClick={() => {
@@ -183,7 +186,7 @@ function User() {
                                                         }}
                                                         className="text-gray-500"
                                                     >
-                                                        Ignore
+                                                        💤
                                                     </button>
                                                 </div>
                                             </li>
