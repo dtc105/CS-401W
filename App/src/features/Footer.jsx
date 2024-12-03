@@ -41,14 +41,19 @@ function Footer() {
                         </td>
                         <td className="flex items-center gap-2">
                             <img src="assets/envelope-fill.svg" alt="email icon" className="h-4" />
+<<<<<<< HEAD
                                 <a href="PlanItAgenda@googlegroups.com" style={{ color: 'blue', textDecoration: 'underline' }}>
                                 PlanItAgenda@googlegroups.com
+=======
+                                <a href="mailto:planitagenda@googlegroups.com" style={{ color: 'blue', textDecoration: 'underline' }}>
+                                planitagenda@googlegroups.com
+>>>>>>> 1f392b64c8bd7db5d9fac68e18d325a413334eb5
                                 </a>
                         </td>
                         <td className="flex items-center gap-2">
                             <img src="assets/telephone-fill.svg" alt="phone icon" className="h-4" /> 
-                                <a href="tel:+4011234567" style={{ color: 'blue', textDecoration: 'underline'}}>
-                                    (401) 123-4567
+                                <a href="tel:+4134002860" style={{ color: 'blue', textDecoration: 'underline'}}>
+                                    (413) 002-2860
                                 </a>
                         </td>
                     </tr>

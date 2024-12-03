@@ -7,8 +7,14 @@ function Settings() {
             values: [
                 {
                     name: "Profile Info",
-                    description: "Manage your account information",
-                    tags: ["Name", "Email", "Profile Picture", "Phone Number"],
+                    description: (
+                        <span>
+                            Manage your account information{" "}
+                            <a href="/profile" style={{ color: 'blue', textDecoration: 'underline' }}>
+                                Here
+                            </a>
+                        </span>
+                    )
                 },
                 {
                     name: "Password Management",
@@ -68,10 +74,14 @@ function Settings() {
                         <span>
                             To get in touch with support or provide feedback to improve the platform:
                             <br />
+<<<<<<< HEAD
                             <a href="PlanItAgenda@googlegroups.com" style={{ color: 'blue', textDecoration: 'underline', textIndent: '60px', display: 'block' }}>
+=======
+                            <a href="mailto:planitagenda@googlegroups.com" style={{ color: 'blue', textDecoration: 'underline', textIndent: '60px', display: 'block' }}>
+>>>>>>> 1f392b64c8bd7db5d9fac68e18d325a413334eb5
                                 Send us an email
                             </a>
-                            <a href="tel:+4011234567" style={{ color: 'blue', textDecoration: 'underline', textIndent: '60px', display: 'block' }}>
+                            <a href="tel:+4134002860" style={{ color: 'blue', textDecoration: 'underline', textIndent: '60px', display: 'block' }}>
                                 Call our service phone number
                             </a>
                         </span>
