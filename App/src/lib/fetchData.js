@@ -16,13 +16,13 @@ export async function getAllUsers() {
 }
 
 /**
- * Returns a "random" user
+ * Returns the first user
  * @returns {string} the id of the user
  */
-export async function getOneUser() {
+export async function getFirstUser() {
     try {
         const querySnapshot = await getDocs(query(collection(db, "users")));
-        //console.log("from getoneuser: ", querySnapshot.docs[0].id);
+        //console.log("getFirstUser: ", querySnapshot.docs);
         return querySnapshot.docs[0].id;
     } catch (e) {
         console.error(e);
@@ -65,15 +65,13 @@ export async function getPlannerbyUserId(userID) {
 
 /**
  * Returns a single event ref by id
- * ! NEEDS WORK (eventId not used)
  * @param {string} eventID 
  * @returns event doc
  */
 export async function getEventbyId(eventID) {
     try {
-        //const event = await getDocs(query(collection(db, "events"), where("id", "==", eventID)));
-        const event = getByID("events", id);
-        return event[0].data();
+        const event = await getByID("events", eventId);
+        return event.data();
     } catch (e) {
         console.error(e);
     }
@@ -85,16 +83,19 @@ export async function getEventbyId(eventID) {
  * @param {string} ownerID 
  * @returns array of event refs
  */
-export async function getEventsbyOwner(ownerID) {
+export async function getEventsbyOwner(ownerId) {
     try {
-        const querySnapshot = await getDocs(query(collection(db, "planner")));//, where("ownerId", "==", ownerID)));
-        //console.log("from getEventsbyOwner: ", querySnapshot.docs[0].id);
-        return querySnapshot;
-    } catch (e) {
-        console.error(e);
+        const querySnapshot = await getDocs(query(collection(db, "planner"), where("ownerId", "==", ownerId)));
+        return querySnapshot.docs.map(qdoc => {
+            return ({
+                id: qdoc.id, 
+                data: qdoc.data()
+            })
+        });
+    } catch (err) {
+        console.error(err);
     }
 }
-
 
 /**
  * Retuns the data of the specified documents from the 'lists' subcollection of a specified event
@@ -105,9 +106,6 @@ export async function getEventsbyOwner(ownerID) {
 export async function getListbyId(eventID, listID) {
     const ref = await doc(db, "planner", eventID);
     const list = await doc(ref, "lists", listID);
-    //console.log("*******\ngetListbyID ref:\n ", ref);
-    //console.log("*******\ngetListbyID list: \n", list);
-    //return list.data();
     return list;
 }
 
@@ -117,18 +115,24 @@ export async function getListbyId(eventID, listID) {
  * @returns 
  */
 export async function getListsbyEventId(eventID) {
-    const ref = await doc(db, "planner", eventID);
-    const lists = await getDocs(collection(ref,"lists"));
-    let listOut =[];
-    lists.forEach(lists => {
-        //console.log("ListsByEventID - lists: ", lists.id);
-        listOut.push(lists.id);
-    });
-    
-    // listOut.forEach(listOut => {
-    //     console.log("ListsByEventID - listout: ", listOut);
-    // });
+    let lists;
+    try {
+        const event = await doc(db, "planner", eventID);
+        const listsRef = await collection(event, "lists");
+        lists = await getDocs(listsRef);
+    } catch (e) {
+        console.error(e);
+        return;
+    }
 
+    let listOut = [];
+    return lists.docs.map((list, _) => {
+        return list.id;
+    })
+    // lists.forEach(list => {
+    //     listOut.push(list.id);
+    // });
+    
     return listOut;
 }
 

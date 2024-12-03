@@ -11,7 +11,7 @@ export const FAQs = () => {
             questions: [
                 { question: "What is PlanIt Agenda?", answer: "PlanIt Agenda is an expansive platform designed to facilitate the collaborated planning of events and projects. Whether it be organizing a big event or managing a project that requires many components, PlanIt Agenda provides the tools needed to help with planning, task delegation, progress tracking, and more. This tool helps optimize communication and boost productivity within groups and large teams alike." },
                 { question: "Who can use PlanIt Agenda?", answer: "PlanIt Agenda is designed for event planners, project managers, and teams that want an intuitive yet powerful solution to handle tasks and schedules. It caters to a wide variety of users who want to arrange small and large-scale projects and events, ranging from professional teams to freelance organizers." },
-                { question: "How can I sign up?", answer: "It's quick and easy to get signed up with PlanIt Agenda. All you'll have to do is go to the homepage of our website and follow the step-by-step instructions to create your account. You will be asked to provide a valid e-mail address, and perhaps some additional information depending on your role-such as event planner, project manager, etc. After registration, you can start using the platform right away." },
+                { question: "How can I sign up?", answer: "It's quick and easy to get signed up with PlanIt Agenda. All you'll have to do is go to the homepage of our website and click on 'Register' to create your account. You will be asked to provide your name, a valid e-mail address, and your password. After registration, you can start using the platform right away." },
                 { question: "Is it free to use?", answer: "Currently, PlanIt Agenda is absolutely free to use, offering a range of basic features at no cost. While in the future, there is a possibility that with the introduction of premium options, advanced functionalities can be accessed, currently all the basic tools are free to use by all users." }
             ]
         },
@@ -42,7 +42,6 @@ export const FAQs = () => {
         {
             section: "Security & Privacy",
             questions: [
-                { question: "How can I manage 2FA?", answer: "You can manage your two-factor authentication (2FA) in your security settings. 2FA adds an extra layer of protection by requiring a secondary verification method when logging in, such as a code sent to your phone or email." },
                 { question: "How do I manage visibility settings?", answer: "You can manage your visibility settings in the “Privacy” section. This allows you to control who can see your activities, tasks, or profile. " },
                 { question: "How do I delete my account?", answer: "If you wish to delete your account, go to the “Privacy” section in settings and follow the instructions under the “Delete Account” option. Keep in mind that deleting your account is permanent and will remove all associated data." }
             ]
