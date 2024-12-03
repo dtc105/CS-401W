@@ -1,5 +1,5 @@
 import { db } from "../lib/firebase.js";
-import { collection, query, where, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, query, where, getDocs, setDoc, getDoc, doc } from "firebase/firestore";
 
 /**
  * Returns all users
@@ -36,8 +36,28 @@ export async function getFirstUser() {
  */
 export async function getUserbyId(id) {
     try {
+        //const querySnapshot = await getDocs(query(collection(db, "users"), where("id", "==", id)));
         const querySnapshot = await getByID("users", id);
-        return querySnapshot.data();
+        const data = await querySnapshot.data()
+
+        return {id: id, data: data}
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+/**
+ * Gets all planners that is in a users connections
+ * ! DEPRECATED (user connections is now stored within users)
+ * @deprecated
+ * @param {string} userID 
+ * @returns array of planner refs
+ */
+export async function getPlannerbyUserId(userID) {
+    try {
+        //const userCollection = await getDocs(query(collection(db, "userConnections"), where("id", "==", userID)));
+        const userCollection = getByID("userConnections", userID);
+        return userCollection[0].data().planners;
     } catch (e) {
         console.error(e);
     }
@@ -165,13 +185,31 @@ export async function getKeyValue(userID, keyName) {
  * @returns {Doc} Document with matching collection and id
  * @throws if something goes wrong
  */
-async function getByID (getCollection, getID){
-    try {
-        const res = await getDoc(doc(db, getCollection, getID));
-        return res.data();
-    } catch (e) {
-        console.error(e);
-    }
+async function getByID (collection, id){
+    const docRef = await doc(db, collection, id);
+    const docSnap = await getDoc(docRef);
+    return docSnap;
 }
 
+export async function getEventsByUser(userId) {
+    try {
+        const ownedEvents = await getDocs(query(collection(db, "planner"), where("ownerId", "==", userId)));
+        const allowedEvents = await getDocs(query(collection(db, "planner"), where("allowedUsers", "array-contains", userId)));
 
+        return ownedEvents.docs.map(qdoc => {
+            return ({
+                id: qdoc.id,
+                relation: "owner",
+                data: qdoc.data(),
+            })
+        }).concat(allowedEvents.docs.map(qdoc => {
+            return ({
+                id: qdoc.id,
+                relation: "user",
+                data: qdoc.data()
+            })
+        }))
+    } catch (err) {
+        console.error(err);
+    }
+}
