@@ -154,25 +154,33 @@ function User() {
                                                 <div className="flex space-x-2 pb-2">
                                                     <a href={`/profile/${user.id}`} className="flex gap-2 items-center mx-1"><Avatar user={user.data.details.avatar}/>{user.data.username}</a>
                                                     <button
-                                                        onClick={() => {acceptRequest(user.id, currentUser.id); 
+                                                        onClick={() => {
+                                                                acceptRequest(user.id, currentUser.id); 
                                                                 setRequestsOpen(false);
-                                                                incomingRequests.filter((user) => user.id);}}
+                                                                setIncomingRequests(prev => prev.filter(ele => ele.id !== user.id));
+                                                                // incomingRequests.filter((user) => user.id);
+                                                            }}
                                                         className="text-green-500"
                                                     >
                                                         Accept
                                                     </button>
                                                     <button
-                                                        onClick={() => {retractRequestRequest(user.id, currentUser.id); 
+                                                        onClick={() => {
+                                                                retractRequestRequest(user.id, currentUser.id); 
                                                                 setRequestsOpen(false);
-                                                                incomingRequests.filter((user) => user.i != userId);}}
-                                                        className="text-red-500"
+                                                                setIncomingRequests(prev => prev.filter(ele => ele.id !== user.id));
+                                                            }}
+                                                        className="hover:bg-red-500 rounded bg-white"
+                                                        
                                                     >
-                                                        Reject
+                                                        Remove
                                                     </button>
                                                     <button
-                                                        onClick={() => {ignoreRequest(user.id, currentUser.id); 
+                                                        onClick={() => {
+                                                            ignoreRequest(user.id, currentUser.id); 
                                                             setRequestsOpen(false);
-                                                            incomingRequests.filter((user) => user.id);}}
+                                                            setIncomingRequests(prev => prev.filter(ele => ele.id !== user.id));
+                                                        }}
                                                         className="text-gray-500"
                                                     >
                                                         Ignore

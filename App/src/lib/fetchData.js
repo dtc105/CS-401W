@@ -97,30 +97,6 @@ export async function getEventsbyOwner(ownerId) {
     }
 }
 
-export async function getEventsByUser(userId) {
-    try {
-        const ownedEvents = await getDocs(query(collection(db, "planner"), where("ownerId", "==", userId)));
-        const allowedEvents = await getDocs(query(collection(db, "planner"), where("allowedUsers", "array-contains", userId)));
-
-        return ownedEvents.docs.map(qdoc => {
-            return ({
-                id: qdoc.id,
-                relation: "owner",
-                data: qdoc.data(),
-            })
-        }).concat(allowedEvents.docs.map(qdoc => {
-            return ({
-                id: qdoc.id,
-                relation: "user",
-                data: qdoc.data()
-            })
-        }))
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-
 /**
  * Retuns the data of the specified documents from the 'lists' subcollection of a specified event
  * @param {string} eventID 
