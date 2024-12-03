@@ -31,7 +31,7 @@ export async function createUser(id, inData) {
 export async function createDoc(collectionID, data) {
     let ref;
     try {
-        data = addTimestamp(data,"dateCreated");
+        data = addTimestamp(data);
         ref = await addDoc(collection(db, collectionID),data);
     } catch (e) {
         console.error(e);
@@ -65,19 +65,17 @@ export async function createList(eventDocName, listAttributes){//
  * @returns {DocumentReference} A Promise resolved with a DocumentReference pointing to the newly created document after it has been written to the backend (Note that it won't resolve while you're offline).
  */
 export async function createEvent(collectionID, data){
-    let ref;
-    
     try {
-        ref = await createDoc(collectionID, data);
+        const ref = await createDoc(collectionID, data);
+        console.log("Event Ref!!!!", ref);
     
         // Adds a subcollection named "lists"
         const subCollectionRef = collection(ref, "lists");
+        return ref;
     } catch (e) {
-        console.error(e);
+        console.error("Error creating event.", e);
         return;
     }
-
-    return ref;
 }
 
 /**
@@ -107,18 +105,18 @@ const validFieldNames = ["createdAt", "dateCompleted", "dateRead", "lastChange"]
  
 /**
  * Adds/changes a timestamp to show when the doc was last changed  
- * Valid Field Names: dateCreated, dateCompleted, dateRead, lastChange
+ * Valid Field Names: createdAt, dateCompleted, dateRead, lastChange
  * @param {object} data 
  * @param {string | "lastChange"} fieldName 
  * @throws {object} if fieldName is not valid
  * @returns {object} data with new key/value pair of fieldName/currentDate
  */ 
-export function addTimestamp(data,fieldName = "lastChange") {
+export function addTimestamp(data,fieldName = "createdAt") {
 
     // If fieldname is invalid throw error
     if (!validFieldNames.includes(fieldName)) {
         throw {
-            message: `Invalid fieldname: ${fieldname}`,
+            message: `Invalid fieldname: ${fieldName}`,
             validFieldNames: validFieldNames
         };
     }
