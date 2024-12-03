@@ -9,3 +9,6 @@ Invitation box
 - Display accounts that have sent requests (incomingRequest.avatar,.username)
 - Make hyperlinks to view profile (href='./profile/{incomingRequest}')
 - Make buttons to accept or decline requests (acceptRequest, retractRequest, ignoreRequest)
+
+.env
+VITE_FB_API_KEY=""

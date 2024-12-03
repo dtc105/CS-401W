@@ -116,25 +116,21 @@ export function Text(props){
 /**
  * Container builder htmlFor Calendars
  * @param {*} props 
- * @returns a //!
+ * @returns a Calendar
  */
 export function CalendarList(props){
-
     const listRef=props.listRef;
-
     function handleCalendarChange (){
 
     }
 
     return(
         <>
-            <p>This will be a calendar</p>
-            <p>{props.listRef.id}</p>
             <Calendar 
                 className="bg-black"
                 onChange={handleCalendarChange} 
-                />
-            <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button>
+            />
+            {/* <button onClick={()=>updateDoc(listRef, {data: theText}, {merge: true})}>Update</button> */}
         </>
     )
 }

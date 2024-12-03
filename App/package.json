@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/date-arithmetic": "^4.1.4",
+    "@types/prop-types": "^15.7.13",
     "autoprefixer": "^10.4.20",
     "cors": "^2.8.5",
     "country-flag-emoji": "^1.0.3",
@@ -36,7 +38,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
-    "@types/react": "^18.3.3",
+    "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^9.9.0",

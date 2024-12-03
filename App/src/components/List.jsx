@@ -76,6 +76,7 @@ function List(props){
                         className="bg-transparent outline-none border-none w-fit overflow-ellipsis box-border inline-block cursor-"
                         ref={titleInputRef}
                         onChange={(e) => setTitle(e.target.value)}
+                        onBlur={(e)=> updateDoc(listRef, {ListName: title})}
                         value={title || ""}
                         title="Click to Edit List Name"
                     />
