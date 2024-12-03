@@ -47,7 +47,7 @@ function Footer() {
                         </td>
                         <td className="flex items-center gap-2">
                             <img src="assets/telephone-fill.svg" alt="phone icon" className="h-4" /> 
-                                <a href="tel:+4134002860" style={{ color: 'blue', textDecoration: 'underline'}}>
+                                <a href="tel:+14134002860" style={{ color: 'blue', textDecoration: 'underline'}}>
                                     (413) 002-2860
                                 </a>
                         </td>
