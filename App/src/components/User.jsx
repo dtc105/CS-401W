@@ -74,7 +74,7 @@ function User() {
 
                 <a href="/about">About</a>
 
-                <a href='http://localhost:5173/#:~:text=Purpose-,Contact%20us,-Rhode%20Island%20College'>Contact</a>
+                <a href='/contact'>Contact</a>
 
                 </div>
                 {
@@ -141,7 +141,11 @@ function User() {
                             id='requestsBoxOpen'
                             className="absolute top-20 w-60 right-45 dark:bg-300 bg-gray-500 dark:text-white text-black p-4 border-l border-b border-r border-zinc-100 border-opacity-50"
                         >
-                            <ul className='flex flex-col max-h-80'>
+                            {
+                                incomingRequests.length === 0 ? (
+                                    <p>No new notifications!</p>
+                                ) : (
+                                    <ul className='flex flex-col max-h-80'>
                                 {
                                     incomingRequests.map((user, index) => {
                                         console.log(user)
@@ -150,19 +154,25 @@ function User() {
                                                 <div className="flex space-x-2 pb-2">
                                                     <a href={`/profile/${user.id}`} className="flex gap-2 items-center mx-1"><Avatar user={user.data.details.avatar}/>{user.data.username}</a>
                                                     <button
-                                                        onClick={() => acceptRequest(user, currentUser.id)}
+                                                        onClick={() => {acceptRequest(user.id, currentUser.id); 
+                                                                setRequestsOpen(false);
+                                                                incomingRequests.filter((user) => user.id);}}
                                                         className="text-green-500"
                                                     >
                                                         Accept
                                                     </button>
                                                     <button
-                                                        onClick={() => retractRequest(user, currentUser.id)}
+                                                        onClick={() => {retractRequestRequest(user.id, currentUser.id); 
+                                                                setRequestsOpen(false);
+                                                                incomingRequests.filter((user) => user.i != userId);}}
                                                         className="text-red-500"
                                                     >
                                                         Reject
                                                     </button>
                                                     <button
-                                                        onClick={() => ignoreRequest(user, currentUser.id)}
+                                                        onClick={() => {ignoreRequest(user.id, currentUser.id); 
+                                                            setRequestsOpen(false);
+                                                            incomingRequests.filter((user) => user.id);}}
                                                         className="text-gray-500"
                                                     >
                                                         Ignore
@@ -173,6 +183,7 @@ function User() {
                                     }
                                 )}  
                             </ul>
+                            )}
                         </div>
                     )
                 }

@@ -40,5 +40,5 @@ export const useUserStore = create((set) => ({
             console.log("THIS ONE",avatarPath);
             set((state) => ({currentUser: {...state.currentUser, details: {...state.currentUser.details, avatar: avatarPath}}}))
         }
-    })
-);
+    }
+));
