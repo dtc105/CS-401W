@@ -4,6 +4,7 @@ import Avatar from "./Avatar.jsx";
 import { auth } from "../lib/firebase.js";
 import { acceptRequest, ignoreRequest, retractRequest, getIncomingRequests } from "../lib/connectionsManagement.js";
 import { getUserbyId } from "../lib/fetchData.js";
+import Loading from '../pages/Loading.jsx';
 
 /**
  * User dropdown and options when logged in
@@ -17,6 +18,8 @@ function User() {
     const [dropDownOpen, setDropDownOpen] = useState(false);
     const [requestsOpen, setRequestsOpen] = useState(false);
     const [incomingRequests, setIncomingRequests] = useState();
+    const [loading, setLoading] = useState(true);
+
     const navToPage = (url) => {
         window.location.href = url;
     }
@@ -24,12 +27,18 @@ function User() {
     useEffect(() => {
         async function fetchIncomingRequests() {
             try {
-                console.log("CURRENT USER: ", currentUser.id)
                 const requests = await getIncomingRequests(currentUser.id);
-                setIncomingRequests(requests);
+                const userObjects = [];
+                for (const requestorID of requests) {
+                    const userDoc = await getUserbyId(requestorID);
+                    userObjects.push(userDoc)
+                }
+                setIncomingRequests(userObjects);
                 console.log("INCOMING REQUESTS: ", incomingRequests)
+                setLoading(false);
             } catch (error) {
                 console.log('There was an issue retrieving incoming requests list: ', error);
+                setLoading(false);
             }
         }
          fetchIncomingRequests();
@@ -49,6 +58,10 @@ function User() {
             func: () => {navToPage('/settings')}
         }
     ];
+
+    if (loading) {
+        Loading();
+    }
     
     return (
         <div id="userContainer" className="mx-4">
@@ -135,7 +148,7 @@ function User() {
                                         return (
                                             <li>
                                                 <div className="flex space-x-2 pb-2">
-                                                    <a href={`/profile/${user}`} className="flex gap-2 items-center mx-1"><Avatar user={user}/>{user}</a>
+                                                    <a href={`/profile/${user.id}`} className="flex gap-2 items-center mx-1"><Avatar user={user.data.details.avatar}/>{user.data.username}</a>
                                                     <button
                                                         onClick={() => acceptRequest(user, currentUser.id)}
                                                         className="text-green-500"
