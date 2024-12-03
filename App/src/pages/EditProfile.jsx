@@ -57,6 +57,7 @@ function EditProfile() {
             className="flex flex-col justify-center items-center border rounded gap-4 w-max m-auto p-4"
         >
             <h2 className='text-lg'>Update Profile Information</h2>
+            <span className='text-m'>This information is viewable to other users!</span>
             {message && <p className='text-red'>{message}</p>}
             <form onSubmit={handleSubmit} className='flex flex-col items-center'>
                 <div className='grid items-center grid-cols-4 gap-1 m-auto p-2'>

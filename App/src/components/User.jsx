@@ -34,7 +34,6 @@ function User() {
                     userObjects.push(userDoc)
                 }
                 setIncomingRequests(userObjects);
-                console.log("INCOMING REQUESTS: ", incomingRequests)
                 setLoading(false);
             } catch (error) {
                 console.log('There was an issue retrieving incoming requests list: ', error);

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { deleteUserAccount } from '../../lib/deleteUser';
 
 function Settings() {
     const options = [
@@ -10,7 +11,7 @@ function Settings() {
                     description: (
                         <span>
                             Manage your account information{" "}
-                            <a href="/profile" style={{ color: 'blue', textDecoration: 'underline' }}>
+                            <a href="/edit" style={{ color: 'blue', textDecoration: 'underline' }}>
                                 Here
                             </a>
                         </span>
@@ -52,6 +53,11 @@ function Settings() {
                 {
                     name: "Account Deletion",
                     description: "Permanently delete your account",
+                    action: (
+                        <span className = 'ml-auto'>
+                            <button onClick = {async() => {await deleteUserAccount(userId);}} className='text-white bg-red-500 border-black'>Delete</button>
+                        </span>
+                    )
                 }
             ]
         },
@@ -131,7 +137,7 @@ function Settings() {
             />
             <div>
                 {visibleOptions.map((option) => (
-                    <div key={option.header.name} className="mt-5 mt-2">
+                    <div key={option.header.name} className="mt-2">
                         <h3 style={{ fontSize: '20px', textDecoration: 'underline', fontStyle: 'italic' }}>{option.header.name}</h3>
                         <div>
                             {option.values.map((value) => (

@@ -72,7 +72,7 @@ function Profile() {
                             userConnections.map((connection, index) => {
                                 return (
                                     <li className="">
-                                        <a href={`/profile/${connection.id}`} className="flex gap-2 items-center mx-1 justify-start">
+                                        <a className="flex gap-2 items-center mx-1 justify-start">
                                             <Avatar user={connection.id}/>{connection.username}
                                             {
                                             profileId === viewerId && (
