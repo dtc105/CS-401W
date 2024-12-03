@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Popup from "reactjs-popup";
 import { updateDoc,  arrayRemove,  arrayUnion } from "firebase/firestore";
 import * as templates from "../lib/templates.js";
-import Calendar from 'react-calendar';
+import Calendar from 'react-big-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 export function CheckboxList(props){
@@ -128,7 +128,6 @@ export function CalendarList(props){
 
     return(
         <>
-            <p>This will be a calendar</p>
             <p>{props.listRef.id}</p>
             <Calendar 
                 className="bg-black"
