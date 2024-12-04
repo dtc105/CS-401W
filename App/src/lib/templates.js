@@ -10,21 +10,17 @@ export const userTemplate = {
         "phone": "",
         "prefix": ""
     },
-    "groups": [],
+    // "groups": [],
     "connections": [],
-    "settings": {
-        "lightMode": true,
-        "emailNotifs": true,
-        "phoneNotifs": true,
-        "deadlineReminders": true,
-    },
-    "privacy": {
-        "visibility": "friends-only", // Will use public, private, or friends-only at string
-    },
-    "Events": {
-        "ownedEvents": [],
-        "allowedEvents": []
-    },
+    // "settings": {
+    //     "lightMode": true,
+    //     "emailNotifs": true,
+    //     "phoneNotifs": true,
+    //     "deadlineReminders": true,
+    // },
+    // "privacy": {
+    //     "visibility": "friends-only", // Will use public, private, or friends-only at string
+    // },
     "customLists": [],
     'incomingRequests': [],
     'outgoingRequests': [],
