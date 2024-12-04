@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+//import NumberFormat from 'react-number-format';
 import Popup from "reactjs-popup";
 import { updateDoc,  arrayRemove,  arrayUnion } from "firebase/firestore";
 import * as templates from "../lib/templates.js";
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+
 
 export function CheckboxList(props){
 
@@ -474,16 +476,16 @@ export function ContactsList(props){
                             >
                                 {
                                     (close) => (
-                                        <div className="modal bg-black p-2 rounded border-2 border-green-500/100">
+                                        <div className="modal bg-black text-green-500 p-2 rounded border-2 border-green-500/100">
                                             <div className="content">
                                                 <p>Name:</p> 
-                                                {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
+                                                <p className="indent-4">{element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}</p>
                                                 <ul>
                                                     <p>Email Addresses:</p>
                                                     {
                                                         element.email?.map((elementEmail, indexEmail) => {
                                                             return (
-                                                                <li className="flex px-2" key={indexEmail}>
+                                                                <li className="flex indent-4" key={indexEmail}>
                                                                     {elementEmail.label}: {elementEmail.emailAddress}
                                                                 </li>
                                                             )
@@ -495,7 +497,7 @@ export function ContactsList(props){
                                                     {
                                                         element.phoneNumbers?.map((elementPhone, indexPhone) => {
                                                             return (
-                                                                <li className="flex px-2" key={indexPhone}>
+                                                                <li className="flex indent-4" key={indexPhone}>
                                                                     {elementPhone.label}: {elementPhone.number}
                                                                 </li>
                                                             )
@@ -507,11 +509,22 @@ export function ContactsList(props){
                                                     {
                                                         element.physicalAddress?.map((elementPA, indexPA) => {
                                                             return (
-                                                                <li className="flex px-2" key={indexPA}>
-                                                                    <p>{elementPA.label}</p><pr/>
-                                                                    Street: {elementPA.streetOne}<pr/>
-                                                                    Street: {elementPA.streetTwo}<pr/>
-                                                                    City: {elementPA.city}  State: {elementPA.state} Zip Code: {elementPA.zipCode}
+                                                                <li className="px-4" key={indexPA}>
+                                                                    <p>{elementPA.label}</p>
+                                                                    <div className="grid grid-cols-6">
+                                                                        <div className="text-white justify-self-end">Street:</div>
+                                                                        <div className="col-span-5 pl-1">{elementPA.streetOne}</div>
+                                                                        <div className="text-white justify-self-end">Street:</div>
+                                                                        <div className="col-span-5 pl-1">{elementPA.streetTwo}</div>
+                                                                        <div className="grid col-span-6 grid-cols-[min-content_min-content_min-content_min-content_max-content_min-content]">
+                                                                            <div className="text-white">City:</div>
+                                                                            <div className="">{elementPA.city}</div>
+                                                                            <div className="text-white pl-2">State:</div>
+                                                                            <div className="pl-1"> {elementPA.state} </div>
+                                                                            <div className="text-white pl-2">Zip Code: </div>
+                                                                            <div className="pl-1">{elementPA.zipCode}</div>
+                                                                        </div>
+                                                                    </div>
                                                                 </li>
                                                             )
                                                         })
