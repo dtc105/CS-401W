@@ -17,7 +17,7 @@ function Avatar(props) {
     }
 
     return (
-        <div className={`avatar h-full place-content-center ${avatarSizes[size]} flex-shrink-0`}>
+        <div className={`avatar place-content-center ${avatarSizes[size]} flex-shrink-0`}>
             <img 
                 src={`/${currentUser?.details?.avatar || "assets/default-avatar.svg"}`}
                 alt="avatar icon" 

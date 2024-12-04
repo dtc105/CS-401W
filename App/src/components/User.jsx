@@ -17,7 +17,7 @@ function User() {
     const { currentUser, removeUser } = useUserStore();
     const [dropDownOpen, setDropDownOpen] = useState(false);
     const [requestsOpen, setRequestsOpen] = useState(false);
-    const [incomingRequests, setIncomingRequests] = useState();
+    const [incomingRequests, setIncomingRequests] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const navToPage = (url) => {

@@ -14,10 +14,10 @@ export async function requestConnection(senderID, receiverID) {
             incomingRequests: arrayUnion(senderID)
         });
 
-        alert('Connection request sent!');
+        alert('Connection request sent');
     } catch (error) {
         console.error('Error when requesting connection: ', error);
-        alert('Connection request failed.');
+        alert('Connection request failed');
     }
 }
 
@@ -35,10 +35,10 @@ export async function retractRequest(senderID, receiverID) {
             incomingRequests: arrayRemove(senderID)
         });
 
-        alert('Request removed!');
+        alert('Request removed');
     } catch (error) {
         console.error('Error when retracting request: ', error);
-        alert('The request could not be removed.');
+        alert('The request could not be removed');
     }
 }
 
@@ -55,10 +55,10 @@ export async function removeConnection(senderID, receiverID) {
             connections: arrayRemove(senderID)
         });
 
-        alert('Connection removed!');
+        alert('Connection removed');
     } catch (error) {
         console.error('Error when removing connection: ', error);
-        alert('The connection could not be removed.');
+        alert('The connection could not be removed');
     }
 }
 
@@ -77,10 +77,10 @@ export async function acceptRequest(senderID, receiverID) {
             incomingRequests: arrayRemove(senderID)
         });
 
-        alert('Request accepted!.');
+        alert('Request accepted');
     } catch (error) {
         console.error('Error when accepting connection: ', error);
-        alert('The request could not be accepted.')
+        alert('The request could not be accepted')
     }
 }
 
@@ -92,11 +92,11 @@ export async function ignoreRequest(senderID, receiverID) {
             incomingRequests: arrayRemove(senderID)
         });
 
-        alert('Request ignored!')
+        alert('Request ignored')
     } catch (error) {
         console.error('Error when ignoring request: ', error);
     }
-        alert('The request could not be ignored.')
+        alert('The request could not be ignored')
 }
 
 export async function getConnections(userID) {

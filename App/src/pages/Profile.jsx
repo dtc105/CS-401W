@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUserStore } from "../lib/userStore.js";
 import { getUserbyId } from "../lib/fetchData.js";
-import { removeConnection, requestConnection } from "../lib/connectionsManagement.js";
+import { removeConnection, requestConnection, retractRequest } from "../lib/connectionsManagement.js";
 import Avatar from "../components/Avatar.jsx";
 import Loading from "./Loading.jsx";
 
@@ -17,6 +17,8 @@ function Profile() {
     const [userConnections, setUserConnections] = useState([]);
     const [createdAt, setCreatedAt] = useState(0);
     const [ loading, setLoading ] = useState(true);
+    const [isConnected, setIsConnected] = useState(false);
+    const [isRequested, setIsRequested] = useState(false);
 
     useEffect(() => {
         async function getUser() {
@@ -32,16 +34,19 @@ function Profile() {
         getUser();
     }, [userId, id]);
 
+    useEffect(() => { 
+        if (user) {
+            setIsConnected(user.data.connections.includes(userId));
+            setIsRequested(user.data.incomingRequests.includes(userId));
+        }
+    }, [user]);
+
     const formatDate = (time) => {
         return new Date(time * 1000).toLocaleDateString();
     };
 
-    const isConnected = userConnections[0]?.connections?.includes(id);
-    const isRequested = null;
-    const viewerId = userId
-    const profileId = user?.id
-
-
+    const viewerId = userId;
+    const profileId = user?.id;
 
     if(loading) {
         Loading();
@@ -53,8 +58,8 @@ function Profile() {
         <div className="grid place-content-center">
             {
                 profileId === viewerId ? (
-                    <div id="profile" className="grid grid-cols-2 grid-rows-auto gap-8 text-2xl aspect-square">
-                        <div className="flex flex-col justify-center items-center">
+                    <div id="profile" className="grid grid-cols-[repeat(2,1fr)] grid-rows-[repeat(2,1fr)] gap-8 text-2xl aspect-square">
+                        <div className="flex flex-col justify-center items-center aspect-square">
                             <Avatar user={userDoc} size="profile"/>
                         </div>
                         <div id="connections" className="border rounded p-2">
@@ -88,11 +93,11 @@ function Profile() {
                                 }
                             </ul>
                         </div>
-                        <div id="userDetails" className="border rounded p-2 ">
+                        <div id="userDetails" className="border rounded p-2 min-h-60">
                             <h2 className="m-1 text-center">
                                 {userDetails?.namePrefix} {userDetails?.name}
                             </h2>
-                            <ul>
+                            <ul className='flex flex-col'>
                                 <hr />
                                 {
                                     Object
@@ -125,28 +130,33 @@ function Profile() {
                         </div>
                     </div>
                 ) : (
-                    <div id="profile" className="grid grid-cols-2 grid-rows-auto gap-8 text-2xl aspect-square">
-                        <div className="flex flex-col justify-center items-center relative">
+                    <div id="profile" className="grid grid-rows-[repeat(2,1fr)] grid-cols-[repeat(2,1fr)] gap-8 text-2xl h-fit">
+                        <div className="flex flex-col justify-center items-center aspect-square h-fit">
                             <Avatar user={user?.data} size="profile" />
                             {
                                 !isConnected ? (
-                                    <button onClick={() => requestConnection(userId, user?.id)} className="mt-6 rounded bg-blue-400 text-white border-gray-800 px-6 gap-10">
+                                    !isRequested ? (
+                                        <button onClick={() => {requestConnection(userId, user?.id); setIsRequested(true)}} className="rounded bg-blue-400 text-white border-gray-800 px-6 gap-10 mt-4 w-72">
                                         Request Connection
-                                    </button>
+                                        </button>
+                                    ) : (
+                                        <button onClick={() => {retractRequest(userId, user?.id); setIsRequested(false)}} className="rounded bg-blue-600 text-white border-gray-800 px-6 gap-10 mt-4 w-72">
+                                        Revoke Request
+                                        </button>
+                                    )
                                 ) : (
-                                    <button onClick={() => removeConnection(userId, user?.id)} className="mt-6 rounded bg-red-400 text-white text-base border-gray-800 px-6 gap-10 absolute bottom-0 whitespace-nowrap">
+                                    <button onClick={() => removeConnection(userId, user?.id)} className="mt-4 rounded bg-red-400 text-white border-gray-800 px-6 gap-10 w-72">
                                         Remove Connection
                                     </button>
                                 )
                             }
                         </div>
-                        <div id="connections" className="border rounded p-2">
+                        <div id="connections" className="border rounded">
                             <p className="text-center">Connections</p>
                             <hr />
                             <ul className="flex flex-col overflow-auto">
                                 {
                                     userConnections.map((connection, index) => {
-                                        console.log(connection)
                                         return (
                                             <li className="relative group" key={index}>
                                                 <a href={`/profile/${connection.id}`} className="flex group gap-2 items-center mx-1 justify-start relative hover:underline">
@@ -159,7 +169,7 @@ function Profile() {
                                 }
                             </ul>
                         </div>
-                        <div id="userDetails" className="border rounded p-2 relative">
+                        <div id="userDetails" className="border rounded p-2 relative min-h-6">
                             <h2 className="m-1 text-center">
                                 {userDetails?.namePrefix} {userDetails?.name}
                             </h2>
@@ -183,6 +193,7 @@ function Profile() {
                             <p className="text-center">Groups</p>
                             <hr />
                             <ul className="flex flex-col overflow-auto">
+                                Not yet implemented!
                                 {/* 
                                     userGroups.map((group, index) => {
                                         return (
