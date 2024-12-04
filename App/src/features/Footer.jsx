@@ -34,19 +34,19 @@ function Footer() {
                         <th>Contact us</th>
                         <td><div className="border-b-2 w-4/5 mx-auto" /></td>
                         <td className="flex items-center gap-2">
-                            <img src="assets/house-fill.svg" alt="house icon" className="h-4"/>
+                            <img src="/assets/house-fill.svg" alt="house icon" className="h-4"/>
                                 <a href="https://www.ric.edu/" style={{ color: 'blue', textDecoration: 'underline' }}>
                                     Rhode Island College
                                 </a>
                         </td>
                         <td className="flex items-center gap-2">
-                            <img src="assets/envelope-fill.svg" alt="email icon" className="h-4"/>
+                            <img src="/assets/envelope-fill.svg" alt="email icon" className="h-4"/>
                                 <a href="mailto:planitagenda@googlegroups.com" style={{ color: 'blue', textDecoration: 'underline' }}>
                                 planitagenda@googlegroups.com
                                 </a>
                         </td>
                         <td className="flex items-center gap-2">
-                            <img src="assets/telephone-fill.svg" alt="phone icon" className="h-4"/> 
+                            <img src="/assets/telephone-fill.svg" alt="phone icon" className="h-4"/> 
                                 <a href="tel:+14134002860" style={{ color: 'blue', textDecoration: 'underline'}}>
                                     (413) 002-2860
                                 </a>

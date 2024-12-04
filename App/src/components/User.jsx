@@ -102,8 +102,8 @@ function User() {
                                     </div>
                                 </div>
 
-                                <div className="h-12">
-                                    <Avatar user={currentUser}/>
+                                <div>
+                                    <Avatar user={currentUser} size='user'/>
                                 </div>
                                 <span>{currentUser?.username || 'Guest' }</span>
                                 <img 
@@ -151,18 +151,19 @@ function User() {
                                     <ul className='flex flex-col max-h-80'>
                                 {
                                     incomingRequests.map((user, index) => {
-                                        console.log(user)
                                         return (
                                             <li>
                                                 <div className="flex space-x-2 w-fit pb-2">
-                                                    <a href={`/profile/${user.id}`} className="flex gap-2 mx-1"><Avatar user={user.data.details.avatar}/><span className='w-fit hover:underline'>{user.data.username}</span></a>
+                                                    <a href={`/profile/${user.id}`} className="flex gap-2 mx-1 items-center">
+                                                    <Avatar user={user.data}/>
+                                                    <span className='w-fit hover:underline whitespace-nowrap pr-4'>{user.data.username}</span></a>
                                                     <button
                                                         onClick={() => {
                                                                 acceptRequest(user.id, currentUser.id); 
                                                                 setRequestsOpen(false);
                                                                 setIncomingRequests(prev => prev.filter(ele => ele.id !== user.id));
                                                             }}
-                                                        className="text-green-500 "
+                                                        className="hover:bg-green-500 rounded"
                                                     >
                                                         ✔️
                                                     </button>
@@ -172,10 +173,10 @@ function User() {
                                                                 setRequestsOpen(false);
                                                                 setIncomingRequests(prev => prev.filter(ele => ele.id !== user.id));
                                                             }}
-                                                        className="text-red-600 rounded"
+                                                        className="hover:bg-red-500 rounded"
                                                         
                                                     >
-                                                        ✖️
+                                                        ❌
                                                     </button>
                                                     <button
                                                         onClick={() => {
@@ -183,7 +184,7 @@ function User() {
                                                             setRequestsOpen(false);
                                                             setIncomingRequests(prev => prev.filter(ele => ele.id !== user.id));
                                                         }}
-                                                        className="text-gray-500"
+                                                        className="hover:bg-gray-500 rounded"
                                                     >
                                                         💤
                                                     </button>

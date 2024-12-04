@@ -13,8 +13,11 @@ export async function requestConnection(senderID, receiverID) {
         await updateDoc(receiverDoc, {
             incomingRequests: arrayUnion(senderID)
         });
+
+        alert('Connection request sent!');
     } catch (error) {
         console.error('Error when requesting connection: ', error);
+        alert('Connection request failed.');
     }
 }
 
@@ -31,8 +34,11 @@ export async function retractRequest(senderID, receiverID) {
         await updateDoc(receiverDoc, {
             incomingRequests: arrayRemove(senderID)
         });
+
+        alert('Request removed!');
     } catch (error) {
         console.error('Error when retracting request: ', error);
+        alert('The request could not be removed.');
     }
 }
 
@@ -48,8 +54,11 @@ export async function removeConnection(senderID, receiverID) {
         await updateDoc(receiverDoc, {
             connections: arrayRemove(senderID)
         });
+
+        alert('Connection removed!');
     } catch (error) {
         console.error('Error when removing connection: ', error);
+        alert('The connection could not be removed.');
     }
 }
 
@@ -67,8 +76,11 @@ export async function acceptRequest(senderID, receiverID) {
             connections: arrayUnion(senderID),
             incomingRequests: arrayRemove(senderID)
         });
+
+        alert('Request accepted!.');
     } catch (error) {
         console.error('Error when accepting connection: ', error);
+        alert('The request could not be accepted.')
     }
 }
 
@@ -79,9 +91,12 @@ export async function ignoreRequest(senderID, receiverID) {
         await updateDoc(receiverDoc, {
             incomingRequests: arrayRemove(senderID)
         });
+
+        alert('Request ignored!')
     } catch (error) {
         console.error('Error when ignoring request: ', error);
     }
+        alert('The request could not be ignored.')
 }
 
 export async function getConnections(userID) {
@@ -115,7 +130,7 @@ export async function getIncomingRequests(userID) {
             return [];
         }
     } catch (error) {
-        console.error('Error getting user connections:', error);
+        console.error( 'Error getting user connections:', error);
         return [];
     }
 }

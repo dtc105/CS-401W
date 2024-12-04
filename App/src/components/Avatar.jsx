@@ -7,11 +7,19 @@
 function Avatar(props) {
 
     const currentUser = props.user;
+    const size = props.size || 'search_result';
+
+    const avatarSizes = {
+        profile: 'w-48 h-48',
+        connection: 'w-4 h-4',
+        search_result: 'w-8 h-8',
+        user: 'w-12 h-12'
+    }
 
     return (
-        <div className="avatar h-full place-content-center">
+        <div className={`avatar h-full place-content-center ${avatarSizes[size]} flex-shrink-0`}>
             <img 
-                src={currentUser?.avatar || "/assets/default-avatar.svg"} 
+                src={`/${currentUser?.details?.avatar || "assets/default-avatar.svg"}`}
                 alt="avatar icon" 
                 className="contain-content object-cover aspect-square rounded-circle h-full"
             />
