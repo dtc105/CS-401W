@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { db } from "../lib/firebase.js";
 import { collection, query, where, getDocs, setDoc, getDoc, doc } from "firebase/firestore";
 
@@ -46,6 +47,21 @@ export async function getUserbyId(id) {
     }
 }
 
+export async function getUsersByIds(ids) {
+    if (ids.length === 0) {
+        return [];
+    }
+    
+    try {
+        const querySnapshot = await getDocs(query(collection(db, "users"), where("id", "in", ids)));
+        return querySnapshot.docs.map(qdoc => ({id: qdoc.id, data: qdoc.data()}));
+    } catch(err) {
+        console.error(err);
+        return;
+    }
+
+}
+
 /**
  * Gets all planners that is in a users connections
  * ! DEPRECATED (user connections is now stored within users)
@@ -68,9 +84,9 @@ export async function getPlannerbyUserId(userID) {
  * @param {string} eventID 
  * @returns event doc
  */
-export async function getEventbyId(eventID) {
+export async function getEventbyId(eventId) {
     try {
-        const event = await getByID("events", eventId);
+        const event = await getByID("planner", eventId);
         return event.data();
     } catch (e) {
         console.error(e);
