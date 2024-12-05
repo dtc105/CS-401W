@@ -201,8 +201,8 @@ export function ContactsList(props){
     function addContact(data){
         return(
             <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col justify-center gap-4 bg-200 p-2 rounded border-2">
-                <div className="text-">
-                <p>Name:</p> 
+                <div className="text-white">
+                <p className="underline">Name</p> 
                 <div className="grid grid-cols-[auto_1fr] gap-2 items-center">
                     <label className="text-right">Nick Name</label>
                     <input type="text" className="text-black px-2 py-1 rounded" placeholder={data.label} id="nameLabel"/>
@@ -223,20 +223,20 @@ export function ContactsList(props){
                     <input type="text" className="text-black px-2 py-1 rounded" placeholder={data.nameSuffix} id="nameSuffix"/>
                 </div>
                     <ul>
-                        <p>Email Addresses:</p>
+                        <p className="underline pt-2">Email Addresses</p>
                         {
                             data.email?.map((elementEmail, indexEmail) => {
                                 return (
                                     <li className="flex px-2" key={indexEmail}>
                                         <div className="grid grid-cols-[auto_1fr] gap-1">
-                                            <select className="text-black" name="emailLabel" id="emailLabel">
+                                            <select className="text-black py-1 rounded" name="emailLabel" id="emailLabel">
                                                 <option value="" disabled selected>Select</option>
                                                 <option value="Work">Work</option>
                                                 <option value="Personal">Personal</option>
                                                 <option value="School">School</option>
                                                 <option value="Other">Other</option>
                                             </select>
-                                        <input className="text-black" type="email" placeholder={elementEmail.emailAddress} id="emailAddress"/>
+                                        <input className="text-black ml-2 pl-1 py-1 rounded" type="email" placeholder={elementEmail.emailAddress} id="emailAddress"/>
                                         </div>
                                     </li>
                                 )
@@ -244,13 +244,13 @@ export function ContactsList(props){
                         }
                     </ul>
                     <ul>
-                        <p>Phone Numbers:</p>
+                        <p className="underline pt-2">Phone Numbers</p>
                         {
                             data.phoneNumbers?.map((elementPhone, indexPhone) => {
                                 return (
                                     <li className="flex px-2" key={indexPhone}>
                                         <div className="grid grid-cols-[auto_1fr] gap-1">
-                                            <select className="text-black" name="phoneLabel" id="phoneLabel">
+                                            <select className="text-black py-1 rounded" name="phoneLabel" id="phoneLabel">
                                                 <option disabled selected value="">Select</option>
                                                 <option value="Work">Work</option>
                                                 <option value="Home">Home</option>
@@ -258,8 +258,10 @@ export function ContactsList(props){
                                                 <option value="Other">Other</option>
                                             </select>
                                             <div>
-                                                <input className="text-black" type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" placeholder={elementPhone.number} id="number"/>
-                                                <label className="text-right" htmlFor="extension">Ext.</label><input className="text-black" type="text" placeholder="123" id="extension"/>
+                                                <input className="text-black ml-2 pl-1 py-1 rounded" type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$" placeholder={elementPhone.number} id="number"/>
+                                                
+                                                <label className="text-right pl-2" htmlFor="extension">Ext.</label>
+                                                <input className="text-black ml-2 pl-1 py-1 rounded" type="text" placeholder="123" id="extension"/>
                                             </div>
                                        </div>
                                     </li>
@@ -268,13 +270,13 @@ export function ContactsList(props){
                         }
                     </ul>
                     <ul>
-                        <p>Addressess:</p>
+                        <p className="underline pt-2">Addresses</p>
                         {
                             data.physicalAddress?.map((elementPA, indexPA) => {
                                 return (
                                     <li className="flex flex-col px-2" key={indexPA}>
                                         <section className="grid gap-1">
-                                            <select className="text-black w-24" name="addressLabel" id="addressLabel">
+                                            <select className="text-black w-24 py-1 rounded" name="addressLabel" id="addressLabel">
                                                 <option disabled selected value="">Select</option>
                                                 <option value="Buisness">Buisness</option>
                                                 <option value="Home">Home</option>
@@ -283,20 +285,20 @@ export function ContactsList(props){
                                             </select>
                                             <div className="grid grid-cols-[auto_1fr] gap-1">
                                                 <label htmlFor="streetOne">Street:</label>
-                                                <input className="text-black" type="text" placeholder={elementPA.streetOne} id="streetOne"/>
+                                                <input className="text-black ml-2 pl-1 py-1 rounded" type="text" placeholder={elementPA.streetOne} id="streetOne"/>
 
                                                 <label htmlFor="streetTwo">Street:</label>
-                                                <input className="text-black" type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
+                                                <input className="text-black ml-2 pl-1 py-1 rounded" type="text" placeholder={elementPA.streetTwo} id="streetTwo"/>
                                             </div>
                                             <div>  
                                                 <label htmlFor="city">City:</label>
-                                                <input className="w-32 text-black" type="text" placeholder={elementPA.city} id="city" />
+                                                <input className="w-32 text-black mx-2 pl-1 py-1 rounded" type="text" placeholder={elementPA.city} id="city" />
 
                                                 <label htmlFor="state"> State:</label>
-                                                <input className="w-32 text-black" type="text" placeholder={elementPA.state} id="state"/>
+                                                <input className="w-32 text-black mx-2 pl-1 py-1 rounded" type="text" placeholder={elementPA.state} id="state"/>
 
                                                 <label htmlFor="zipCode"> Zip Code:</label>
-                                                <input className="w-14 text-black" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
+                                                <input className="w-14 text-black mx-2 pl-1 py-1 rounded" type="textCode" placeholder={elementPA.zipCode} id="zipCode"/>
                                             </div>
                                         </section>
                                     </li>
@@ -305,7 +307,7 @@ export function ContactsList(props){
                         }
                     </ul>
                 </div>
-                <button type="submit" className="m-auto p-2 ">Submit</button>
+                <button type="submit" className="m-auto p-2 text-white">Submit</button>
             </form>
         )
     }
@@ -314,31 +316,37 @@ export function ContactsList(props){
         setTData(contactData);
 
         return(
-            <form onSubmit={(e) => {handleEdit(e)}} className="modal flex flex-col justify-center gap-4 bg-black p-2 rounded border-2 border-green-500/100">
-                <div className="text-green-500">
-                <p>Name:</p> 
+            <form onSubmit={(e) => {handleEdit(e)}} className="modal flex flex-col justify-center gap-4 bg-300 p-2 rounded-lg border-4 border-white text-white">
+                <div>
+                <p className="underline pt-2">Name</p> 
                 <div className="grid grid-cols-[auto_1fr] gap-1">
-                    <label className="text-right">Nick Name: </label> <input type="text"defaultValue={contactData.label} id="nameLabel"/>
-                    <label htmlFor="prefix" className="text-right">Prefix: </label> <input type="text"defaultValue={contactData.namePrefix} id="namePrefix"/>
-                    <label className="text-right">First Name: </label> <input type="text"defaultValue={contactData.nameFirst} id="nameFirst"/>
-                    <label className="text-right">Middle Name: </label> <input type="text"defaultValue={contactData.nameMiddle} id="nameMiddle"/>
-                    <label className="text-right">Last Name: </label><input type="text"defaultValue={contactData.nameLast} id="nameLast"/>
-                    <label className="text-right">Suffix:</label> <input type="text"defaultValue={contactData.nameSuffix} id="nameSuffix"/>
+                    <label className="text-right">Nick Name</label> 
+                        <input className="text-black ml-1 pl-1 py-1 rounded" type="text" defaultValue={contactData.label} id="nameLabel"/>
+                    <label htmlFor="prefix" className="text-right">Prefix</label> 
+                        <input className="text-black ml-1 pl-1 py-1 rounded" type="text" defaultValue={contactData.namePrefix} id="namePrefix"/>
+                    <label className="text-right">First Name</label> 
+                        <input className="text-black ml-1 pl-1 py-1 rounded" type="text"defaultValue={contactData.nameFirst} id="nameFirst"/>
+                    <label className="text-right">Middle Name</label> 
+                        <input className="text-black ml-1 pl-1 py-1 rounded" type="text"defaultValue={contactData.nameMiddle} id="nameMiddle"/>
+                    <label className="text-right">Last Name</label>
+                        <input className="text-black ml-1 pl-1 py-1 rounded" type="text"defaultValue={contactData.nameLast} id="nameLast"/>
+                    <label className="text-right">Suffix</label> 
+                        <input className="text-black ml-1 pl-1 py-1 rounded" type="text"defaultValue={contactData.nameSuffix} id="nameSuffix"/>
                 </div>
-                <ul><p>email Addresses:</p>
+                <ul><p className="underline pt-2">Email Addresses</p>
                     {
                     contactData.email?.map((elementEmail, indexEmail) => {
                         return (
-                            <li className="flex px-2" key={indexEmail}>
+                            <li className="flex px-2 text-black" key={indexEmail}>
                                 <div className="grid grid-cols-[auto_1fr] gap-1">
-                                    <select name="emailLabel" id="emailLabel"defaultValue={elementEmail.label}>
-                                        <option value="">Select</option>
+                                    <select className=" ml-1 mb-1 pl-1 py-1 rounded" name="emailLabel" id="emailLabel"defaultValue={elementEmail.label}>
+                                        <option value="" disabled selected>Select</option>
                                         <option value="Work">Work</option>
                                         <option value="Personal">Personal</option>
                                         <option value="School">School</option>
                                         <option value="Other">Other</option>
                                     </select>
-                                <input type="email"defaultValue={elementEmail.emailAddress} id="emailAddress"/>
+                                <input className="text-black ml-1 mb-1 pl-1 py-1 rounded" type="email"defaultValue={elementEmail.emailAddress} id="emailAddress"/>
                                 </div>
                             </li>
                     )})}
@@ -353,56 +361,62 @@ export function ContactsList(props){
                         Add
                         </button> */}
                 </ul>
-                <ul><p>Phone Numbers:</p>
+                <ul><p className="underline pt-2">Phone Numbers</p>
                     {
                     contactData.phoneNumbers?.map((elementPhone, indexPhone) => {
                         return (
-                            <li className="flex px-2" key={indexPhone}>
+                            <li className="flex px-2 text-black" key={indexPhone}>
                                 <div className="grid grid-cols-[auto_1fr] gap-1">
-                                    <select name="phoneLabel" id="phoneLabel" defaultValue={elementPhone.label}>
-                                        <option value="">Select</option>
+                                    <select className=" ml-1 mb-1 pl-1 py-1 rounded" name="phoneLabel" id="phoneLabel" defaultValue={elementPhone.label}>
+                                        <option value="" disabled selected>Select</option>
                                         <option value="Work">Work</option>
                                         <option value="Home">Home</option>
                                         <option value="Cell">Cell</option>
                                         <option value="Other">Other</option>
                                     </select>
                                     <div>
-                                        <input type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$"defaultValue={elementPhone.number} id="number"/>
-                                        <label className="text-right" htmlFor="extension">Ext.</label><input type="text"defaultValue={elementPhone.extension} id="extension"/>
+                                        <input className=" ml-1 mb-1 pl-1 py-1 rounded" type="tel" pattern="^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$"defaultValue={elementPhone.number} id="number"/>
+                                        <label className="text-right text-white ml-1" htmlFor="extension">Ext.</label>
+                                            <input className=" ml-1 mb-1 pl-1 py-1 rounded" type="text"defaultValue={elementPhone.extension} id="extension"/>
                                     </div>
                                 </div>
                             </li>
                     )})}
                 </ul>
-                <ul><p>Addressess:</p>
+                <ul><p className="underline pt-2">Addresses</p>
                     {
                     contactData.physicalAddress?.map((elementPA, indexPA) => {
                         return (
                             <li className="flex flex-col  px-2" key={indexPA}>
                                 <section className="grid gap-1">
-                                    <select name="addressLabel" id="addressLabel" className="w-24"defaultValue={elementPA.label}>
+                                    <select name="addressLabel" id="addressLabel" className="w-24 text-black  ml-1 pl-1 py-1 rounded" defaultValue={elementPA.label}>
                                         {/*console.log("***************\nMailing PA: ", elementPA.label)*/}
-                                        <option value="">Select</option>
+                                        <option value="" disabled selected>Select</option>
                                         <option value="Buisness">Buisness</option>
                                         <option value="Home">Home</option>
                                         <option value="Mailing">Mailing</option>
                                         <option value="Other">Other</option>
                                     </select>
                                     <div className="grid grid-cols-[auto_1fr] gap-1"> 
-                                        <label htmlFor="streetOne">Street:</label> <input type="text" defaultValue={elementPA.streetOne} id="streetOne"/>
-                                        <label htmlFor="streetTwo">Street:</label> <input type="text" defaultValue={elementPA.streetTwo} id="streetTwo"/>
+                                        <label htmlFor="streetOne">Street</label> 
+                                            <input className="text-black  ml-1 pl-1 py-1 rounded" type="text" defaultValue={elementPA.streetOne} id="streetOne"/>
+                                        <label htmlFor="streetTwo">Street</label> 
+                                            <input className="text-black ml-1 pl-1 py-1 rounded" type="text" defaultValue={elementPA.streetTwo} id="streetTwo"/>
                                     </div>
                                     <div>  
-                                        <label htmlFor="city">City:</label> <input className="w-32" type="text"defaultValue={elementPA.city} id="city" />
-                                        <label htmlFor="state"> State:</label> <input className="w-32" type="text"defaultValue={elementPA.state} id="state"/>
-                                        <label htmlFor="zipCode"> Zip Code:</label> <input className="w-14" type="textCode"defaultValue={elementPA.zipCode} id="zipCode"/>
+                                        <label htmlFor="city">City</label> 
+                                            <input className="w-32 text-black  ml-1 pl-1 py-1 rounded" type="text"defaultValue={elementPA.city} id="city" />
+                                        <label htmlFor="state"> State</label> 
+                                            <input className="w-32 text-black  ml-1 pl-1 py-1 rounded" type="text"defaultValue={elementPA.state} id="state"/>
+                                        <label htmlFor="zipCode"> Zip Code</label> 
+                                            <input className="w-14 text-black  ml-1 pl-1 py-1 rounded" type="textCode"defaultValue={elementPA.zipCode} id="zipCode"/>
                                     </div>
                                 </section>
                             </li>
                     )})}
                 </ul>
                 </div>
-                <button type="submit" className="m-auto p-2 ">Submit</button>
+                <button type="submit" className="m-auto px-1 text-white" >Submit</button>
             </form>
         )
     }
@@ -460,15 +474,16 @@ export function ContactsList(props){
 
     return(
         <>
+            <div className="justify-self-center">
             <ul>
                 {
                 contacts?.map((element, index) => {
                     return (
-                        <li className="flex p-2" key={index}>
+                        <li className="px-2 py-1" key={index}>
                             <Popup trigger= /**https://www.geekshtmlForgeeks.org/how-to-create-popup-box-in-reactjs/ */
                                 {
                                     <div className="cursor-pointer underline">
-                                        {element.label}
+                                        <p>{element.label}</p>
                                     </div>
                                 } 
                                 modal 
@@ -476,12 +491,12 @@ export function ContactsList(props){
                             >
                                 {
                                     (close) => (
-                                        <div className="modal bg-black text-green-500 p-2 rounded border-2 border-green-500/100">
+                                        <div className="modal bg-300 text-white p-2 rounded-lg border-4 border-white">
                                             <div className="content">
-                                                <p>Name:</p> 
+                                                <p className="text-gray-400">Name</p> 
                                                 <p className="indent-4">{element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}</p>
                                                 <ul>
-                                                    <p>Email Addresses:</p>
+                                                    <p className="text-gray-400">Email Addresses</p>
                                                     {
                                                         element.email?.map((elementEmail, indexEmail) => {
                                                             return (
@@ -493,7 +508,7 @@ export function ContactsList(props){
                                                     }
                                                 </ul>
                                                 <ul>
-                                                    <p>Phone Numbers:</p>
+                                                    <p className="text-gray-400">Phone Numbers</p>
                                                     {
                                                         element.phoneNumbers?.map((elementPhone, indexPhone) => {
                                                             return (
@@ -505,23 +520,23 @@ export function ContactsList(props){
                                                     }
                                                 </ul>
                                                 <ul>
-                                                    <p>Addressess:</p>
+                                                    <p className="text-gray-400">Addresses</p>
                                                     {
                                                         element.physicalAddress?.map((elementPA, indexPA) => {
                                                             return (
                                                                 <li className="px-4" key={indexPA}>
                                                                     <p>{elementPA.label}</p>
                                                                     <div className="grid grid-cols-6">
-                                                                        <div className="text-white justify-self-end">Street:</div>
+                                                                        <div className="text-gray-400 justify-self-end">Street:</div>
                                                                         <div className="col-span-5 pl-1">{elementPA.streetOne}</div>
-                                                                        <div className="text-white justify-self-end">Street:</div>
+                                                                        <div className="text-gray-400 justify-self-end">Street:</div>
                                                                         <div className="col-span-5 pl-1">{elementPA.streetTwo}</div>
                                                                         <div className="grid col-span-6 grid-cols-[min-content_min-content_min-content_min-content_max-content_min-content]">
-                                                                            <div className="text-white">City:</div>
+                                                                            <div className="text-gray-400">City:</div>
                                                                             <div className="">{elementPA.city}</div>
-                                                                            <div className="text-white pl-2">State:</div>
+                                                                            <div className="text-gray-400 pl-2">State:</div>
                                                                             <div className="pl-1"> {elementPA.state} </div>
-                                                                            <div className="text-white pl-2">Zip Code: </div>
+                                                                            <div className="text-gray-400 pl-2">Zip Code: </div>
                                                                             <div className="pl-1">{elementPA.zipCode}</div>
                                                                         </div>
                                                                     </div>
@@ -531,10 +546,12 @@ export function ContactsList(props){
                                                     }
                                                 </ul>
                                             </div>
-                                            <div>
-                                                <button onClick={() => close()}>Close</button>
+                                            <div className="justify-self-center">
+                                                <button 
+                                                    className="px-1 mx-1 mt-3 border-2"
+                                                    onClick={() => close()}>Close</button>
                                                 <Popup 
-                                                    trigger={<button>Edit</button>} 
+                                                    trigger={<button className="px-1 mx-1 border-2">Edit</button>} 
                                                     modal 
                                                     nested
                                                 >
@@ -550,6 +567,7 @@ export function ContactsList(props){
                                                     }
                                                 </Popup>
                                                 <button 
+                                                    className="px-1 mx-1 border-2"
                                                     onClick={() => {
                                                             updateDoc(listRef, {data: arrayRemove(element)}); 
                                                             setContacts(prev => prev.filter((_, fIndex) => fIndex != index));
@@ -565,15 +583,27 @@ export function ContactsList(props){
                                 }
                             </Popup>
                             
-                            {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}
+                           <div className="pl-4"> {element.namePrefix} {element.nameLast}, {element.nameFirst} {element.nameMiddle} {element.nameSuffix}</div>
                         </li>
                         )})
                 }
-                <Popup trigger= {<button>Add</button>} modal nested>{close => ( <div>Add {handleAddContact()}</div> )}</Popup>
-                <br />
-                <Popup trigger= {<button>AddTest</button>} modal nested>{close => ( <div>Add {handleAddContactFilled()}</div> )}</Popup>
+                <div className="w-full pt-2">
+                    <Popup trigger= {
+                        //<button className="justify-self-stret w-min">Add</button>
+                        <button className="w-2/5 m-auto bg-blue-500 py-1 rounded object-center">
+                            <img src="/assets/plus.svg" alt="add" className="invert scale-125 m-auto" />
+                        </button>
+                        } 
+                        modal nested>
+                        {close => ( <div>Add {handleAddContact()}</div> )}
+                    </Popup>
+                    <br />
+                    <Popup trigger= {<button className="justify-self-stretch w-auto">Add Test</button>} modal nested>{close => ( <div>Add {handleAddContactFilled()}</div> )}</Popup>
+                </div>
             </ul>
+            </div>
         </>
+        
        
     )
 }

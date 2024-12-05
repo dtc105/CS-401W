@@ -53,7 +53,7 @@ function Event(props){
 					onChange={onOptionChangeHandler} 
 					className="text-black rounded px-2 py-1"
 				> 
-					<option value="">Select an Option</option>
+					<option value="" disabled selected>Select an Option</option>
 					{
 						Object.keys(templates.listTemplate).map((type, index) =>{
 							return (

@@ -38,7 +38,7 @@ function Event(){
             <header>
 
             <section>
-                    <select name="tamplates" id = "templates"> {/*makes a dropdowmn menu/list of templates to add to the event*/}
+                    <select name="templates" id = "templates"> {/*makes a dropdowmn menu/list of templates to add to the event*/}
                          {Object.keys(templates.lists).map(type =>{
                             return (
                                 <option value={type}>{type}</option>
