@@ -94,17 +94,12 @@ function WorkSpace() {
         }
 
         return (
-            <div 
-                className="absolute w-screen h-screen backdrop-blur-md top-0 left-0 grid place-content-center" 
-                
-            >
+            <div className="absolute w-screen h-screen backdrop-blur-md top-0 left-0 grid place-content-center rounded">
                 <div 
                     className="absolute w-full h-full top-0 left-0" 
                     onClick={() => setIsContextVisible(false)}
                 />
-                <div 
-                    className="w-fit bg-white text-black border-400 border-4 rounded p-4 flex flex-col justify-center items-center z-10" 
-                >
+                <div className="w-fit bg-white text-black border-400 border-4 rounded p-4 flex flex-col justify-center items-center z-10 scale-125">
                     <span
                         className="invisible absolute text-xl px-2 py-1 whitespace-pre"
                         ref={titleSpanRef}
@@ -179,7 +174,6 @@ function WorkSpace() {
                                 title="Right-Click to edit Name or Delete Event"
                             >
                                 {event.data?.title || "New Event"}
-                                
                             </button>
                         );
                     })

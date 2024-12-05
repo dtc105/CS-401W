@@ -1,4 +1,4 @@
-import { arrayRemove, doc, updateDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 
@@ -20,6 +20,18 @@ export async function leaveEvent(eventId, userId) {
     try {
         await updateDoc(docRef, {
             allowedUsers: arrayRemove(userId)
+        });
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export async function joinEvent(eventId, userId) {
+    const docRef = doc(db, "planner", eventId);
+
+    try {
+        await updateDoc(docRef, {
+            allowedUsers: arrayUnion(userId)
         });
     } catch (err) {
         console.error(err);

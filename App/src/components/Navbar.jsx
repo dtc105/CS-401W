@@ -5,7 +5,7 @@
 function Navbar() {
     
     return ( <>
-        <nav className="bg-white dark:bg-300 flex flex-1 justify-start items-center gap-4">
+        <nav className="bg-white dark:bg-300 flex flex-1 ml-4 items-center gap-4">
 
             <a href="/" className='flex mb-3 gap-4'>
                 <img src="/assets/logo.png" alt="logo image" className="h-8" />

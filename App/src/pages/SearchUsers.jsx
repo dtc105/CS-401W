@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { db } from "../lib/firebase.js";
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { requestConnection } from "../lib/connectionsManagement.js";
+import { useUserStore } from "../lib/userStore.js";
+import Avatar from "../components/Avatar.jsx";
 
 function UserSearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { userId } = useUserStore();
 
   useEffect(() => {
     if (searchQuery.length === 0) {
@@ -42,7 +46,7 @@ function UserSearch() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search for a user..."
-          className="w-full p-4 pl-10 border rounded-lg bg-gray-100 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-4 border rounded-lg bg-gray-100 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -54,9 +58,15 @@ function UserSearch() {
 
       <ul className="space-y-4">
         {users.map((user) => (
-          <li key={user.id} className="p-4 border rounded-lg shadow-md hover:bg-gray-50">
-            <a href={`/profile/${user.id}`} className="font-semibold text-lg hover:underline">{user.username}</a>
-            <p className="text-sm text-gray-500">{user.email}</p>
+          <li key={user.id} className="relative group flex items-center p-4 border rounded-lg shadow-md hover:bg-100">
+            <Avatar user={user} size='search_result'/>
+            <div>
+              <a href={`/profile/${user.id}`} className="pl-4 font-semibold text-lg hover:underline">{user.username}</a>
+              <p className="pl-4 text-sm text-gray-500">{user.email}</p>
+            </div>
+            <button onClick={() => requestConnection(userId, user?.id)} className='absolute right-4 opacity-0 bg-100 rounded group-hover:bg-green-500 hover:opacity-100 group-hover:opacity-100'>
+              ➕
+            </button>
           </li>
         ))}
       </ul>
