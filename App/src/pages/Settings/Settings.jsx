@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { deleteUserAccount } from '../../lib/deleteUser';
+import { useUserStore } from "../../lib/userStore";
+import { useNavigate } from 'react-router-dom';
+import { auth } from "../../lib/firebase.js";
 
 function Settings() {
+
+    const { currentUser, isLoading, fetchUserInfo, userId, removeUser } = useUserStore();
+    const navigate = useNavigate();
+    console.log(userId);
+    
     const options = [
         {
             header: { name: "Account" },
@@ -31,7 +39,7 @@ function Settings() {
             ]
         },
         {
-            header: { name: "Organization" },
+            header: { name: "Organization (This section is not completed due to time constraints)" },
             values: [
                 {
                     name: "Manage Teams",
@@ -41,6 +49,7 @@ function Settings() {
                     name: "Add/Remove Members",
                     description: "Assign roles, manage access levels",
                 }
+                
             ]
         },
         {
@@ -48,16 +57,38 @@ function Settings() {
             values: [
                 {
                     name: "Visibility Settings",
-                    description: "Manage who can see your Profile & Activity",
+                    description:
+                    (
+                    <span>
+                        <a href="/profile#:~:Connections" style={{ color: 'blue', textDecoration: 'underline' }}>
+                            Manage your account connections/friends
+                        </a>
+                    </span>
+                    )
                 },
                 {
                     name: "Account Deletion",
                     description: "Permanently delete your account",
                     action: (
-                        <span className = 'ml-auto'>
-                            <button onClick = {async() => {await deleteUserAccount(userId);}} className='text-white bg-red-500 border-black'>Delete</button>
+                        <span>
+                            <button onClick = {async() => {await deleteUserAccount(userId); navigate('/');}} className='text-white bg-red-500'>
+                                Delete
+                            </button>
                         </span>
                     )
+                }    
+            ]
+        },
+        {
+            header: { name: "Security (This section is not completed due to billing constraints)" },
+            values: [
+                {
+                    name: "Two-Factor Authentication",
+                    description: "Enable 2FA for added security",
+                },
+                {
+                    name: "Login Activity",
+                    description: "View login history"
                 }
             ]
         },
@@ -156,7 +187,7 @@ function Settings() {
                                             ) : (
                                                 value.name
                                             )}
-                                            <p style={{ textIndent: '40px' }}>{value.description}</p>
+                                            <p style={{ textIndent: '40px' }}>{value.description}, {value.action}</p>
                                         </li>
                                     </ul>
                                 </div>

@@ -18,32 +18,76 @@ export const FAQs = () => {
         {
             section: "Project Management",
             questions: [
-                { question: "How do I create a project/event?", answer: "To create a new project or event.... [INSERT IMG]" },
-                { question: "Can I invite team members?", answer: "Yes, inviting team members is simple. When setting up your project, you can add members by entering their email addresses. This will give them an invite to the project to collaborate in real time." },
-                { question: "How do I set deadlines?", answer: "Deadlines can be set while creating or editing a project. To set deadlines, one needs to go to the....[INSERT IMG]" },
-                { question: "Can I assign tasks?", answer: "Yes, assigning tasks is a key feature. Projects can be divided into specific tasks and assigned to individual members. Each of these tasks can have a deadline, priority level, and status to help keep track of progress." }
+                {
+                    question: "How do I create a project/event?",
+                    answer: (
+                        <>
+                            <p>To create a new project or event:</p>
+                            <p>1: Go to 'Planner' at the top of the page</p>
+                            <p>2: Create a List</p>
+                            <p>3: Select a list type from the dropdown menu (e.g., Checkbox, Calendar, Text, Contacts, Custom) and click "Create List"</p>
+                            <p>4: To add more events, just click the "+"</p>
+                        </>
+                    ),
+                },
+                {   question: "Can I invite team members to my projects?", 
+                    answer: (
+                        <>
+                            <p>Yes, inviting team members is simple:</p>
+                            <p>1: Go to 'Planner' at the top of the page</p>
+                            <p>2: Select "Add Participants"</p>
+                            <p>3: Under "Participants", click on the "+" button next to the person you want to add to your project</p>
+                            <p>NOTE: If you do not see the user you want to add, make sure you have them as a connection first.</p>
+                        </>
+                    ),
+                },
+                { question: "How do I set deadlines?", answer: "To set deadlines for a project, one can create a new calendar list in the event planner and select a specific due date. They can also rename this calendar to what specifically is due."},
             ]
         },
         {
             section: "Event Coordination",
             questions: [
-                { question: "How do I manage schedules?", answer: "Use the scheduling tool available within the platform to organize, update, and view event timelines. You can create detailed schedules that include sessions, meetings, or completed tasks. It's ideal for ensuring all participants know when and where things are happening." },
-                { question: "Can I send automatic reminders?", answer: "Yes, you can set automatic reminders for both tasks and events. Simply navigate to Settings < Notifications < Default Reminders < Click the link below and specify the frequency and timing of the reminders (e.g. one day before the event or a week ahead), and PlanIt Agenda will notify you and your team." },
+                { question: "What features are available for making lists in event planners?", answer: "Users can create various types of lists in event planners, including checkboxes for task tracking, calendars for scheduling, text lists for notes, contact lists for team management, and custom lists tailored to specific needs. These options help you stay organized and manage events effectively."}, 
+                { question: "How do I send friend requests to add collaborators to my projects?", 
+                    answer: (
+                    <>
+                        <p>To send friend requests:</p>
+                        <p>1: On the top right of the page, click the drop down next to your name</p>
+                        <p>2: Select "Find users"</p>
+                        <p>3: Type in the name of the user you wish to add</p>
+                        <p>4: Click the "+" to add the user</p>
+                        <p>Now, you're able to add this user to your future planners. For them to accept your invite, they must accept it through their notifications.</p>
+                    </>
+                    ),
+                },
             ]
         },
         {
             section: "Collaboration Tools",
             questions: [
-                { question: "Can I share files?", answer: "Yes, you can upload and share files directly on the site. Files can be attached to specific projects, tasks, or events, ensuring that group members have access to the latest resources. All shared files are securely stored and always accessible." },
-                { question: "How do I track progress?", answer: "The dashboard provides a visual overview of your project’s progress. You can use progress bars, task completion rates, and status indicators to track what’s been done and what still needs attention. This helps you monitor deadlines and ensures nothing falls behind." },
-                { question: "How do I handle permissions?", answer: "Permissions can be easily managed by assigning access levels to team members. You can choose between read-only, editor, or admin roles, depending on their involvement in the project. This ensures that sensitive information is protected while allowing collaboration." }
+                { question: "Can I create shared workspaces?", answer: "Yes, shared workspaces allow teams to collaborate on specific projects. You can add team members and share updates in real-time to streamline communication and coordination." },
+                { question: "How do I track progress?", answer: "The planner updates in real time, allowing you to keep track of assignments by adding a checkbox list directly in your planner. This helps you stay organized and ensures you can easily mark tasks as completed." },
             ]
         },
         {
-            section: "Security & Privacy",
+            section: "Account Management",
             questions: [
-                { question: "How do I manage visibility settings?", answer: "You can manage your visibility settings in the “Privacy” section. This allows you to control who can see your activities, tasks, or profile. " },
-                { question: "How do I delete my account?", answer: "If you wish to delete your account, go to the “Privacy” section in settings and follow the instructions under the “Delete Account” option. Keep in mind that deleting your account is permanent and will remove all associated data." }
+                { question: "How do I delete my account?", answer: "If you wish to delete your account, go to the “Privacy” section in settings and follow the instructions under the “Delete Account” option. Keep in mind that deleting your account is permanent and will remove all associated data." },
+                {   question: "How can I reset my password?", 
+                    answer: (
+                        <>
+                            <p>To reset the password to your account:</p>
+                            <p>1: Go to your Settings</p>
+                            <p>2: Navigate to 'Password Management' under 'Account'"</p>
+                            <p>3: Enter your email</p>
+                            <p>4: Check your inbox and look for an email by noreply@cs-401w.firebaseapp.com</p>
+                            <p>5: Click the link in the email</p>
+                            <p>6: Click the link in the email</p>
+                            <p>7: Enter your new password and submit</p>
+                            <p>Now going forward, you would sign in with your new password </p>
+                        </>
+                    ),
+                },
             ]
         },
         
